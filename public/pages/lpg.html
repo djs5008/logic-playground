@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Logic Playground</title>
+  <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+  <script src="https://code.createjs.com/1.0.0/preloadjs.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/lpg.css">
+</head>
+
+<body>
+  <div>
+    <h1 class="logo">Logic Playground</h1>
+  </div>
+  <div id="content">
+    <div>
+      <a id="module-back-button" ondragstart="return false;" href="#">
+        <img src="img/lpg/arrow-back-button.png">
+        <!-- Icon (arrow-back-button) made by Linh Pham from www.flaticon.com is licensed by CC 3.0 -->
+      </a>
+      <canvas id="logic-canvas" width="500" height="300"></canvas>
+    </div>
+
+    <div id="component-menu" class="component controls">
+      <h2 class="pool controls">Add
+        <br/>Components</h2>
+      <hr>
+      <br/>
+      <button class="controls" id="pool-gates">Gates</button>
+      <button class="controls" id="pool-inputs">Inputs</button>
+      <button class="controls" id="pool-outputs">Outputs</button>
+      <button class="controls" id="pool-imports">Imported Modules</button>
+      <br/>
+      <hr>
+      <br/>
+    </div>
+
+    <div id="gate-pool" class="component controls">
+      <h2 class="pool controls">Gates</h2>
+      <hr>
+      <br/>
+      <h3 class="controls">(drag &amp; drop)</h3>
+      <br/>
+      <div class="item container" id="gate-items">
+        <!-- Auto-loaded gate components -->
+      </div>
+      <br/>
+      <hr>
+      <br/>
+      <button class="controls" id="gate-pool-back">Back</button>
+    </div>
+
+    <div id="input-pool" class="component controls">
+      <h2 class="pool controls">Inputs</h2>
+      <hr>
+      <br/>
+      <h3 class="controls">(drag &amp; drop)</h3>
+      <br/>
+      <div class="item container" id="input-items">
+        <!-- Auto-loaded input components -->
+      </div>
+      <br/>
+      <hr>
+      <br/>
+      <button class="controls" id="input-pool-back">Back</button>
+    </div>
+
+    <div id="output-pool" class="component controls">
+      <h2 class="pool controls">Outputs</h2>
+      <hr>
+      <br/>
+      <h3 class="controls">(drag &amp; drop)</h3>
+      <br/>
+      <div class="item container" id="output-items">
+        <!-- Auto-loaded output components -->
+      </div>
+      <br/>
+      <hr>
+      <br/>
+      <button class="controls" id="output-pool-back">Back</button>
+    </div>
+
+    <div id="import-pool" class="component controls">
+      <h2 class="pool controls">Imported Modules</h2>
+      <hr>
+      <br/>
+      <h3 class="controls">(drag &amp; drop)</h3>
+      <br/>
+      <div class="item container" id="import-items">
+        <!-- Auto-loaded import modules -->
+      </div>
+      <br/>
+      <hr>
+      <br/>
+      <button class="controls" id="import-pool-back">Back</button>
+    </div>
+
+    <div class="module controls" id="module-controls">
+      <h2 class="module controls">Module
+        <br/>Controls</h2>
+      <hr>
+      <button class="module controls" type="button" id="controls-new">New</button>
+      <button class="module controls" type="button" id="controls-save">Save</button>
+      <button class="module controls" type="button" id="controls-load">Load</button>
+      <button class="module controls" type="button" id="controls-export">Export</button>
+      <button class="module controls" type="button" id="controls-import">Import</button>
+      <hr>
+      <br/>
+      <h3 class="module controls">Current Module:</h3>
+      <input class="module controls" id="module-name" type="text" name="module-name">
+    </div>
+
+    <div class="module controls" id="component-controls">
+      <h2 class="module controls">Component
+        <br/>Controls</h2>
+      <hr>
+      <button class="module controls" disabled type="button" name="controls-1">Piece Setting1</button>
+      <button class="module controls" disabled type="button" name="controls-2">Piece Setting2</button>
+      <button class="module controls" disabled type="button" name="controls-3">Piece Setting3</button>
+      <hr>
+      <br/>
+      <h3 class="module controls">Selected Piece:</h3>
+      <input class="module controls" id="component-name" type="text" name="component-name">
+    </div>
+
+  </div>
+
+  <!-- RequireJS Initialization -->
+  <script data-main="js/lpg/index" src="js/lib/require.js"></script>
+
+  <!-- Hidden fields for loading/saving modules -->
+  <a id="export-module-dialog" style="visibility:hidden;"></a>
+  <input type="file" id="load-module-dialog" name="file" style="visibility:hidden;" />
+</body>
+
+</html>
