@@ -87,17 +87,19 @@ define(function (require) {
         }
       });
 
-      // Update input components to match input connector states
-      // Do not update if the current module is the active module
-      if (!activeModule) {
 
+      if (!activeModule) {
+        
+        // Propagate embedded modules recursively
         if (updated) {
           this.propagate(false);
         }
 
+        // Update input components to match input connector states
+        // Do not update if the current module is the active module
         this.getInputComponents().forEach(inputComp => {
           let inputConn = me.getInputConnector(inputComp);
-          if (inputConn.getState() != inputComp.getState()) {
+          if (inputConn.getState() !== inputComp.getState()) {
             inputComp.setState(inputConn.getState());
           }
         });
@@ -106,7 +108,7 @@ define(function (require) {
       // Update output connectors to match state of output components
       this.getOutputConnectors().forEach(outputConn => {
         let outputComp = me.getOutputComponent(outputConn);
-        if (outputComp.getState() != outputConn.getState()) {
+        if (outputComp.getState() !== outputConn.getState()) {
           outputConn.updateState(outputComp.getState());
 
           // log console updates
@@ -160,8 +162,15 @@ define(function (require) {
       }
 
       // Filter module's components to remove desired component
-      this.components = this.components.filter(comp => comp != component);
-      this.connectors = this.connectors.filter(conn => conn != associatedConn);
+      this.components = this.components.filter(comp => comp !== component);
+      this.connectors = this.connectors.filter(conn => conn !== associatedConn);
+
+      // Filter module's components connector's to remove mapped connection
+      this.components.forEach((component) => {
+        component.connectors.forEach((connector) => {
+          connector.removeConnection(associatedConn);
+        });
+      });
 
       this.updateBounds();
     }
