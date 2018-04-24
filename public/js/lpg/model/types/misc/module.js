@@ -166,9 +166,11 @@ define(function (require) {
       this.connectors = this.connectors.filter(conn => conn !== associatedConn);
 
       // Filter module's components connector's to remove mapped connection
-      this.components.forEach((component) => {
-        component.connectors.forEach((connector) => {
-          connector.removeConnection(associatedConn);
+      this.components.forEach((comp) => {
+        comp.getConnectors().forEach((conn) => {
+          component.getConnectors().forEach((connector) => {
+            conn.removeConnection(connector);
+          });
         });
       });
 
