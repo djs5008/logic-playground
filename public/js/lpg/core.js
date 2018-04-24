@@ -1,13 +1,13 @@
 /* global createjs,$ */
 
-(function () {
+(() => {
 
   // disable right-click on canvas
-  $('#logic-canvas').bind('contextmenu', function () {
+  $('#logic-canvas').bind('contextmenu', () => {
     return false;
   });
 
-  define(function (require) {
+  define((require) => {
     'use strict';
 
     //
@@ -31,7 +31,7 @@
     var drawController;
 
     // Wait for DOM
-    $(document).ready(function () {
+    $(document).ready(() => {
 
       // Setup LoadQueue for required images
       // TODO
