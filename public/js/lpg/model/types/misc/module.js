@@ -41,13 +41,17 @@ define(function (require) {
       // Update all outputs => inputs
       //    Update in order of off => off then on => on
       //    This makes the on state preferred
-
       let updateConnections = function(connector) {
         connector.getConnections().forEach(connToID => {
           let connTo = me.getConnector(connToID);
 
-          // update state if input state != output state
+          // update state if input state !== output state
           if (connTo.getState() !== connector.getState()) {
+
+            // Prefer the on state
+            if (!connector.getState() && isPoweredElsewhere(connTo)) {
+              return;
+            }
           
             connTo.updateState(connector.getState());
 
@@ -60,6 +64,25 @@ define(function (require) {
             updated = true;
           }
         });
+      };
+
+      // Check if a state is being powered from another source
+      //    This is used to ensure that an off => on state does not
+      //    turn a state off when it's already being turned on elsewhere
+      let isPoweredElsewhere = function(connector) {
+        let result = false;
+        me.components.forEach((component) => {
+          component.getConnectors().forEach((conn) => {
+            conn.getConnections().forEach((connToID) => {
+              if (result) return;
+              let connTo = me.getConnector(connToID);
+              if (connector === connTo && conn.getState()) {
+                result = true;
+              }
+            });
+          });
+        });
+        return result;
       };
 
       // off => off
