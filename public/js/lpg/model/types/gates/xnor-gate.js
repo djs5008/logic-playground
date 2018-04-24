@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * XNORGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('XNOR-GATE', 'GATE', bounds);

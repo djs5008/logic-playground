@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * NORGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('NOR-GATE', 'GATE', bounds);

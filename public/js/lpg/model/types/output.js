@@ -7,8 +7,13 @@ define(function (require) {
   var Component = require('model/component');
 
   class Output extends Component {
+
     /**
-     * Output constructor
+     * Construct an Output-type component
+     * 
+     * @param {string} type 
+     * @param {string} superType 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(type, superType, bounds) {
       super(type, superType, bounds);

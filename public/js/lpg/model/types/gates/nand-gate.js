@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * NANDGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('NAND-GATE', 'GATE', bounds);

@@ -19,7 +19,7 @@ define(function (require) {
     /**
      * Console Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('CONSOLE', 'OUTPUT', bounds);

@@ -17,7 +17,7 @@ define(function (require) {
     /**
      * HoldButton Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('HOLD-BUTTON', 'INPUT', bounds, true);

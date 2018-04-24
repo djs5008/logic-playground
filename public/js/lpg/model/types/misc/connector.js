@@ -18,8 +18,8 @@ define(function (require) {
     /**
      * Connector Constructor
      * 
-     * @param {*} bounds 
-     * @param {*} type 
+     * @param {createjs.Rectangle} bounds 
+     * @param {string} type 
      */
     constructor(bounds, type) {
       super('CONNECTOR', 'MISC', bounds);
@@ -33,38 +33,76 @@ define(function (require) {
       this.connections = [];
     }
 
+    /**
+     * Retrieve different bounds allowing for selection handling to be easier
+     */
     getRealBounds() {
       return new createjs.Rectangle(this.bounds.x - RADIUS, this.bounds.y - RADIUS, RADIUS * 2, RADIUS * 2);
     }
 
+    /**
+     * Retrieve connector state information
+     * 
+     * @returns true === on, false === off
+     */
     getState() {
       return this.state;
     }
 
+    /**
+     * Update the connector state to a new value
+     * 
+     * @param {boolean} newState The newly updated state value
+     */
     updateState(newState) {
       this.state = newState;
     }
 
+    /**
+     * Check if this connector is an input connector
+     */
     isInput() {
       return this.type === 'INPUT';
     }
 
+    /**
+     * Check if this connector is an output connector
+     */
     isOutput() {
       return this.type === 'OUTPUT';
     }
 
+    /**
+     * Retrieve the auto-generated universally unique identifier (uuid)
+     *  This is specific to each connector and allows the application to map
+     *  connectors to their associated connections.
+     */
     getID() {
       return this.id;
     }
 
+    /**
+     * Establish a connection mapping between this connector and the provided connectors
+     * 
+     * @param {Connector} connector The connector being connected to
+     */
     addConnection(connector) {
       this.connections.push(connector.getID());
     }
 
+    /**
+     * Remove the mapping between this connector and the provided connector
+     *  This will have no effect if the connector is not mapped
+     * 
+     * @param {Connector} connector The connector being unmapped
+     */
     removeConnection(connector) {
       this.connections = this.connections.filter(val => val !== connector.getID());
     }
 
+    /**
+     * Retrieve the list of mapped connections for this connector
+     */
     getConnections() {
       return this.connections;
     }

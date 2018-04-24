@@ -20,7 +20,7 @@ define(function (require) {
     /**
      * SevenSegDisp Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('SEVEN-SEG-DISP', 'OUTPUT', bounds);

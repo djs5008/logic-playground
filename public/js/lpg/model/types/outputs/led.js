@@ -17,7 +17,7 @@ define(function (require) {
     /**
      * LED Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('LED', 'OUTPUT', bounds);

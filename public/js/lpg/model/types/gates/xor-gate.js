@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * XORGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('XOR-GATE', 'GATE', bounds);

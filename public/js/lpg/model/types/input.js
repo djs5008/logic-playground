@@ -9,7 +9,12 @@ define(function (require) {
   class Input extends Component {
 
     /**
-     * Input constructor
+     * Construct an Input-type component
+     * 
+     * @param {string} type 
+     * @param {string} superType 
+     * @param {createjs.Rectangle} bounds 
+     * @param {boolean} toggleable Whether or not the input is manually toggleable
      */
     constructor(type, superType, bounds, toggleable) {
       super(type, superType, bounds);

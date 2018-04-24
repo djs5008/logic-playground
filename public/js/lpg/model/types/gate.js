@@ -18,6 +18,13 @@ define(function (require) {
 
   class Gate extends Component {
 
+    /**
+     * Construct a Gate-type component
+     * 
+     * @param {string} type 
+     * @param {string} superType 
+     * @param {createjs.Rectangle} bounds 
+     */
     constructor(type, superType, bounds) {
       super(type, superType, bounds);
     }

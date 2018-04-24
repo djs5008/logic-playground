@@ -17,7 +17,7 @@ define(function (require) {
     /**
      * SwitchButton Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('SWITCH-BUTTON', 'INPUT', bounds, true);

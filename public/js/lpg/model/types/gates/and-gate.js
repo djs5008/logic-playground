@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * ANDGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('AND-GATE', 'GATE', bounds);

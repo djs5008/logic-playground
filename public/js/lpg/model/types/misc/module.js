@@ -20,7 +20,7 @@ define(function (require) {
     /**
      * Module Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('MODULE', 'MODULE', bounds);

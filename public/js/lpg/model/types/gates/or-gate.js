@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * ORGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('OR-GATE', 'GATE', bounds);

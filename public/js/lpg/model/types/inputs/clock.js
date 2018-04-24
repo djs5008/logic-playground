@@ -18,7 +18,7 @@ define(function (require) {
     /**
      * Clock Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('CLOCK', 'INPUT', bounds, false);

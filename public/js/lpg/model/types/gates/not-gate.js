@@ -25,7 +25,7 @@ define(function (require) {
     /**
      * NOTGate Constructor
      * 
-     * @param {*} bounds 
+     * @param {createjs.Rectangle} bounds 
      */
     constructor(bounds) {
       super('NOT-GATE', 'GATE', bounds);
