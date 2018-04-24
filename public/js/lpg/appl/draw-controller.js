@@ -1,5 +1,5 @@
 /* global createjs */
-define(function () {
+define(() => {
   'use strict';
 
   /**

@@ -1,5 +1,5 @@
 /* global $ */
-define(function () {
+define(() => {
   'use strict';
 
   /**

@@ -1,6 +1,5 @@
 /* global createjs */
-
-define(function (require) {
+define((require) => {
   'use strict';
 
   // 

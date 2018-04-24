@@ -1,6 +1,5 @@
 /* global createjs,uuid */
-
-define(function (require) {
+define((require) => {
   'use strict';
 
   // 

@@ -1,11 +1,10 @@
-define(function (require) {
+define((require) => {
   'use strict';
 
   // 
   // Includes
   // 
   var Component = require('model/component');
-  var Logic = require('model/logic');
 
   // 
   // Constants
@@ -14,7 +13,6 @@ define(function (require) {
   // 
   // Attributes
   // 
-  var logic = new Logic();
 
   class Gate extends Component {
 
@@ -33,14 +31,6 @@ define(function (require) {
      * Default Gate propagate prototype function
      */
     propagate() { }
-
-    /**
-     * Retrieve global gate's logic functions
-     * @returns {Logic} Instance of logic functions
-     */
-    getLogic() {
-      return logic;
-    }
   }
 
   return Gate;

@@ -1,6 +1,5 @@
 /* global createjs */
-
-define(function (require) {
+define((require) => {
   'use strict';
 
   // 
@@ -8,6 +7,7 @@ define(function (require) {
   // 
   var Gate = require('model/types/gate');
   var Connector = require('model/types/misc/connector');
+  var Logic = require('model/logic');
 
   // 
   // Constants
@@ -56,7 +56,7 @@ define(function (require) {
       var input1 = this.connectors[0];
       var input2 = this.connectors[1];
       var output = this.connectors[2];
-      output.updateState(this.getLogic().orr(input1.getState(), input2.getState()));
+      output.updateState(Logic.orr(input1.getState(), input2.getState()));
     }
 
     loadImage(callback) {
