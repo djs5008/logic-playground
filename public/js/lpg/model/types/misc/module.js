@@ -134,10 +134,8 @@ define((require) => {
         if (outputComp.getState() !== outputConn.getState()) {
           outputConn.updateState(outputComp.getState());
 
-          // log console updates
-          if (outputComp.type === 'CONSOLE') {
-            console.log(outputComp.label + ': ' + outputComp.getState());
-          }
+          // Call output state update event
+          outputComp.stateChangedEvent();
         }
       });
 

@@ -36,6 +36,11 @@ define((require) => {
     getState() {
       return this.connectors[0].getState();
     }
+
+    /**
+     * Perform an action when the state is changed
+     */
+    stateChangedEvent() {}
   }
 
   return Output;

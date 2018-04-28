@@ -90,6 +90,13 @@ define((require) => {
         .drawRect(screenLoc.x, screenLoc.y, this.bounds.width, this.bounds.height)
         .endFill();
     }
+
+    /**
+     * Override state changed event
+     */
+    stateChangedEvent() {
+      console.log(this.label + ':' + this.getState());
+    }
   }
 
   return Console;
