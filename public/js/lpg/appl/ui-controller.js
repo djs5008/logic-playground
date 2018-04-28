@@ -93,6 +93,10 @@ define(() => {
 
       $('#controls-import').click(() => me.fileController.loadModuleFile(me.fileController.importModule));
 
+      $('#module-name').on('input propertychange paste', () => {
+        me.moduleController.activeModule.label = $('#module-name').val();
+      });
+
       $('#module-back-button').click((event) => {
         event.preventDefault();
 
@@ -104,10 +108,14 @@ define(() => {
           me.moduleController.activeModule = topModule;
 
           // Check stack size again after popping
-          if (me.moduleController.activeModules.length == 0) {
+          if (me.moduleController.activeModules.length === 0) {
             // Set module back button visibility
             $('#module-back-button').css('visibility', 'hidden');
           }
+
+          $('#module-name').val(me.moduleController.activeModule.label);
+
+          me.selectionController.clearSelection();
         }
       });
     }
@@ -285,6 +293,14 @@ define(() => {
       return result;
     }
 
+    showComponentControls() {
+      let selectedComponent = this.selectionController.getSelectedComponents()[0];
+      if (selectedComponent !== null) {
+        //
+
+      }
+    }
+
     /**
      * Initialize check for un-shown imported modules
      */
@@ -296,8 +312,6 @@ define(() => {
             if (!me.visibleImports.includes(importedModule)) {
               // load module to module object
               var mod = me.moduleController.loadModule(JSON.parse(importedModule));
-
-              console.log(mod);
               
               // add item to ui
               me.loadImportedModule(mod);

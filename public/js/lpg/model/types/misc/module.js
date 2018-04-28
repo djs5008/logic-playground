@@ -283,7 +283,7 @@ define((require) => {
      */
     getConnector(connID) {
       let result = null;
-      this.components.forEach(function (component) {
+      this.components.forEach((component) =>  {
         if (result !== null) return false;
         component.getConnectors().forEach((connector) => {
           if (connector.getID() === connID) {
@@ -303,7 +303,7 @@ define((require) => {
     getComponent(connector) {
       let result = null;
       this.components.forEach((component) => {
-        if (result != null) return false;
+        if (result !== null) return false;
         component.getConnectors().forEach((conn) => {
           if (connector.getID() === conn.getID()) {
             result = component;

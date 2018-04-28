@@ -42,12 +42,12 @@ define(() => {
       var diffY = (this.bounds.y - lastY);
 
       // update all of this components connectors bounds
-      this.connectors.forEach(function (connector) {
+      this.connectors.forEach((connector) =>  {
         connector.moveTo(
           connector.bounds.x + diffX,
           connector.bounds.y + diffY
         );
-      }.bind(this));
+      });
     }
 
     /**
