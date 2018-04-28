@@ -48,7 +48,7 @@ define((require) => {
       var me = this;
 
       // Start simulating the logic flow
-      setInterval(function () {
+      setInterval(() =>  {
         if (me.activeModule !== undefined) {
           me.activeModule.propagate(true);
         }
@@ -100,7 +100,7 @@ define((require) => {
 
         // Clear copied connectors and re-push newly instantiated ones
         loadedComponent.connectors = [];
-        comp.connectors.forEach(function (conn) {
+        comp.connectors.forEach((conn) =>  {
           loadedComponent.connectors.push(loadConnector(conn));
         });
 
@@ -113,7 +113,7 @@ define((require) => {
       // Load connectors for this module
       // Clear copied connectors and re-push newly instantiated ones
       loadedModule.connectors = [];
-      mod.connectors.forEach(function (conn) {
+      mod.connectors.forEach((conn) =>  {
         loadedModule.connectors.push(loadConnector(conn));
       });
 
@@ -122,7 +122,7 @@ define((require) => {
 
       // Clear copied components and re-push newly instantiated ones
       loadedModule.components = [];
-      mod.components.forEach(function (comp) {
+      mod.components.forEach((comp) =>  {
         loadedModule.components.push(loadComponent(comp));
       });
 
@@ -208,12 +208,12 @@ define((require) => {
     getConnectorMap() {
       var me = this;
       var map = {};
-      this.activeModule.components.forEach(function (component) {
-        component.getConnectors().forEach(function (connector) {
+      this.activeModule.components.forEach((component) =>  {
+        component.getConnectors().forEach((connector) =>  {
           if (connector.isOutput()) {
             var connectorID = connector.getID();
             map[connectorID] = [];
-            connector.getConnections().forEach(function (connTo) {
+            connector.getConnections().forEach((connTo) =>  {
               var conn = me.activeModule.getConnector(connTo);
               if (conn !== null) {
                 map[connectorID].push(conn);
@@ -236,7 +236,7 @@ define((require) => {
       var me = this;
       // Break all of output's connections
       if (connector.isOutput()) {
-        connector.connections.forEach(function (connectionID) {
+        connector.connections.forEach((connectionID) =>  {
           var connTo = me.activeModule.getConnector(connectionID);
           connector.removeConnection(connTo);
           connTo.updateState(false);
@@ -250,10 +250,10 @@ define((require) => {
 
       // Find all of input's output connectors and remove input from it
       else {
-        me.activeModule.components.forEach(function (component) {
-          component.connectors.forEach(function (conn) {
+        me.activeModule.components.forEach((component) =>  {
+          component.connectors.forEach((conn) =>  {
             if (conn.isOutput()) {
-              conn.connections.forEach(function (connID) {
+              conn.connections.forEach((connID) =>  {
                 if (connID === connector.getID()) {
                   conn.removeConnection(me.activeModule.getConnector(connector.getID()));
                 }
@@ -281,7 +281,7 @@ define((require) => {
       var me = this;
 
       // Break all connectors leading to this component
-      component.connectors.forEach(function (connector) {
+      component.connectors.forEach((connector) =>  {
         me.breakConnections(connector);
       });
 

@@ -54,7 +54,7 @@ define(() => {
     startAnimationTimer() {
       var me = this;
       const ANIM_TIMER_INTERVAL = 50;
-      setInterval(function () {
+      setInterval(() =>  {
         const MAX_FLOW_OFFSET = 20;
         const FLOW_OFFSET_DELTA = 1;
         me.flowOffset = (me.flowOffset < MAX_FLOW_OFFSET)
@@ -148,7 +148,7 @@ define(() => {
      */
     drawComponents() {
       var me = this;
-      this.moduleController.activeModule.components.forEach(function (component) {
+      this.moduleController.activeModule.components.forEach((component) =>  {
 
         if (component.isGate()) {
           if (!component.imageLoaded()) {
@@ -160,7 +160,7 @@ define(() => {
         component.paint(me.graphics, location);
 
         // draw components connectors
-        component.connectors.forEach(function (connector) {
+        component.connectors.forEach((connector) =>  {
           var connLocScreen = me.selectionController.getScreenCoords(connector.bounds);
           connector.paint(me.graphics, connLocScreen);
         });
@@ -199,7 +199,7 @@ define(() => {
      */
     drawComponentSelections() {
       var me = this;
-      this.selectionController.selectedComponents.forEach(function (component) {
+      this.selectionController.selectedComponents.forEach((component) =>  {
         var location = me.selectionController.getScreenCoords({ x: component.bounds.x, y: component.bounds.y });
         var padding = 2;
         me.graphics.beginFill('rgba(150,0,0,0.3)')
@@ -293,10 +293,10 @@ define(() => {
     drawAllWires() {
       var me = this;
       const FLOW_GAP = 10;
-      Object.keys(me.moduleController.getConnectorMap()).forEach(function (outConnID) {
+      Object.keys(me.moduleController.getConnectorMap()).forEach((outConnID) =>  {
         var outConn = me.moduleController.activeModule.getConnector(outConnID);
         var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
-        me.moduleController.getConnectorMap()[outConnID].forEach(function (inConn) {
+        me.moduleController.getConnectorMap()[outConnID].forEach((inConn) =>  {
           var inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
           var color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(0,0,0)';
           var curvePadding = 30;

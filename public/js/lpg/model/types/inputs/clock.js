@@ -47,7 +47,7 @@ define((require) => {
      */
     start() {
       var me = this;
-      setInterval(function () {
+      setInterval(() =>  {
         if (me.nextTick < Date.now()) {
           me.nextTick = Date.now() + me.interval;
           me.connectors[0].updateState(!me.connectors[0].getState());

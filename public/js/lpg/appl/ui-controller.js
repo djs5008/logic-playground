@@ -32,9 +32,8 @@ define(() => {
       var me = this;
 
       $('#logic-canvas')
-        .on('dragover', function (event) {
-          event.preventDefault();
-        }).on('drop', function (event) {
+        .on('dragover', (event) => event.preventDefault())
+        .on('drop', (event) => {
           event.preventDefault();
           var data = event.originalEvent.dataTransfer.getData('text/x-component');
           var dragX = event.clientX - $('#logic-canvas').offset().left;
@@ -68,7 +67,7 @@ define(() => {
      * Initialize DragNDrop listeners
      */
     addDragListeners() {
-      $('.drag-item').on('dragstart', function (event) {
+      $('.drag-item').on('dragstart', (event) => {
         event.originalEvent.dataTransfer.setData('text/x-component', event.target.id);
       });
     }
@@ -79,30 +78,22 @@ define(() => {
     setupModuleControlHandlers() {
       var me = this;
 
-      $('#controls-new').click(function () {
+      $('#controls-new').click(() => {
         if (confirm('Are you sure? You will lose anything not saved!')) {
           me.moduleController.newModule();
           $('#module-name').val(me.moduleController.activeModule.label);
         }
       });
 
-      $('#controls-save').click(function () {
-        me.fileController.saveActiveModule();
-      });
+      $('#controls-save').click(() => me.fileController.saveActiveModule());
 
-      $('#controls-export').click(function () {
-        me.fileController.exportActiveModule();
-      });
+      $('#controls-export').click(() => me.fileController.exportActiveModule());
 
-      $('#controls-load').click(function () {
-        me.fileController.loadModuleFile(me.fileController.loadModule);
-      });
+      $('#controls-load').click(() => me.fileController.loadModuleFile(me.fileController.loadModule));
 
-      $('#controls-import').click(function () {
-        me.fileController.loadModuleFile(me.fileController.importModule);
-      });
+      $('#controls-import').click(() => me.fileController.loadModuleFile(me.fileController.importModule));
 
-      $('#module-back-button').click(function(event){
+      $('#module-back-button').click((event) => {
         event.preventDefault();
 
         // Check if activeModules list is empty
@@ -127,43 +118,43 @@ define(() => {
     setupPoolControlHandlers() {
 
       // Handle component-type buttons
-      $('#pool-gates').click(function () {
+      $('#pool-gates').click(() => {
         $('#component-menu').css('visibility', 'hidden');
         $('#gate-pool').css('visibility', 'visible');
       });
 
-      $('#pool-inputs').click(function () {
+      $('#pool-inputs').click(() => {
         $('#component-menu').css('visibility', 'hidden');
         $('#input-pool').css('visibility', 'visible');
       });
 
-      $('#pool-outputs').click(function () {
+      $('#pool-outputs').click(() => {
         $('#component-menu').css('visibility', 'hidden');
         $('#output-pool').css('visibility', 'visible');
       });
 
-      $('#pool-imports').click(function () {
+      $('#pool-imports').click(() => {
         $('#component-menu').css('visibility', 'hidden');
         $('#import-pool').css('visibility', 'visible');
       });
 
       // Handle back buttons
-      $('#gate-pool-back').click(function () {
+      $('#gate-pool-back').click(() => {
         $('#gate-pool').css('visibility', 'hidden');
         $('#component-menu').css('visibility', 'visible');
       });
 
-      $('#input-pool-back').click(function () {
+      $('#input-pool-back').click(() => {
         $('#input-pool').css('visibility', 'hidden');
         $('#component-menu').css('visibility', 'visible');
       });
 
-      $('#output-pool-back').click(function () {
+      $('#output-pool-back').click(() => {
         $('#output-pool').css('visibility', 'hidden');
         $('#component-menu').css('visibility', 'visible');
       });
 
-      $('#import-pool-back').click(function () {
+      $('#import-pool-back').click(() => {
         $('#import-pool').css('visibility', 'hidden');
         $('#component-menu').css('visibility', 'visible');
       });
@@ -197,7 +188,7 @@ define(() => {
       tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', { x: 0, y: 0 }));
       tmpOutputs.push(this.moduleController.createComponent('console', { x: 0, y: 0 }));
 
-      var loadItemHTML = function (comp) {
+      var loadItemHTML = (comp) => {
         var id = comp.type;  
         var url = comp.exportImage();
 
@@ -212,19 +203,19 @@ define(() => {
       };
 
       // load into correct containers
-      tmpGates.forEach(function (gate) {
+      tmpGates.forEach((gate) => {
         gate.loadImage(() => {
           var html = loadItemHTML(gate);
           $('#gate-items').append(html);
           me.addDragListeners();
         });
       });
-      tmpInputs.forEach(function (input) {
+      tmpInputs.forEach((input) => {
         let html = loadItemHTML(input);
         $('#input-items').append(html);
         me.addDragListeners();
       });
-      tmpOutputs.forEach(function (output) {
+      tmpOutputs.forEach((output) => {
         let html = loadItemHTML(output);
         $('#output-items').append(html);
         me.addDragListeners();
@@ -237,7 +228,7 @@ define(() => {
      * @param {*} importedModule The Module instance beign loaded
      */
     loadImportedModule(importedModule) {
-      var loadItemHTML = function (comp) {
+      var loadItemHTML = (comp) => {
         var id = comp.label;
         var url = comp.exportImage();
         var label = comp.label;
@@ -261,12 +252,12 @@ define(() => {
     setupKeyListeners() {
       var me = this;
 
-      $(document).keydown(function (evt) {
+      $(document).keydown((evt) => {
         const DELETE_KEY = 46;
 
         switch (evt.keyCode) {
           case DELETE_KEY:
-            me.selectionController.selectedComponents.forEach(function (comp) {
+            me.selectionController.selectedComponents.forEach((comp) => {
               me.moduleController.deleteComponent(me.moduleController.activeModule, comp);
             });
             me.selectionController.selectedComponents = [];
@@ -283,7 +274,7 @@ define(() => {
     getImportedModule(name) {
       var me = this;
       var result = null;
-      JSON.parse(sessionStorage.importedModules).forEach(function (importedModule) {
+      JSON.parse(sessionStorage.importedModules).forEach((importedModule) => {
         if (result != null) return false;
         var mod = JSON.parse(importedModule);
         if (mod.label === name) {
@@ -299,9 +290,9 @@ define(() => {
      */
     checkImports() {
       var me = this;
-      setInterval(function () {
+      setInterval(() => {
         if (sessionStorage.importedModules !== undefined) {
-          JSON.parse(sessionStorage.importedModules).forEach(function (importedModule) {
+          JSON.parse(sessionStorage.importedModules).forEach((importedModule) => {
             if (!me.visibleImports.includes(importedModule)) {
               // load module to module object
               var mod = me.moduleController.loadModule(JSON.parse(importedModule));

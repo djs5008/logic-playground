@@ -39,7 +39,7 @@ define(() => {
       var me = this;
 
       // handle mouse clicks
-      me.stage.on('stagemousedown', function (evt) {
+      me.stage.on('stagemousedown', (evt) => {
         me.activeClick = evt.nativeEvent.button;
         me.clickPos = new createjs.Point(evt.stageX, evt.stageY);
         var hoveredComponent = me.getHoveredComponent();
@@ -72,7 +72,7 @@ define(() => {
       });
 
       // handle mouse releases
-      me.stage.on('stagemouseup', function () {
+      me.stage.on('stagemouseup', () => {
         var hoveredConnector = me.getHoveredConnector();
         var hoveredComponent = me.getHoveredComponent();
 
@@ -141,7 +141,7 @@ define(() => {
       });
 
       // handle mouse movement
-      me.stage.on('stagemousemove', function (evt) {
+      me.stage.on('stagemousemove', (evt) => {
         me.mousePos = new createjs.Point(evt.stageX, evt.stageY);
 
         var xDiff = 0;
@@ -179,7 +179,7 @@ define(() => {
             // drag component(s) and selection rect
             xDiff = (me.mousePos.x - me.clickPos.x);
             yDiff = (me.mousePos.y - me.clickPos.y);
-            me.selectedComponents.forEach(function (component) {
+            me.selectedComponents.forEach((component) => {
               component.moveTo(
                 component.bounds.x + xDiff,
                 component.bounds.y + yDiff
@@ -193,7 +193,7 @@ define(() => {
       });
 
       // Handle double clicking on embedded module
-      me.stage.on('dblclick', function () {
+      me.stage.on('dblclick', () => {
         if (me.selectedComponents.length === 1) {
           var selectedComponent = me.selectedComponents[0];
           if (selectedComponent.type === 'MODULE') {
@@ -221,7 +221,7 @@ define(() => {
       var me = this;
       var hoveredComp = null;
       if (me.mousePos !== null && !me.isSelecting() && me.getHoveredConnector() === null) {
-        me.moduleController.activeModule.components.forEach(function (component) {
+        me.moduleController.activeModule.components.forEach((component) => {
           var mousePosReal = me.getRealCoords(me.mousePos);
           if (component.bounds.contains(mousePosReal.x, mousePosReal.y)) {
             hoveredComp = component;
@@ -239,10 +239,10 @@ define(() => {
       var me = this;
       var hoveredConn = null;
       if (me.mousePos !== null && !me.isSelecting()) {
-        me.moduleController.activeModule.components.forEach(function (component) {
+        me.moduleController.activeModule.components.forEach((component) => {
           if (hoveredConn !== null) return false;
           var mousePosReal = me.getRealCoords(me.mousePos);
-          component.getConnectors().forEach(function (connector) {
+          component.getConnectors().forEach((connector) => {
             var width = connector.getRealBounds().width;
             var height = connector.getRealBounds().height;
             var wideBounds = new createjs.Rectangle(
@@ -268,7 +268,7 @@ define(() => {
       var me = this;
       var selectedComps = [];
       if (me.selectionRect !== null) {
-        me.moduleController.activeModule.components.forEach(function (component) {
+        me.moduleController.activeModule.components.forEach((component) => {
           var selectionPosReal = me.getRealCoords({ x: me.selectionRect.x, y: me.selectionRect.y });
           if (component.bounds.intersects(
             new createjs.Rectangle(selectionPosReal.x, selectionPosReal.y, me.selectionRect.width, me.selectionRect.height))) {
@@ -302,7 +302,7 @@ define(() => {
       var minY = this.selectionRect.y + this.selectionRect.height;
       var maxX = this.selectionRect.x;
       var maxY = this.selectionRect.y;
-      me.selectedComponents.forEach(function (component) {
+      me.selectedComponents.forEach((component) => {
         var screenPos = me.getScreenCoords(component.bounds);
         minX = (screenPos.x <= minX) ? screenPos.x : minX;
         minY = (screenPos.y <= minY) ? screenPos.y : minY;

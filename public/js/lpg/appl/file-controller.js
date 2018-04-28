@@ -62,12 +62,12 @@ define(() => {
       $('#load-module-dialog').get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
       // Reset file input on click (chrome)
-      $('#load-module-dialog').click(function () {
+      $('#load-module-dialog').click(() =>  {
         $('#load-module-dialog').get(0).value = null;
       });
 
       // On input change
-      $('#load-module-dialog').on('change', function () {
+      $('#load-module-dialog').on('change', () =>  {
         var files = document.getElementById('load-module-dialog').files;
 
         if (!files.length && files.length === 1) {
@@ -86,7 +86,7 @@ define(() => {
 
         // Setup filereader callback
         var reader = new FileReader();
-        reader.onloadend = function (evt) {
+        reader.onloadend = (evt) =>  {
           if (evt.target.readyState == FileReader.DONE) {
             callback(me, evt.target.result);
           }
