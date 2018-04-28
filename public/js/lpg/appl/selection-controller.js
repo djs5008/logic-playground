@@ -309,7 +309,6 @@ define(() => {
     clearSelection() {
       this.selectionRect = new createjs.Rectangle();
       this.selectedComponents = [];
-      this.selectedConnector = null;
       $('#component-controls').css('visibility', 'hidden');
       $('#module-controls').css('visibility', 'visible');
     }
