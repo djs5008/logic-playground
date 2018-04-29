@@ -1,0 +1,23 @@
+{
+  "name": "logic-playground",
+  "version": "1.0.0",
+  "description": "Web site for building and running logic circuits",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djs5008/logic-playground.git"
+  },
+  "author": "Dan Schmitt; Anthony Massicci",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djs5008/logic-playground/issues"
+  },
+  "homepage": "https://github.com/djs5008/logic-playground#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.0.7"
+  }
+}
