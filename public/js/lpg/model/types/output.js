@@ -1,3 +1,4 @@
+/* global $ */
 define((require) => {
   'use strict';
 
@@ -41,6 +42,23 @@ define((require) => {
      * Perform an action when the state is changed
      */
     stateChangedEvent() {}
+
+    /**
+     * Output Component settings loader
+     * 
+     * @param elem The DOM element the settings are being loaded into
+     */
+    loadSettings(elem) {
+      super.loadSettings(elem);
+      let me = this;
+      let labelControlID = 'label-control';
+      let labelControlHTML = '<button id="' + labelControlID + '" class="module controls" type="button">Set Label</button>'; 
+      elem.append(labelControlHTML);
+      $('#' + labelControlID).on('click', () => {
+        let newLabel = prompt('Enter new label:', me.label);
+        me.label = (newLabel === null) ? me.label : newLabel;
+      });
+    }
   }
 
   return Output;

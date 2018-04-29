@@ -1,3 +1,4 @@
+/* global $ */
 define((require) => {
   'use strict';
 
@@ -11,6 +12,7 @@ define((require) => {
   // Constants
   // 
   const LED_RADIUS = 25;
+  const DEFAULT_COLOR = '#00FF00';
 
   class LED extends Output {
 
@@ -24,6 +26,7 @@ define((require) => {
 
       this.bounds.width = LED_RADIUS;
       this.bounds.height = LED_RADIUS;
+      this.color = (this.color) ? this.color : DEFAULT_COLOR;
 
       var output = new Connector(
         {
@@ -35,6 +38,35 @@ define((require) => {
     }
 
     /**
+     * Modify a color value to lighten/darken it
+     * 
+     * @param {string} col The color value being modified 
+     * @param {number} amt The percent amount to modify the color by
+     */
+    lightenDarkenColor(col, amt) {
+      var usePound = false;
+      if ((usePound = (col[0] === '#'))) {
+        col = col.slice(1);
+      }
+
+      let clampRGB = function(val) {
+        return Math.ceil((val > 255) ? 255 : ((val < 0) ? 0 : val));
+      };
+
+      var num = parseInt(col, 16);
+
+      var r = ((num >> 16) & 0xFF) * amt;
+      var g = ((num >>  8) & 0xFF) * amt;
+      var b = ((num >>  0) & 0xFF) * amt;
+      
+      r = clampRGB(r);
+      g = clampRGB(g);
+      b = clampRGB(b);
+
+      return (usePound ? '#' : '') + String('000000' + ((r << 16) | (g << 8) | b).toString(16)).slice(-6);
+    }
+
+    /**
      * Paint the component
      * 
      * @param {createjs.Graphics} graphics The graphics object being painted to
@@ -43,8 +75,10 @@ define((require) => {
     paint(graphics, screenLoc) {
       var centerX = screenLoc.x + (LED_RADIUS / 2);
       var centerY = screenLoc.y + (LED_RADIUS / 2);
-      var baseColor = (this.getState()) ? 'rgb(0,100,0)' : 'rgb(100,0,0)';
-      var lightColor = (this.getState()) ? 'rgb(0,255,0)' : 'rgb(150,0,0)';
+      var halfColor = this.lightenDarkenColor(this.color, 0.5);
+      var qtrColor = this.lightenDarkenColor(this.color, 0.25);
+      var baseColor = (this.getState()) ? halfColor : qtrColor;
+      var lightColor = (this.getState()) ? this.color : halfColor;
       var lightRatios = [1, 0];
       // Connector Stroke
       graphics.beginStroke('rgb(0,0,0)')
@@ -66,6 +100,32 @@ define((require) => {
         .drawCircle(centerX, centerY, LED_RADIUS / 2)
         .endStroke()
         .setStrokeStyle();
+    }
+
+    /**
+     * LED Component settings loader
+     * 
+     * @param elem The DOM element the settings are being loaded into
+     */
+    loadSettings(elem) {
+      super.loadSettings(elem);
+      let me = this;
+      let colorPickerID = 'led-color-picker';
+      let colorControlID = 'led-color-control';
+      let colorPickerHTML = '<input id="' + colorPickerID + '" type="color" class="module controls" style="display:none;">';
+      let colorControlHTML = '<input id="' + colorControlID + '" type="button" class="module controls" value="Set Color" style="color:' + this.color + ';">';
+      
+      elem.append(colorPickerHTML);
+      elem.append(colorControlHTML);
+
+      $('#' + colorControlID).on('click', () => {
+        $('#' + colorPickerID).get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      });
+
+      $('#' + colorPickerID).on('change', (event) => {
+        me.color = event.target.value;
+        $('#' + colorControlID).css('color', me.color);
+      });
     }
   }
 

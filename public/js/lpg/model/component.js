@@ -20,7 +20,16 @@ define(() => {
     /**
      * Default Component paint prototype
      */
-    paint() { }
+    paint() {  }
+
+    /**
+     * Default Component settings loader
+     * 
+     * @param elem The DOM element the settings are being loaded into
+     */
+    loadSettings(elem) {
+      elem.html('');
+    }
 
     /**
      * Move this component to the specified coordinates

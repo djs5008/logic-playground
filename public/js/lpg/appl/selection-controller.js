@@ -59,6 +59,7 @@ define(() => {
             // show single piece settings
             $('#component-controls').css('visibility', 'visible');
             $('#module-controls').css('visibility', 'hidden');
+            me.selectedComponents[0].loadSettings($('#component-control-loader'));
           }
         }
 
