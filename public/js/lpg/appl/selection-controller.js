@@ -30,6 +30,7 @@ define(() => {
   
       this.hoveredConn = null;    // Store the currently hovered connector
       this.hoveredComp = null;    // Store the currently hovered component
+      this.hoveredSSD = null;
 
       // NOTE: All coordinates are stored in canvas-relative coordinates
       //        and can be converted to real coordinates using getRealCoords()
@@ -151,7 +152,14 @@ define(() => {
           let hoveredConnComp = me.moduleController.activeModule.getComponent(me.hoveredConn);
           if (hoveredConnComp !== null && hoveredConnComp.type === 'SEVEN-SEG-DISP') {
             hoveredConnComp.setHoveredConnector(me.hoveredConn);
+            me.hoveredSSD = hoveredConnComp;
           }
+        } 
+        
+        // Reset SEVEN-SEG-DISP hovered state
+        else if (me.hoveredSSD !== null) {
+          me.hoveredSSD.setHoveredConnector(null);
+          me.hoveredSSD = null;
         }
 
         // handle right-clicks
