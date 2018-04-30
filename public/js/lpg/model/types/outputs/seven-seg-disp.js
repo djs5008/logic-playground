@@ -14,6 +14,8 @@ define((require) => {
   const WIDTH = 60;
   const HEIGHT = 100;
 
+  var hoveredConnector = null;
+
   class SevenSegDisp extends Output {
 
     /**
@@ -38,8 +40,22 @@ define((require) => {
       }
     }
 
+    /**
+     * Retrieve the state of a specific connector based on it's index
+     * 
+     * @param {number} connIndex The index used to retrieve the Connector
+     */
     getStateIndex(connIndex) {
       return this.connectors[connIndex].getState();
+    }
+
+    /**
+     * Set the hovered connector to display which segment it's associated with
+     * 
+     * @param {number} connector The connector being hovered
+     */
+    setHoveredConnector(connector) {
+      hoveredConnector = connector;
     }
 
     /**
@@ -53,6 +69,8 @@ define((require) => {
       const SEG_LENGTH = this.bounds.width * (2 / 3);
       const SEG_HEIGHT = this.bounds.height / 10;
       const SEG_CORNER_DIST = (this.bounds.width / 12);
+
+      let hovered = (hoveredConnector !== null && this.connectors.includes(hoveredConnector));
 
       // Draw connector lines
       var yOff = (this.bounds.height / 7) / 2;
@@ -83,6 +101,9 @@ define((require) => {
       for (i = 0; i < 3; i++) {
         y = screenLoc.y + (ySegOff * i) + SEG_HEIGHT;
         var color = (this.getStateIndex(3 * i)) ? 'rgba(0,255,0,0.7)' : 'rgba(255,255,255,0.25)';
+        if (hovered && hoveredConnector === this.connectors[3 * i]) {
+          color = 'rgba(255,50,255,0.7)';
+        }
         graphics.beginFill(color)
           .moveTo(x, y)
           .lineTo(x + SEG_CORNER_DIST, y + (SEG_HEIGHT / 2))
@@ -98,10 +119,13 @@ define((require) => {
       var baseX = screenLoc.x + ((this.bounds.width / 3) - SEG_HEIGHT);
       var baseY = screenLoc.y + SEG_HEIGHT;
       for (i = 0; i < 4; i++) {
-        x = (i % 2 != 0) ? baseX : (baseX + SEG_LENGTH);
+        x = (i % 2 !== 0) ? baseX : (baseX + SEG_LENGTH);
         y = (i < 2) ? baseY : (baseY + SEG_LENGTH);
         var index = (i == 0) ? 1 : (i == 1) ? 2 : (i == 2) ? 4 : (i == 3) ? 5 : -1;
         color = (this.getStateIndex(index)) ? 'rgba(0,255,0,0.7)' : 'rgba(255,255,255,0.25)';
+        if (hovered && hoveredConnector === this.connectors[index]) {
+          color = 'rgba(255,50,255,0.7)';
+        }
         graphics.beginFill(color)
           .moveTo(x, y)
           .lineTo(x + (SEG_HEIGHT / 2), y + SEG_CORNER_DIST)

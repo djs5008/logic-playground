@@ -36,6 +36,13 @@ define((require) => {
     }
 
     /**
+     * Toggle hold-button state on right click down
+     */
+    rightClickDownEvent() {
+      this.setState(!this.getState());
+    }
+
+    /**
      * Paint the component
      * 
      * @param {createjs.Graphics} graphics The graphics object being painted to

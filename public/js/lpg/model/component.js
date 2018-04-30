@@ -126,6 +126,31 @@ define(() => {
     }
 
     /**
+     * Default right-click down behavior
+     */
+    rightClickDownEvent() { }
+
+    /**
+     * Default left-click down behavior
+     */
+    leftClickDownEvent() { }
+
+    /**
+     * Default right-click up behavior
+     */
+    rightClickUpEvent() { }
+
+    /**
+     * Default left-click up behavior
+     */
+    leftClickUpEvent() { }
+
+    /**
+     * Default double-click (left) behavior
+     */
+    doubleClickEvent() { }
+
+    /**
      * Export this component to an data-url image
      * 
      * @returns the data-url of the processed image

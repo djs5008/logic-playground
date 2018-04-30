@@ -15,11 +15,9 @@ define((require) => {
      * @param {string} type 
      * @param {string} superType 
      * @param {createjs.Rectangle} bounds 
-     * @param {boolean} toggleable Whether or not the input is manually toggleable
      */
-    constructor(type, superType, bounds, toggleable) {
+    constructor(type, superType, bounds) {
       super(type, superType, bounds);
-      this.toggleable = toggleable;
     }
 
     /**
@@ -41,13 +39,6 @@ define((require) => {
     }
 
     /**
-     * Check whether this input component is manually toggleable
-     */
-    isToggleable() {
-      return this.toggleable;
-    }
-
-    /**
      * Input Component settings loader
      * 
      * @param elem The DOM element the settings are being loaded into
@@ -56,8 +47,9 @@ define((require) => {
       super.loadSettings(elem);
       let me = this;
       let labelControlID = 'label-control';
-      let labelControlHTML = '<button id="' + labelControlID + '" class="module controls" type="button">Set Label</button>'; 
+      let labelControlHTML = '<button id="' + labelControlID + '" type="button">Set Label</button>'; 
       elem.append(labelControlHTML);
+      $('#' + labelControlID).addClass('controls');
       $('#' + labelControlID).on('click', () => {
         let newLabel = prompt('Enter new label:', me.label);
         me.label = (newLabel === null) ? me.label : newLabel;

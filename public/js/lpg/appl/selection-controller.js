@@ -28,6 +28,9 @@ define(() => {
       this.dragPiece = null;          // Instance of component that initialized the drag
       this.selectedConnector = null;  // Instance of previously selected connector
   
+      this.hoveredConn = null;    // Store the currently hovered connector
+      this.hoveredComp = null;    // Store the currently hovered component
+
       // NOTE: All coordinates are stored in canvas-relative coordinates
       //        and can be converted to real coordinates using getRealCoords()
       this.clickPos = null;               // Position of click (reset on mouseup)
@@ -44,64 +47,58 @@ define(() => {
       me.stage.on('stagemousedown', (evt) => {
         me.activeClick = evt.nativeEvent.button;
         me.clickPos = new createjs.Point(evt.stageX, evt.stageY);
-        let hoveredComponent = me.getHoveredComponent();
 
         if (me.isLeftClicking()) {
           me.selectionRect = new createjs.Rectangle(me.clickPos.x, me.clickPos.y, 0, 0);
-          hoveredComponent = me.getHoveredComponent();
 
           // allow single piece selections
-          me.dragPiece = (!me.isDraggingComponents()) ? hoveredComponent : me.dragPiece;
-          if (hoveredComponent !== null && !me.selectedComponents.includes(hoveredComponent)) {
+          me.dragPiece = (!me.isDraggingComponents()) ? me.hoveredComp : me.dragPiece;
+          if (me.hoveredComp !== null && !me.selectedComponents.includes(me.hoveredComp)) {
             me.selectedComponents = [me.dragPiece];
             me.selectedConnector = null;
 
             // show single piece settings
-            $('#component-controls').css('visibility', 'visible');
-            $('#module-controls').css('visibility', 'hidden');
+            let label = (me.selectedComponents[0].label === '') ? 'no label' : me.selectedComponents[0].label;
+            me.toggleComponentSettings(true);
+            $('#component-name').val(label);
             me.selectedComponents[0].loadSettings($('#component-control-loader'));
           }
         }
 
         // right-click mouse down handling
         else if (me.isRightClicking()) {
-          if (hoveredComponent !== null) {
-            // Toggle hold buttons
-            if (hoveredComponent.type === 'HOLD-BUTTON') {
-              hoveredComponent.setState(!hoveredComponent.getState());
-            }
+          if (me.hoveredComp !== null) {
+            me.hoveredComp.rightClickDownEvent();
           }
         }
       });
 
       // handle mouse releases
       me.stage.on('stagemouseup', () => {
-        let hoveredConnector = me.getHoveredConnector();
-        let hoveredComponent = me.getHoveredComponent();
 
         // handle left mouse releases
         if (me.isLeftClicking()) {
 
           // set selectedConnector when a click was released on a hovered one
-          if (me.selectedConnector === null && hoveredConnector !== null) {
-            me.selectedConnector = hoveredConnector;
+          if (me.selectedConnector === null && me.hoveredConn !== null) {
+            me.selectedConnector = me.hoveredConn;
           }
 
           // clear selectedConnector when a click was not releasted on hovered one
-          else if (me.selectedConnector !== null && hoveredConnector === null) {
+          else if (me.selectedConnector !== null && me.hoveredConn === null) {
             me.selectedConnector = null;
           }
 
           // connect the connectors when you release on a hovered connector
           else if (me.selectedConnector !== null
-            && hoveredConnector !== null
-            && me.selectedConnector !== hoveredConnector
-            && me.selectedConnector.isOutput() !== hoveredConnector.isOutput()
-            && !me.selectedConnector.getConnections().includes(hoveredConnector.getID())
-            && !hoveredConnector.getConnections().includes(me.selectedConnector.getID())) {
+            && me.hoveredConn !== null
+            && me.selectedConnector !== me.hoveredConn
+            && me.selectedConnector.isOutput() !== me.hoveredConn.isOutput()
+            && !me.selectedConnector.getConnections().includes(me.hoveredConn.getID())
+            && !me.hoveredConn.getConnections().includes(me.selectedConnector.getID())) {
             // make sure connectors are mapped from output->input
-            let outConn = (me.selectedConnector.isOutput()) ? me.selectedConnector : hoveredConnector;
-            let otherConn = (outConn === me.selectedConnector) ? hoveredConnector : me.selectedConnector;
+            let outConn = (me.selectedConnector.isOutput()) ? me.selectedConnector : me.hoveredConn;
+            let otherConn = (outConn === me.selectedConnector) ? me.hoveredConn : me.selectedConnector;
             outConn.addConnection(otherConn);
             me.selectedConnector = null;
           }
@@ -115,20 +112,23 @@ define(() => {
           else {
             me.clearSelection();
           }
+
+          // Don't show component settings when more than one component selected
+          if (me.getSelectedComponents().length > 1) {
+            me.toggleComponentSettings(false);
+          }
         }
 
         // Handle right mouse releases
         else if (me.isRightClicking()) {
           // break connections of hoveredConn on right-click
-          if (me.selectedConnector === null && hoveredConnector !== null) {
-            me.moduleController.breakConnections(hoveredConnector);
+          if (me.selectedConnector === null && me.hoveredConn !== null) {
+            me.moduleController.breakConnections(me.hoveredConn);
           }
 
           // Toggle buttons
-          if (hoveredComponent !== null) {
-            if (hoveredComponent.isInputComp() && hoveredComponent.isToggleable()) {
-              hoveredComponent.setState(!hoveredComponent.getState());
-            }
+          if (me.hoveredComp !== null) {
+            me.hoveredComp.rightClickUpEvent();
           }
         }
 
@@ -140,6 +140,19 @@ define(() => {
       // handle mouse movement
       me.stage.on('stagemousemove', (evt) => {
         me.mousePos = new createjs.Point(evt.stageX, evt.stageY);
+
+        // Update hovered vars
+        me.hoveredConn = me.getHoveredConnector();
+        me.hoveredComp = me.getHoveredComponent();
+
+        // Highlight hovered connector state on SEVEN-SEG-DISP
+        // TODO : change this to be less-specific
+        if (me.hoveredConn !== null) {
+          let hoveredConnComp = me.moduleController.activeModule.getComponent(me.hoveredConn);
+          if (hoveredConnComp !== null && hoveredConnComp.type === 'SEVEN-SEG-DISP') {
+            hoveredConnComp.setHoveredConnector(me.hoveredConn);
+          }
+        }
 
         // handle right-clicks
         if (me.isRightClicking()) {
@@ -209,7 +222,7 @@ define(() => {
     getHoveredComponent() {
       let me = this;
       let hoveredComp = null;
-      if (me.mousePos !== null && !me.isSelecting() && me.getHoveredConnector() === null) {
+      if (me.mousePos !== null && !me.isSelecting() && me.hoveredConn === null) {
         me.moduleController.activeModule.components.forEach((component) => {
           let mousePosReal = me.getRealCoords(me.mousePos);
           if (component.bounds.contains(mousePosReal.x, mousePosReal.y)) {
@@ -310,8 +323,16 @@ define(() => {
     clearSelection() {
       this.selectionRect = new createjs.Rectangle();
       this.selectedComponents = [];
-      $('#component-controls').css('visibility', 'hidden');
-      $('#module-controls').css('visibility', 'visible');
+      this.toggleComponentSettings(false);
+    }
+
+    /**
+     * Toggle between component and module settings box
+     * @param {boolean} visible 
+     */
+    toggleComponentSettings(visible) {
+      $('#component-controls').css('visibility', visible ? 'visible' : 'hidden');
+      $('#module-controls').css('visibility', visible ? 'hidden' : 'visible');
     }
     
     /**

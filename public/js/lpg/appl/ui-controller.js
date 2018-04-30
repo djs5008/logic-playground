@@ -53,7 +53,7 @@ define(() => {
             component = me.moduleController.addComponent(data, bounds);
           }
 
-          if (component != null) {
+          if (component !== null) {
             // shift component to place at center of cursor
             component.moveTo(
               component.bounds.x - (component.bounds.width / 2),
@@ -283,7 +283,7 @@ define(() => {
       var me = this;
       var result = null;
       JSON.parse(sessionStorage.importedModules).forEach((importedModule) => {
-        if (result != null) return false;
+        if (result !== null) return false;
         var mod = JSON.parse(importedModule);
         if (mod.label === name) {
           result = me.moduleController.loadModule(mod);

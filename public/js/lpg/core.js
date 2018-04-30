@@ -2,11 +2,6 @@
 
 (() => {
 
-  // disable right-click on canvas
-  $('#logic-canvas').bind('contextmenu', () => {
-    return false;
-  });
-
   define((require) => {
     'use strict';
 
@@ -37,6 +32,7 @@
       // TODO
 
       // Setup controllers
+      console.info('loading stage...');
       stage = new createjs.StageGL('logic-canvas');
       moduleController = new ModuleController();
       fileController = new FileController(moduleController);
@@ -52,6 +48,12 @@
      * Default application initialization
      */
     function initialize() {
+
+      // disable right-click on canvas
+      $('#logic-canvas').bind('contextmenu', () => {
+        return false;
+      });
+
       // Load saved module (if any)
       fileController.loadSavedModule();
 

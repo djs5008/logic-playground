@@ -28,6 +28,7 @@ define(() => {
      */
     loadSavedModule() {
       if (localStorage.autosaveModule) {
+        console.info('loading saved module...');
         this.moduleController.activeModule = this.moduleController.loadModule(JSON.parse(localStorage.autosaveModule));
       } else {
         this.moduleController.newModule();
@@ -106,11 +107,14 @@ define(() => {
      * @param {*} moduleData The JSON-data from the loaded module file
      */
     loadModule(me, moduleData) {
-      // Update active module based on result of file
-      me.moduleController.activeModule = me.moduleController.loadModule(JSON.parse(moduleData));
+      console.info('loading module...');
+      setTimeout(() => {
+        // Update active module based on result of file
+        me.moduleController.activeModule = me.moduleController.loadModule(JSON.parse(moduleData));
 
-      // Update Module Settings properties
-      $('#module-name').val(me.moduleController.activeModule.label);
+        // Update Module Settings properties
+        $('#module-name').val(me.moduleController.activeModule.label);
+      }, 0);
     }
 
     /**
@@ -119,15 +123,18 @@ define(() => {
      * @param {*} moduleData The JSON-data from the loaded module file
      */
     importModule(me, moduleData) {
-      // setup array
-      if (!sessionStorage.importedModules) {
-        sessionStorage.setItem('importedModules', JSON.stringify([]));
-      }
+      console.info('importing module...');
+      setTimeout(() => {
+        // setup array
+        if (!sessionStorage.importedModules) {
+          sessionStorage.setItem('importedModules', JSON.stringify([]));
+        }
 
-      // add imported module to session storage
-      var arr = JSON.parse(sessionStorage.importedModules);
-      arr.push(moduleData);
-      sessionStorage.setItem('importedModules', JSON.stringify(arr));
+        // add imported module to session storage
+        var arr = JSON.parse(sessionStorage.importedModules);
+        arr.push(moduleData);
+        sessionStorage.setItem('importedModules', JSON.stringify(arr));
+      }, 0);
     }
   }
 

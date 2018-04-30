@@ -112,11 +112,12 @@ define((require) => {
       let me = this;
       let colorPickerID = 'led-color-picker';
       let colorControlID = 'led-color-control';
-      let colorPickerHTML = '<input id="' + colorPickerID + '" type="color" class="module controls" style="display:none;">';
-      let colorControlHTML = '<input id="' + colorControlID + '" type="button" class="module controls" value="Set Color" style="color:' + this.color + ';">';
+      let colorPickerHTML = '<input id="' + colorPickerID + '" type="color" style="display:none;">';
+      let colorControlHTML = '<input id="' + colorControlID + '" type="button" value="Set Color" style="color:' + this.color + ';">';
       
       elem.append(colorPickerHTML);
       elem.append(colorControlHTML);
+      $('#' + colorControlID).addClass('controls');
 
       $('#' + colorControlID).on('click', () => {
         $('#' + colorPickerID).get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));

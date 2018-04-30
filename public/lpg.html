@@ -7,6 +7,8 @@
   <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
   <script src="https://code.createjs.com/1.0.0/preloadjs.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- RequireJS Initialization -->
+  <script data-main="js/lpg/index" src="js/lib/require.js"></script>
   <link rel="stylesheet" href="css/lpg.css">
 </head>
 
@@ -118,21 +120,18 @@
       <hr>
       <div id="component-control-loader">
         <!-- auto-loaded component controls section -->
+        <input id="test" type="button" class="module controls" value="Test Setting">
       </div>
       <hr>
       <br/>
       <h3 class="module controls">Selected Piece:</h3>
-      <input class="module controls" id="component-name" type="text" name="component-name">
+      <input class="module controls" id="component-name" type="text" name="component-name" disabled >
     </div>
-
   </div>
 
-  <!-- RequireJS Initialization -->
-  <script data-main="js/lpg/index" src="js/lib/require.js"></script>
-
   <!-- Hidden fields for loading/saving modules -->
-  <a id="export-module-dialog" style="visibility:hidden;"></a>
-  <input type="file" id="load-module-dialog" name="file" style="visibility:hidden;" />
+  <a id="export-module-dialog" style="display:none;"></a>
+  <input type="file" id="load-module-dialog" name="file" style="display:none;" />
 </body>
 
 </html>

@@ -195,7 +195,7 @@ define((require) => {
     addComponent(type, bounds) {
       var comp = this.createComponent(type, bounds);
 
-      if (comp != null) {
+      if (comp !== null) {
         return this.activeModule.addComponent(comp);
       }
 

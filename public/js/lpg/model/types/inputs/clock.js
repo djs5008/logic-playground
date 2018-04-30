@@ -1,3 +1,4 @@
+/* global $ */
 define((require) => {
   'use strict';
 
@@ -11,7 +12,7 @@ define((require) => {
   // Constants
   // 
   const BUTTON_RADIUS = 30;
-  const DEFAULT_INTERVAL = 2000;
+  const DEFAULT_INTERVAL = 1000;
 
   class Clock extends Input {
 
@@ -95,6 +96,34 @@ define((require) => {
         .drawCircle(centerX, centerY, BUTTON_RADIUS / 3)
         .endFill()
         .setStrokeStyle();
+    }
+
+    /**
+     * LED Component settings loader
+     * 
+     * @param elem The DOM element the settings are being loaded into
+     */
+    loadSettings(elem) {
+      super.loadSettings(elem);
+      let me = this;
+      let clockControlID = 'clock-timer-control';
+      let clockControlHTML = '<input id="' + clockControlID + '" type="button" value="Set Interval">';
+      
+      elem.append(clockControlHTML);
+      $('#' + clockControlID).addClass('controls');
+
+      $('#' + clockControlID).on('click', () => {
+        let promptVal = prompt('Set new interval (ms): ', me.interval);
+        let val = parseInt(promptVal);
+        if (promptVal !== null) {
+          if (!isNaN(val) && isFinite(val)) {
+            me.interval = parseInt(val, 10);
+            me.nextTick = Date.now() + me.interval;
+          } else {
+            alert(promptVal + ' is not a number!');
+          }
+        }
+      }); 
     }
   }
 
