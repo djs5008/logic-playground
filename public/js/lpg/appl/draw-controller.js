@@ -293,6 +293,8 @@ define(() => {
     drawAllWires() {
       var me = this;
       const FLOW_GAP = 10;
+      const LINE_SIZE = 6;
+      const FLOW_SIZE = LINE_SIZE - 3;
       Object.keys(me.moduleController.getConnectorMap()).forEach((outConnID) =>  {
         var outConn = me.moduleController.activeModule.getConnector(outConnID);
         var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
@@ -301,14 +303,14 @@ define(() => {
           var color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(0,0,0)';
           var curvePadding = 30;
           me.graphics.beginStroke(color)
-            .setStrokeStyle(4)
+            .setStrokeStyle(LINE_SIZE)
             .moveTo(outConnLoc.x, outConnLoc.y)
             .bezierCurveTo(outConnLoc.x + curvePadding, outConnLoc.y, inConnLoc.x - curvePadding, inConnLoc.y, inConnLoc.x, inConnLoc.y)
             .endStroke()
             .setStrokeStyle();
           if (outConn.getState()) {
             me.graphics.beginStroke('rgb(0,200,0)')
-              .setStrokeStyle(2)
+              .setStrokeStyle(FLOW_SIZE)
               .setStrokeDash([FLOW_GAP], -me.flowOffset)
               .moveTo(outConnLoc.x, outConnLoc.y)
               .bezierCurveTo(outConnLoc.x + curvePadding, outConnLoc.y, inConnLoc.x - curvePadding, inConnLoc.y, inConnLoc.x, inConnLoc.y)
