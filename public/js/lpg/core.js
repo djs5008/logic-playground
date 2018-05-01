@@ -81,6 +81,7 @@
       // setup mouse-event handling
       stage.mouseMoveOutside = true;
       selectionController.initMouseEvents();
+      selectionController.setActiveState('EMPTY');
     }
   });
 })();
