@@ -73,7 +73,7 @@ define(() => {
 
       // On input change
       $('#load-module-dialog').on('change', () =>  {
-        var files = $('#load-module-dialog').files;
+        var files = document.getElementById('load-module-dialog').files;
 
         if (!files.length && files.length === 1) {
           alert('Please select an LPM file!');
