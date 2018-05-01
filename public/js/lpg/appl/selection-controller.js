@@ -61,7 +61,6 @@ define((require) => {
         case 'DRAGGING': this.activeState = new DraggingState(this); break;
         case 'CONNECTING': this.activeState = new ConnectingState(this, args); break;
       }
-      console.info('NEW STATE: ' + state);
     }
 
     /**
