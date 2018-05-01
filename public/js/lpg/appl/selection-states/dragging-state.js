@@ -48,7 +48,7 @@ define(() => {
       if (this.context.selectedComponents.length === 1) {
         this.context.showComponentSelection();
       }
-      this.context.setActiveState('EMPTY');
+      this.context.setActiveState('HOVER-COMPONENT', this.context.getHoveredComponent());
     }
 
     /**

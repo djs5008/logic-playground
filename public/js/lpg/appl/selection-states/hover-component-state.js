@@ -1,3 +1,4 @@
+/* global $ */
 define(() => {
   'use strict';
 
@@ -65,7 +66,25 @@ define(() => {
     /**
      * Handle double-click events
      */
-    handleDoubleClick() {}
+    handleDoubleClick() {
+      if (this.context.selectedComponents.length === 1) {
+        let selectedComponent = this.context.selectedComponents[0];
+        if (selectedComponent.type === 'MODULE') {
+          // Add active module to stack of current modules
+          this.context.moduleController.activeModules.push(this.context.moduleController.activeModule);
+
+          // Set active module
+          this.context.moduleController.activeModule = selectedComponent;
+
+          // Reset component selections
+          this.context.clearSelection();
+
+          // Set module back button visibility
+          $('#module-back-button').css('visibility', 'visible');
+          $('#module-nathis.context').val(this.context.moduleController.activeModule.label);
+        }
+      }
+    }
 
   }
 
