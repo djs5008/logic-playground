@@ -30,7 +30,7 @@ define(() => {
       // begin repainting
       this.paint = this.paint.bind(this);
       createjs.Ticker.on('tick', this.paint);
-      createjs.Ticker.framerate = 60;
+      createjs.Ticker.framerate = 65;
 
       // start animating
       this.startAnimationTimer();
@@ -258,7 +258,7 @@ define(() => {
      * Draw your current left mouse-drag selection
      */
     drawSelection() {
-      if (this.selectionController.isLeftClicking()) {
+      if (this.selectionController.getActiveState() === 'SELECTING') {
         var selectionRect = this.selectionController.getSelectionRect();
         this.graphics.beginFill('rgba(0,50,127,0.3)')
           .drawRect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)

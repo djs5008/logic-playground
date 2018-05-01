@@ -31,6 +31,7 @@ define((require) => {
       this.stage = stage;             // EaselJS CanvasGL instance
       this.moduleController =
         moduleController;             // Instance of ModuleController passed by Core
+      this.activeState = null;
         
       this.activeClick = null;        // Type of click stored currently (check IDs above)
       this.selectionRect = 
@@ -61,6 +62,16 @@ define((require) => {
         case 'DRAGGING': this.activeState = new DraggingState(this); break;
         case 'CONNECTING': this.activeState = new ConnectingState(this, args); break;
       }
+      this.activeState.name = state;
+    }
+
+    /**
+     * Retrieves the label for the active state
+     *  This DOES NOT retrieve the current active state instance
+     *  Use "activeState" property to retrieve instance of active state
+     */
+    getActiveState() {
+      return this.activeState.name;
     }
 
     /**
