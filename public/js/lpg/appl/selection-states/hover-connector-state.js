@@ -18,6 +18,10 @@ define(() => {
       // Highlight hovered connector state on SEVEN-SEG-DISP
       // TODO : change this to be less-specific
       if (hoveredConn !== null) {
+        if (hoveredConn != this.hoveredConn) {
+          this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+          return;
+        } 
         let hoveredConnComp = this.context.moduleController.activeModule.getComponent(hoveredConn);
         if (hoveredConnComp !== null && hoveredConnComp.type === 'SEVEN-SEG-DISP') {
           hoveredConnComp.setHoveredConnector(hoveredConn);

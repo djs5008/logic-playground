@@ -15,6 +15,8 @@ define(() => {
       let hoveredComp = this.context.getHoveredComponent();
       if (hoveredComp === null) {
         this.context.setActiveState('EMPTY');
+      } else if (hoveredComp != this.hoveredComp) {
+        this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
       }
     }
 
