@@ -5,20 +5,14 @@ define((require) => {
   // 
   // Includes
   // 
-  var Gate = require('model/types/gate');
-  var Connector = require('model/types/misc/connector');
-  var Logic = require('model/logic');
+  const Gate = require('model/types/gate');
+  const Connector = require('model/types/misc/connector');
+  const Logic = require('model/logic');
 
-  // 
-  // Constants
-  // 
-  const IMAGE_DIR = 'img/lpg/or-gate.png';
-
-  // 
+  //
   // Attributes
   // 
-  var image = null;
-  var imageLoaded = false;
+  let image = null;
 
   class ORGate extends Gate {
 
@@ -27,9 +21,10 @@ define((require) => {
      * 
      * @param {createjs.Rectangle} bounds 
      */
-    constructor(bounds) {
+    constructor(bounds, img) {
       super('OR-GATE', 'GATE', bounds);
-      this.loadImage();
+      image = img;
+      this.setupGate();
     }
 
     setupGate() {
@@ -57,23 +52,6 @@ define((require) => {
       var input2 = this.connectors[1];
       var output = this.connectors[2];
       output.updateState(Logic.orr(input1.getState(), input2.getState()));
-    }
-
-    loadImage(callback) {
-      var preload = new createjs.LoadQueue();
-      preload.addEventListener('fileload', () => {
-        image = preload.getResult(IMAGE_DIR);
-        imageLoaded = true;
-        this.setupGate();
-        if (callback) {
-          callback();
-        }
-      });
-      preload.loadFile(IMAGE_DIR);
-    }
-
-    imageLoaded() {
-      return imageLoaded;
     }
 
     /**

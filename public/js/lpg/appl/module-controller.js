@@ -35,9 +35,10 @@ define((require) => {
     /**
      * ModuleController constructor
      */
-    constructor() {
+    constructor(resourceController) {
       this.activeModule = undefined;
       this.activeModules = [];
+      this.resourceController = resourceController;
     }
 
     /**
@@ -68,29 +69,30 @@ define((require) => {
      * @param {*} mod The json-parsed module object (prototypes not assigned) 
      */
     loadModule(mod) {
-      var loadedModule = new Module(new createjs.Rectangle(0, 0));
-      var me = this;
+      let loadedModule = new Module(new createjs.Rectangle(0, 0));
+      let me = this;
 
-      function loadConnector(conn) {
-        var loadedConnector = new Connector(conn.bounds, conn.type);
+      let loadConnector = (conn) => {
+        let loadedConnector = new Connector(conn.bounds, conn.type);
 
         // Copy connectors attributes to new connector  
         for (var attr in conn) loadedConnector[attr] = conn[attr];
-
+        
         // Copy bounds into new rectangle instance
         loadedConnector.bounds = new createjs.Rectangle(conn.bounds.x, conn.bounds.y, conn.bounds.width, conn.bounds.height);
 
         return loadedConnector;
-      }
+      };
 
-      function loadComponent(comp) {
-        var loadedComponent = me.createComponent(comp.type, comp.bounds);
+      let loadComponent = (comp) => {
+        let loadedComponent = null;
 
         if (comp.type === 'MODULE') {
           // Recursively load this component as a module
           loadedComponent = me.loadModule(comp);
-          loadedComponent.updateBounds();
         } else {
+          loadedComponent = me.createComponent(comp.type, comp.bounds);
+
           // Copy components attributes to new component
           for (var attr in comp) loadedComponent[attr] = comp[attr];
         }
@@ -100,31 +102,25 @@ define((require) => {
 
         // Clear copied connectors and re-push newly instantiated ones
         loadedComponent.connectors = [];
-        comp.connectors.forEach((conn) =>  {
-          loadedComponent.connectors.push(loadConnector(conn));
-        });
+        comp.connectors.forEach((conn) => loadedComponent.connectors.push(loadConnector(conn)));
 
         return loadedComponent;
-      }
+      };
 
       // Copy old modules attributes to new module
       for (var attr in mod) loadedModule[attr] = mod[attr];
 
-      // Load connectors for this module
-      // Clear copied connectors and re-push newly instantiated ones
-      loadedModule.connectors = [];
-      mod.connectors.forEach((conn) =>  {
-        loadedModule.connectors.push(loadConnector(conn));
-      });
-
       // Overwrite bounds with new Rectangle instance
       loadedModule.bounds = new createjs.Rectangle(mod.bounds.x, mod.bounds.y, mod.bounds.width, mod.bounds.height);
 
+      // Load connectors for this module
+      // Clear copied connectors and re-push newly instantiated ones
+      loadedModule.connectors = [];
+      mod.connectors.forEach((conn) => loadedModule.connectors.push(loadConnector(conn)));
+
       // Clear copied components and re-push newly instantiated ones
       loadedModule.components = [];
-      mod.components.forEach((comp) =>  {
-        loadedModule.components.push(loadComponent(comp));
-      });
+      mod.components.forEach((comp) => loadedModule.components.push(loadComponent(comp)));
 
       loadedModule.updateBounds();
 
@@ -141,13 +137,13 @@ define((require) => {
       switch (type.toUpperCase()) {
         case 'CONNECTOR': return new Connector(args);
         case 'MODULE': return new Module(args);
-        case 'AND-GATE': return new ANDGate(args);
-        case 'NAND-GATE': return new NANDGate(args);
-        case 'OR-GATE': return new ORGate(args);
-        case 'NOR-GATE': return new NORGate(args);
-        case 'XOR-GATE': return new XORGate(args);
-        case 'XNOR-GATE': return new XNORGate(args);
-        case 'NOT-GATE': return new NOTGate(args);
+        case 'AND-GATE': return new ANDGate(args, this.resourceController.getResource('and-gate'));
+        case 'NAND-GATE': return new NANDGate(args, this.resourceController.getResource('nand-gate'));
+        case 'OR-GATE': return new ORGate(args, this.resourceController.getResource('or-gate'));
+        case 'NOR-GATE': return new NORGate(args, this.resourceController.getResource('nor-gate'));
+        case 'XOR-GATE': return new XORGate(args, this.resourceController.getResource('xor-gate'));
+        case 'XNOR-GATE': return new XNORGate(args, this.resourceController.getResource('xnor-gate'));
+        case 'NOT-GATE': return new NOTGate(args, this.resourceController.getResource('not-gate'));
         case 'HOLD-BUTTON': return new HoldButton(args);
         case 'SWITCH-BUTTON': return new SwitchButton(args);
         case 'CLOCK': return new Clock(args);

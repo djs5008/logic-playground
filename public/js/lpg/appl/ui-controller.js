@@ -212,11 +212,9 @@ define(() => {
 
       // load into correct containers
       tmpGates.forEach((gate) => {
-        gate.loadImage(() => {
-          var html = loadItemHTML(gate);
-          $('#gate-items').append(html);
-          me.addDragListeners();
-        });
+        var html = loadItemHTML(gate);
+        $('#gate-items').append(html);
+        me.addDragListeners();
       });
       tmpInputs.forEach((input) => {
         let html = loadItemHTML(input);
@@ -268,7 +266,7 @@ define(() => {
             me.selectionController.selectedComponents.forEach((comp) => {
               me.moduleController.deleteComponent(me.moduleController.activeModule, comp);
             });
-            me.selectionController.selectedComponents = [];
+            me.selectionController.clearSelection();
             break;
         }
       });
@@ -291,14 +289,6 @@ define(() => {
         }
       });
       return result;
-    }
-
-    showComponentControls() {
-      let selectedComponent = this.selectionController.getSelectedComponents()[0];
-      if (selectedComponent !== null) {
-        //
-
-      }
     }
 
     /**

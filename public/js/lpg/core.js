@@ -14,6 +14,7 @@
     const ModuleController = require('appl/module-controller');
     const UIController = require('appl/ui-controller');
     const FileController = require('appl/file-controller');
+    const ResourceController = require('appl/resource-controller');
 
     // 
     // Attributes
@@ -24,17 +25,16 @@
     var selectionController;
     var uiController;
     var drawController;
+    var resourceController;
 
     // Wait for DOM
     $(document).ready(() => {
 
-      // Setup LoadQueue for required images
-      // TODO
-
       // Setup controllers
       console.info('loading stage...');
       stage = new createjs.StageGL('logic-canvas');
-      moduleController = new ModuleController();
+      resourceController = new ResourceController();
+      moduleController = new ModuleController(resourceController);
       fileController = new FileController(moduleController);
       selectionController = new SelectionController(stage, moduleController);
       uiController = new UIController(moduleController, selectionController, fileController);
@@ -54,34 +54,43 @@
         return false;
       });
 
-      // Load saved module (if any)
-      fileController.loadSavedModule();
+      // Load required resources
+      //  Wait for these to complete before doing any other processing
+      resourceController.loadResources(() => {
 
-      // Fill default component pools
-      uiController.loadDefaultComponents();
+        // Load saved module (if any)
+        fileController.loadSavedModule();
 
-      // Handle drag-n-drops
-      uiController.setupDragNDropHandler();
+        // Fill default component pools
+        uiController.loadDefaultComponents();
 
-      // Handle component pool controls
-      uiController.setupPoolControlHandlers();
+        // Handle drag-n-drops
+        uiController.setupDragNDropHandler();
 
-      // Handle module controls
-      uiController.setupModuleControlHandlers();
+        // Handle component pool controls
+        uiController.setupPoolControlHandlers();
 
-      // Handle keyboard events
-      uiController.setupKeyListeners();
-      
-      // Start animations
-      drawController.startAnimationTimer();
+        // Handle module controls
+        uiController.setupModuleControlHandlers();
 
-      // Start logic flow
-      moduleController.startLogicTimer();
+        // Handle keyboard events
+        uiController.setupKeyListeners();
 
-      // setup mouse-event handling
-      stage.mouseMoveOutside = true;
-      selectionController.initMouseEvents();
-      selectionController.setActiveState('EMPTY');
+        // Start logic flow
+        moduleController.startLogicTimer();
+
+        // setup mouse-event handling
+        stage.mouseMoveOutside = true;
+        selectionController.initMouseEvents();
+        selectionController.setActiveState('EMPTY');
+
+        // Start painting
+        drawController.startPainting();
+
+        // Start animations
+        drawController.startAnimationTimer();
+
+      });
     }
   });
 })();

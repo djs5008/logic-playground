@@ -29,7 +29,9 @@ define(() => {
     loadSavedModule() {
       if (localStorage.autosaveModule) {
         console.info('loading saved module...');
-        this.moduleController.activeModule = this.moduleController.loadModule(JSON.parse(localStorage.autosaveModule));
+        let savedModule = JSON.parse(localStorage.autosaveModule);
+        this.moduleController.activeModule = this.moduleController.loadModule(savedModule);
+        console.info('saved module loaded!');
       } else {
         this.moduleController.newModule();
       }
@@ -59,6 +61,8 @@ define(() => {
     loadModuleFile(callback) {
       var me = this;
 
+      console.log('loading file');
+
       // Spoof a click on the file input
       $('#load-module-dialog').get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
@@ -69,7 +73,7 @@ define(() => {
 
       // On input change
       $('#load-module-dialog').on('change', () =>  {
-        var files = document.getElementById('load-module-dialog').files;
+        var files = $('#load-module-dialog').files;
 
         if (!files.length && files.length === 1) {
           alert('Please select an LPM file!');
@@ -108,13 +112,11 @@ define(() => {
      */
     loadModule(me, moduleData) {
       console.info('loading module...');
-      setTimeout(() => {
-        // Update active module based on result of file
-        me.moduleController.activeModule = me.moduleController.loadModule(JSON.parse(moduleData));
+      // Update active module based on result of file
+      me.moduleController.activeModule = me.moduleController.loadModule(JSON.parse(moduleData));
 
-        // Update Module Settings properties
-        $('#module-name').val(me.moduleController.activeModule.label);
-      }, 0);
+      // Update Module Settings properties
+      $('#module-name').val(me.moduleController.activeModule.label);
     }
 
     /**
@@ -124,17 +126,15 @@ define(() => {
      */
     importModule(me, moduleData) {
       console.info('importing module...');
-      setTimeout(() => {
-        // setup array
-        if (!sessionStorage.importedModules) {
-          sessionStorage.setItem('importedModules', JSON.stringify([]));
-        }
+      // setup array
+      if (!sessionStorage.importedModules) {
+        sessionStorage.setItem('importedModules', JSON.stringify([]));
+      }
 
-        // add imported module to session storage
-        var arr = JSON.parse(sessionStorage.importedModules);
-        arr.push(moduleData);
-        sessionStorage.setItem('importedModules', JSON.stringify(arr));
-      }, 0);
+      // add imported module to session storage
+      var arr = JSON.parse(sessionStorage.importedModules);
+      arr.push(moduleData);
+      sessionStorage.setItem('importedModules', JSON.stringify(arr));
     }
   }
 

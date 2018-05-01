@@ -23,17 +23,8 @@ define(() => {
       this.stage.addChild(this.buffer);
 
       // resize canvas to window dims
-      this.fitStage = this.fitStage.bind(this);
       window.addEventListener('resize', this.fitStage, false);
       this.fitStage();
-
-      // begin repainting
-      this.paint = this.paint.bind(this);
-      createjs.Ticker.on('tick', this.paint);
-      createjs.Ticker.framerate = 65;
-
-      // start animating
-      this.startAnimationTimer();
     }
 
     /**
@@ -46,6 +37,15 @@ define(() => {
       this.stage.updateViewport(window.innerWidth * SIZE_RATIO, window.innerHeight * SIZE_RATIO);
       this.buffer.uncache();
       this.buffer.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
+    }
+
+    /**
+     * Begin painting the scene
+     */
+    startPainting() {
+      this.paint = this.paint.bind(this);
+      createjs.Ticker.on('tick', this.paint);
+      createjs.Ticker.framerate = 65;
     }
 
     /**
@@ -149,13 +149,6 @@ define(() => {
     drawComponents() {
       var me = this;
       this.moduleController.activeModule.components.forEach((component) =>  {
-
-        if (component.isGate()) {
-          if (!component.imageLoaded()) {
-            return;
-          }
-        }
-
         var location = me.selectionController.getScreenCoords(component.bounds);
         component.paint(me.graphics, location);
 
