@@ -23,6 +23,7 @@ define(() => {
       this.stage.addChild(this.buffer);
 
       // resize canvas to window dims
+      this.fitStage = this.fitStage.bind(this);
       window.addEventListener('resize', this.fitStage, false);
       this.fitStage();
     }
