@@ -1,6 +1,6 @@
 
 const constants = Object.freeze({
-    CircuitURL: '/circuit',
+  CircuitURL: '/circuit',
 });
 
 module.exports = constants;

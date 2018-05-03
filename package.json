@@ -4,7 +4,7 @@
   "description": "Web site for building and running logic circuits",
   "main": "index.js",
   "scripts": {
-    "pretest": "node_modules/.bin/eslint --ignore-path .gitignore .",
+    "pretest": "node_modules/.bin/eslint .",
     "test": "node_modules/.bin/nyc node_modules/.bin/mocha"
   },
   "repository": {

@@ -9,22 +9,22 @@ chai.use(sinonChai);
 
 describe('mountRoutes', () => {
 
-    before(() => {
-        mockery.enable();
-    });
+  before(() => {
+    mockery.enable();
+  });
 
-    it('should mount all routes specified in RouteConstants', sinonTest(function() {
-        const useSpy = this.spy();
-        const RouterStub = this.stub().returns({use: useSpy});
+  it('should mount all routes specified in RouteConstants', sinonTest(function() {
+    const useSpy = this.spy();
+    const RouterStub = this.stub().returns({use: useSpy});
 
-        mockery.registerMock('express', {Router: RouterStub});
-        const mountRoutes = require('../../routes');
+    mockery.registerMock('express', {Router: RouterStub});
+    const mountRoutes = require('../../routes');
         
-        mountRoutes({});
+    mountRoutes({});
 
-        for(route in RouteConstants)
-            useSpy.should.have.been.calledWith(RouteConstants[route]);
-    }));
+    for(let route in RouteConstants)
+      useSpy.should.have.been.calledWith(RouteConstants[route]);
+  }));
 
-    after(() => mockery.disable());
+  after(() => mockery.disable());
 });
