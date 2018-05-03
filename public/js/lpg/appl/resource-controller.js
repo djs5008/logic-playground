@@ -5,7 +5,7 @@ define(() => {
   class ResourceController {
 
     constructor() {
-      this.resourceQueue = new createjs.LoadQueue(false, 'img/lpg/', true);
+      this.resourceQueue = new createjs.LoadQueue(true, 'img/lpg/');
     }
 
     /**

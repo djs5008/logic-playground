@@ -54,6 +54,9 @@
         return false;
       });
 
+      // Pre-fit the stage to make it look not-ugly
+      drawController.fitStage();
+
       // Load required resources
       //  Wait for these to complete before doing any other processing
       resourceController.loadResources(() => {
@@ -75,6 +78,9 @@
 
         // Handle keyboard events
         uiController.setupKeyListeners();
+
+        // Begin checking for imported modules
+        uiController.checkImports();
 
         // Start logic flow
         moduleController.startLogicTimer();

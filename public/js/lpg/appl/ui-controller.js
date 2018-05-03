@@ -16,13 +16,6 @@ define(() => {
       this.selectionController = selectionController;
       this.fileController = fileController;
       this.visibleImports = [];
-  
-      // TODO: Setup image loadqueue
-      // this.preload = new createjs.LoadQueue();
-      // img/lpg/and-gate.png
-  
-      // Begin checking for imported modules
-      this.checkImports();
     }
 
     /**

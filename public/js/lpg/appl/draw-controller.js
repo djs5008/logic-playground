@@ -57,7 +57,7 @@ define(() => {
       const ANIM_TIMER_INTERVAL = 50;
       setInterval(() =>  {
         const MAX_FLOW_OFFSET = 20;
-        const FLOW_OFFSET_DELTA = 1;
+        const FLOW_OFFSET_DELTA = 2;
         me.flowOffset = (me.flowOffset < MAX_FLOW_OFFSET)
           ? me.flowOffset + FLOW_OFFSET_DELTA
           : FLOW_OFFSET_DELTA;
