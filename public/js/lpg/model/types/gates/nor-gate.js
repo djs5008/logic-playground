@@ -23,7 +23,7 @@ define((require) => {
      */
     constructor(bounds, img) {
       super('NOR-GATE', 'GATE', bounds);
-      image = img;
+      image = (image === null) ? img : image;
       this.setupGate();
     }
 

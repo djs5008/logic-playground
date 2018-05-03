@@ -74,7 +74,7 @@ define(() => {
           this.context.moduleController.activeModules.push(this.context.moduleController.activeModule);
 
           // Set active module
-          this.context.moduleController.activeModule = selectedComponent;
+          this.context.moduleController.setActiveModule(selectedComponent);
 
           // Reset component selections
           this.context.clearSelection();

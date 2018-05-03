@@ -38,7 +38,7 @@
       fileController = new FileController(moduleController);
       selectionController = new SelectionController(stage, moduleController);
       uiController = new UIController(moduleController, selectionController, fileController);
-      drawController = new DrawController(stage, selectionController, moduleController);
+      drawController = new DrawController(stage, selectionController, moduleController, resourceController);
 
       // Initialize application
       initialize();
@@ -81,6 +81,9 @@
 
         // Begin checking for imported modules
         uiController.checkImports();
+
+        // Update connection mappings
+        moduleController.activeModule.updateConnectorMap();
 
         // Start logic flow
         moduleController.startLogicTimer();

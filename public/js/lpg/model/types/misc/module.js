@@ -27,7 +27,9 @@ define((require) => {
       this.label = DEFAULT_LABEL;
       this.components = [];
       this.startPos = { x: 0, y: 0 };
+      this.connectorMap = {};
       this.updateBounds();
+      this.updateConnectorMap();
       this.propagate();
     }
 
@@ -38,9 +40,11 @@ define((require) => {
       let me = this;
       let updated = false;
 
-      // Update all outputs => inputs
-      //    Update in order of off => off then on => on
-      //    This makes the on state preferred
+      /** 
+       * Update all outputs => inputs
+       *    Update in order of off => off then on => on
+       *    This makes the on state preferred
+       */
       let updateConnections = function(connector) {
         connector.getConnections().forEach(connToID => {
           let connTo = me.getConnector(connToID);
@@ -65,22 +69,24 @@ define((require) => {
           }
         });
       };
-
-      // Check if a state is being powered from another source
-      //    This is used to ensure that an off => on state does not
-      //    turn a state off when it's already being turned on elsewhere
-      let isPoweredElsewhere = function(connector) {
+      
+      /** 
+       * Check if a state is being powered from another source
+       *    This is used to ensure that an off => on state does not
+       *    turn a state off when it's already being turned on elsewhere
+       */
+      let isPoweredElsewhere = (connector) => {
+        let me = this;
         let result = false;
-        me.components.forEach((component) => {
-          component.getConnectors().forEach((conn) => {
-            conn.getConnections().forEach((connToID) => {
-              if (result) return;
-              let connTo = me.getConnector(connToID);
-              if (connector === connTo && conn.getState()) {
-                result = true;
-              }
-            });
-          });
+        Object.keys(this.getConnectorMap()).forEach((outConnID) =>  {
+          let outConn = me.getConnector(outConnID);
+          if (result) return;
+          if (outConn.getID() === connector.getID()) {
+            if (outConn.getState()) {
+              result = true;
+              return;
+            }
+          }
         });
         return result;
       };
@@ -139,6 +145,33 @@ define((require) => {
         }
       });
 
+    }
+
+    /**
+     * Update mappings for all output connectors (by ID) to their input connectors (object)
+     */
+    updateConnectorMap() {
+      var me = this;
+      this.connectorMap = {};
+      this.components.forEach((component) =>  {
+        component.getOutputConnectors().forEach((connector) =>  {
+          var connectorID = connector.getID();
+          me.connectorMap[connectorID] = [];
+          connector.getConnections().forEach((connTo) =>  {
+            var conn = me.getConnector(connTo);
+            if (conn !== null) {
+              me.connectorMap[connectorID].push(conn);
+            }
+          });
+        });
+      });
+    }
+    
+    /**
+     * Retrieve an instance of the current connector mappings
+     */
+    getConnectorMap() {
+      return this.connectorMap;
     }
 
     /**

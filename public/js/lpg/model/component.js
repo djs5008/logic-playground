@@ -1,4 +1,4 @@
-/* global createjs */
+/* global createjs,uuid */
 define(() => {
   'use strict';
 
@@ -15,6 +15,7 @@ define(() => {
       this.superType = superType;
       this.bounds = bounds;
       this.connectors = [];
+      this.id = (this.id) ? this.id : uuid();
     }
 
     /**

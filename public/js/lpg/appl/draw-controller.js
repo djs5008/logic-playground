@@ -7,7 +7,7 @@ define(() => {
     /**
      * Constructor for DrawController
      */
-    constructor(stage, selectionController, moduleController) {
+    constructor(stage, selectionController, moduleController, resourceController) {
       // setup properties
       this.stage = stage;
       this.stage.setClearColor('#FFF');
@@ -16,6 +16,7 @@ define(() => {
       // init dependent controllers
       this.moduleController = moduleController;
       this.selectionController = selectionController;
+      this.resourceController = resourceController;
 
       // initialize double-buffering properties
       this.buffer = new createjs.Shape();
@@ -166,25 +167,27 @@ define(() => {
      * Draw a selection box around the currently hovered component in the active module
      */
     drawHoveredComponent() {
-      var hoveredComp = this.selectionController.getHoveredComponent();
-      if (hoveredComp !== null) {
-        var location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
-        var padding = 2;
-        this.graphics.beginFill('rgba(150,0,0,0.1)')
-          .drawRect(
-            location.x - (padding / 2),
-            location.y - (padding / 2),
-            hoveredComp.bounds.width + padding,
-            hoveredComp.bounds.height + padding)
-          .endFill()
-          .beginStroke('rgba(150,0,0,0.2)')
-          .setStrokeStyle(2)
-          .drawRect(
-            location.x - (padding / 2),
-            location.y - (padding / 2),
-            hoveredComp.bounds.width + padding,
-            hoveredComp.bounds.height + padding)
-          .endStroke();
+      if (this.selectionController.getActiveState() === 'HOVER-COMPONENT') {
+        var hoveredComp = this.selectionController.getHoveredComponent();
+        if (hoveredComp !== null) {
+          var location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
+          var padding = 2;
+          this.graphics.beginFill('rgba(150,0,0,0.1)')
+            .drawRect(
+              location.x - (padding / 2),
+              location.y - (padding / 2),
+              hoveredComp.bounds.width + padding,
+              hoveredComp.bounds.height + padding)
+            .endFill()
+            .beginStroke('rgba(150,0,0,0.2)')
+            .setStrokeStyle(2)
+            .drawRect(
+              location.x - (padding / 2),
+              location.y - (padding / 2),
+              hoveredComp.bounds.width + padding,
+              hoveredComp.bounds.height + padding)
+            .endStroke();
+        }
       }
     }
 
@@ -218,16 +221,18 @@ define(() => {
      * Draw the currently hovered-over connector
      */
     drawHoveredConnector() {
-      var hoveredConn = this.selectionController.getHoveredConnector();
-      if (hoveredConn !== null) {
-        var location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });
-        this.graphics.beginFill('rgba(150,0,0,0.5)')
-          .drawCircle(location.x, location.y, hoveredConn.bounds.width)
-          .endFill()
-          .beginStroke('rgba(150,0,0,1)')
-          .setStrokeStyle(2)
-          .drawCircle(location.x, location.y, hoveredConn.bounds.width)
-          .endStroke();
+      if (this.selectionController.getActiveState() === 'HOVER-CONNECTOR') {
+        var hoveredConn = this.selectionController.getHoveredConnector();
+        if (hoveredConn !== null) {
+          var location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });
+          this.graphics.beginFill('rgba(150,0,0,0.5)')
+            .drawCircle(location.x, location.y, hoveredConn.bounds.width)
+            .endFill()
+            .beginStroke('rgba(150,0,0,1)')
+            .setStrokeStyle(2)
+            .drawCircle(location.x, location.y, hoveredConn.bounds.width)
+            .endStroke();
+        }
       }
     }
 
@@ -289,10 +294,10 @@ define(() => {
       const FLOW_GAP = 10;
       const LINE_SIZE = 6;
       const FLOW_SIZE = LINE_SIZE - 3;
-      Object.keys(me.moduleController.getConnectorMap()).forEach((outConnID) =>  {
+      Object.keys(me.moduleController.activeModule.getConnectorMap()).forEach((outConnID) =>  {
         var outConn = me.moduleController.activeModule.getConnector(outConnID);
         var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
-        me.moduleController.getConnectorMap()[outConnID].forEach((inConn) =>  {
+        me.moduleController.activeModule.getConnectorMap()[outConnID].forEach((inConn) =>  {
           var inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
           var color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(0,0,0)';
           var curvePadding = 30;

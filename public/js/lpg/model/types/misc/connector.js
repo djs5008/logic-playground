@@ -1,4 +1,4 @@
-/* global createjs,uuid */
+/* global createjs */
 define((require) => {
   'use strict';
 
@@ -28,7 +28,6 @@ define((require) => {
 
       this.state = false;
       this.type = type;
-      this.id = uuid();
       this.connections = [];
     }
 

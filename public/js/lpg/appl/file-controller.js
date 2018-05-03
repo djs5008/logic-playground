@@ -30,7 +30,7 @@ define(() => {
       if (localStorage.autosaveModule) {
         console.info('loading saved module...');
         let savedModule = JSON.parse(localStorage.autosaveModule);
-        this.moduleController.activeModule = this.moduleController.loadModule(savedModule);
+        this.moduleController.setActiveModule(this.moduleController.loadModule(savedModule));
         console.info('saved module loaded!');
       } else {
         this.moduleController.newModule();
@@ -113,7 +113,7 @@ define(() => {
     loadModule(me, moduleData) {
       console.info('loading module...');
       // Update active module based on result of file
-      me.moduleController.activeModule = me.moduleController.loadModule(JSON.parse(moduleData));
+      me.moduleController.setActiveModule(me.moduleController.loadModule(JSON.parse(moduleData)));
 
       // Update Module Settings properties
       $('#module-name').val(me.moduleController.activeModule.label);

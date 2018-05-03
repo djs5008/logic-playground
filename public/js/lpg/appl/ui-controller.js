@@ -98,7 +98,7 @@ define(() => {
           var topModule = me.moduleController.activeModules.pop();
 
           // Set active module
-          me.moduleController.activeModule = topModule;
+          me.moduleController.setActiveModule(topModule);
 
           // Check stack size again after popping
           if (me.moduleController.activeModules.length === 0) {

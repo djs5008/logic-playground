@@ -60,13 +60,21 @@ define((require) => {
      * Establish a new activeModule (used by selection & draw controllers)
      */
     newModule() {
-      this.activeModule = new Module(new createjs.Rectangle(0, 0));
+      this.setActiveModule(new Module(new createjs.Rectangle(0, 0)));
+    }
+
+    /**
+     * Set the active module
+     */
+    setActiveModule(activeModule) {
+      this.activeModule = activeModule;
+      this.activeModule.updateConnectorMap();
     }
 
     /**
      * Load a module by copying old modules (and it's components) attributes to newly created one
      * 
-     * @param {*} mod The json-parsed module object (prototypes not assigned) 
+     * @param {Module} mod The json-parsed module object (prototypes not assigned) 
      */
     loadModule(mod) {
       let loadedModule = new Module(new createjs.Rectangle(0, 0));
@@ -160,7 +168,7 @@ define((require) => {
      * Load a module from your "imported modules" area
      *  This will load the module and add it as a component in the active module
      * 
-     * @param {*} mod The pre-parsed module object
+     * @param {Module} mod The pre-parsed module object
      */
     importModule(mod, bounds) {
       this.refreshConnectors(mod);
@@ -168,6 +176,7 @@ define((require) => {
       mod.bounds = bounds;
       mod.updateBounds();
       mod.propagate();
+      this.activeModule.updateConnectorMap();
       return mod;
     }
 
@@ -180,6 +189,7 @@ define((require) => {
       component.connectors.forEach((conn) => {
         conn.id = uuid();
       });
+      this.activeModule.updateConnectorMap();
     }
 
     /**
@@ -195,30 +205,9 @@ define((require) => {
         return this.activeModule.addComponent(comp);
       }
 
-      return null;
-    }
+      this.activeModule.updateConnectorMap();
 
-    /**
-     * Retrieve an object that maps all output connectors (by ID) to their input connectors (object)
-     */
-    getConnectorMap() {
-      var me = this;
-      var map = {};
-      this.activeModule.components.forEach((component) =>  {
-        component.getConnectors().forEach((connector) =>  {
-          if (connector.isOutput()) {
-            var connectorID = connector.getID();
-            map[connectorID] = [];
-            connector.getConnections().forEach((connTo) =>  {
-              var conn = me.activeModule.getConnector(connTo);
-              if (conn !== null) {
-                map[connectorID].push(conn);
-              }
-            });
-          }
-        });
-      });
-      return map;
+      return null;
     }
 
     /**
@@ -264,6 +253,8 @@ define((require) => {
       if (comp.isGate()) {
         comp.propagate();
       }
+
+      this.activeModule.updateConnectorMap();
     }
 
     /**
@@ -282,6 +273,8 @@ define((require) => {
       });
 
       mod.removeComponent(component);
+
+      mod.updateConnectorMap();
     }
   }
 
