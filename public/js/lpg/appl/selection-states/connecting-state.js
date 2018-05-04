@@ -58,7 +58,7 @@ define(() => {
           // make sure connectors are mapped from output->input
           let outConn = (this.selectedConn.isOutput()) ? this.selectedConn : hoveredConn;
           let otherConn = (outConn === this.selectedConn) ? hoveredConn : this.selectedConn;
-          outConn.addConnection(otherConn);
+          otherConn.addConnection(outConn);
           this.context.moduleController.activeModule.updateConnectorMap();
           this.context.selectedConnector = null;
           this.context.setActiveState('EMPTY');

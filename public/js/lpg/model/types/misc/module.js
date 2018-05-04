@@ -41,110 +41,68 @@ define((require) => {
       let updated = false;
 
       /** 
-       * Update all outputs => inputs
-       *    Update in order of off => off then on => on
-       *    This makes the on state preferred
+       * Update all inputs based on connected outputs
+       *  If any of the states are on, the input state will be in the on state.
        */
       let updateConnections = function(connector) {
-        connector.getConnections().forEach(connToID => {
-          let connTo = me.getConnector(connToID);
+        let anyOn = false;
+        connector.getConnections().forEach(connFromID => {
+          if (anyOn) return;
+          let connFrom = me.getConnector(connFromID);
+          if (connFrom.getState()) {
+            anyOn = true;
+            return;
+          }
+        });
+        
+        // Update to match state
+        // false => false, true => true
+        if (connector.getState() !== anyOn) {
+          connector.updateState(anyOn);
+          updated = true;
 
-          // update state if input state !== output state
-          if (connTo.getState() !== connector.getState()) {
-
-            // Prefer the on state
-            if (!connector.getState() && isPoweredElsewhere(connTo)) {
-              return;
-            }
+          // propagate gate if it was a gate that was updated
+          let compUpdated = me.getComponent(connector);
+          if (compUpdated.isGate()) {
+            compUpdated.propagate();
+          }
           
-            connTo.updateState(connector.getState());
-
-            // propagate gate if it was a gate that was updated
-            let compUpdated = me.getComponent(connTo);
-            if (compUpdated.isGate()) {
-              compUpdated.propagate();
-            }
-
-            updated = true;
-          }
-        });
-      };
-      
-      /** 
-       * Check if a state is being powered from another source
-       *    This is used to ensure that an off => on state does not
-       *    turn a state off when it's already being turned on elsewhere
-       */
-      let isPoweredElsewhere = (connector) => {
-        let me = this;
-        let result = false;
-        Object.keys(this.getConnectorMap()).forEach((outConnID) =>  {
-          let outConn = me.getConnector(outConnID);
-          if (result) return;
-          if (outConn.getID() === connector.getID()) {
-            if (outConn.getState()) {
-              result = true;
-              return;
+          // propagate module recursively when updated
+          else if (compUpdated.type === 'MODULE') {
+            // update input components to match state of input connectors              
+            let inputComp = compUpdated.getInputComponent(connector);
+            if (inputComp.getState() !== connector.getState()) {
+              inputComp.setState(connector.getState());
             }
           }
-        });
-        return result;
+
+          // update module outputs when updated
+          else if (compUpdated.isOutputComp()) {
+            let outputConn = me.getOutputConnector(compUpdated);
+            outputConn.updateState(compUpdated.getState());
+            compUpdated.stateChangedEvent();
+          }
+        }
       };
 
-      // off => off
       this.components.forEach(component => {
-        component.getOutputConnectors().forEach(connector => {
-          if (!connector.getState()) {
-            updateConnections(connector);
-          }
+        component.getInputConnectors().forEach(connector => {
+          updateConnections(connector);
         });
       });
 
-      // on => on
-      this.components.forEach(component => {
-        component.getOutputConnectors().forEach(connector => {
-          if (connector.getState()) {
-            updateConnections(connector);
-          }
-        });
-      });
-      
-      // Propagate embedded modules
       this.components.forEach(component => {
         if (component.type === 'MODULE') {
           component.propagate(false);
         }
       });
 
-
       if (!activeModule) {
-        
         // Propagate embedded modules recursively
         if (updated) {
           this.propagate(false);
         }
-
-        // Update input components to match input connector states
-        // Do not update if the current module is the active module
-        this.getInputComponents().forEach(inputComp => {
-          let inputConn = me.getInputConnector(inputComp);
-          if (inputConn.getState() !== inputComp.getState()) {
-            inputComp.setState(inputConn.getState());
-          }
-        });
       }
-
-      // Update output connectors to match state of output components
-      this.getOutputConnectors().forEach(outputConn => {
-        let outputComp = me.getOutputComponent(outputConn);
-        if (outputComp.getState() !== outputConn.getState()) {
-          outputConn.updateState(outputComp.getState());
-
-          // Call output state update event
-          outputComp.stateChangedEvent();
-        }
-      });
-
     }
 
     /**
@@ -154,13 +112,13 @@ define((require) => {
       var me = this;
       this.connectorMap = {};
       this.components.forEach((component) =>  {
-        component.getOutputConnectors().forEach((connector) =>  {
+        component.getInputConnectors().forEach((connector) =>  {
           var connectorID = connector.getID();
           me.connectorMap[connectorID] = [];
-          connector.getConnections().forEach((connTo) =>  {
-            var conn = me.getConnector(connTo);
-            if (conn !== null) {
-              me.connectorMap[connectorID].push(conn);
+          connector.getConnections().forEach((connFromID) =>  {
+            var connFrom = me.getConnector(connFromID);
+            if (connFrom !== null) {
+              me.connectorMap[connectorID].push(connFrom);
             }
           });
         });

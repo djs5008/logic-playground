@@ -294,11 +294,11 @@ define(() => {
       const FLOW_GAP = 10;
       const LINE_SIZE = 6;
       const FLOW_SIZE = LINE_SIZE - 3;
-      Object.keys(me.moduleController.activeModule.getConnectorMap()).forEach((outConnID) =>  {
-        var outConn = me.moduleController.activeModule.getConnector(outConnID);
-        var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
-        me.moduleController.activeModule.getConnectorMap()[outConnID].forEach((inConn) =>  {
-          var inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
+      Object.keys(me.moduleController.activeModule.getConnectorMap()).forEach((inConnID) =>  {
+        var inConn = me.moduleController.activeModule.getConnector(inConnID);
+        var inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
+        me.moduleController.activeModule.getConnectorMap()[inConnID].forEach((outConn) =>  {
+          var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
           var color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(0,0,0)';
           var curvePadding = 30;
           me.graphics.beginStroke(color)

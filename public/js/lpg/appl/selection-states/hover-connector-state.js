@@ -60,9 +60,7 @@ define(() => {
     /**
      * Handle right-click down events
      */
-    handleRightClickDown() {
-      this.context.moduleController.breakConnections(this.hoveredConn);
-    }
+    handleRightClickDown() {}
 
     /**
      * Handle left-click up events
@@ -72,7 +70,9 @@ define(() => {
     /**
      * Handle right-click up events
      */
-    handleRightClickUp() {}
+    handleRightClickUp() {
+      this.context.moduleController.breakConnections(this.hoveredConn);
+    }
 
     /**
      * Handle double-click events

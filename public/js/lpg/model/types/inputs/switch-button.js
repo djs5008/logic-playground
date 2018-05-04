@@ -38,7 +38,7 @@ define((require) => {
     /**
      * Toggle hold-button state on right click down
      */
-    rightClickDownEvent() {
+    rightClickUpEvent() {
       this.setState(!this.getState());
     }
 

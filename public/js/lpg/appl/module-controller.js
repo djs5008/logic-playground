@@ -28,7 +28,7 @@ define((require) => {
   // 
   // Constants
   // 
-  const LOGIC_INTERVAL_MS = 25;
+  const LOGIC_INTERVAL_MS = 1;
 
   class ModuleController {
 
@@ -220,13 +220,12 @@ define((require) => {
     breakConnections(connector) {
       var me = this;
       // Break all of output's connections
-      if (connector.isOutput()) {
+      if (connector.isInput()) {
         connector.connections.forEach((connectionID) =>  {
-          var connTo = me.activeModule.getConnector(connectionID);
-          connector.removeConnection(connTo);
-          connTo.updateState(false);
+          var connFrom = me.activeModule.getConnector(connectionID);
+          connector.removeConnection(connFrom);
 
-          var compTo = me.activeModule.getComponent(connTo);
+          var compTo = me.activeModule.getComponent(connFrom);
           if (compTo.isGate()) {
             compTo.propagate();
           }
@@ -237,12 +236,13 @@ define((require) => {
       else {
         me.activeModule.components.forEach((component) =>  {
           component.connectors.forEach((conn) =>  {
-            if (conn.isOutput()) {
+            if (conn.isInput()) {
               conn.connections.forEach((connID) =>  {
                 if (connID === connector.getID()) {
                   conn.removeConnection(me.activeModule.getConnector(connector.getID()));
                 }
               });
+              conn.updateState(false);
             }
           });
         });
