@@ -33,7 +33,7 @@ define(() => {
      * Resize the stage to fit within the window bounds (buffer cache gets updated on resize too)
      */
     fitStage() {
-      var SIZE_RATIO = (3 / 4);
+      let SIZE_RATIO = (3 / 4);
       this.stage.canvas.width = window.innerWidth * SIZE_RATIO;
       this.stage.canvas.height = window.innerHeight * SIZE_RATIO;
       this.stage.updateViewport(window.innerWidth * SIZE_RATIO, window.innerHeight * SIZE_RATIO);
@@ -54,7 +54,7 @@ define(() => {
      * Initialize the animation timer
      */
     startAnimationTimer() {
-      var me = this;
+      let me = this;
       const ANIM_TIMER_INTERVAL = 50;
       setInterval(() =>  {
         const MAX_FLOW_OFFSET = 20;
@@ -97,8 +97,8 @@ define(() => {
      *  (to allow for mouse events to be handled nicely)
      */
     drawBackground() {
-      var BG_COLORS = ['#FFF', '#DDD'];
-      var RATIOS = [0.5, 1.0];
+      const BG_COLORS = ['#FFF', '#DDD'];
+      const RATIOS = [0.5, 1.0];
       this.graphics
         .beginLinearGradientFill(BG_COLORS, RATIOS, 0, 0, 0, this.stage.canvas.height)
         .rect(0, 0, this.stage.canvas.width, this.stage.canvas.height)
@@ -112,18 +112,18 @@ define(() => {
       const GRID_GAP = 50;
       const GRID_COLOR = '#CCC';
       const LINE_GAP = GRID_GAP / 4;
-      var origin = this.moduleController.activeModule.startPos;
+      let origin = this.moduleController.activeModule.startPos;
 
       this.graphics.setStrokeDash([GRID_GAP / 2], 1);
       // draw from top to bottom
-      for (var x = (origin.x % GRID_GAP); x < this.stage.canvas.width; x += GRID_GAP) {
+      for (let x = (origin.x % GRID_GAP); x < this.stage.canvas.width; x += GRID_GAP) {
         this.graphics.beginStroke(GRID_COLOR)
           .moveTo(x, (origin.y % GRID_GAP) - LINE_GAP)
           .lineTo(x, this.stage.canvas.height)
           .endStroke();
       }
       // draw from left to right
-      for (var y = (origin.y % GRID_GAP); y < this.stage.canvas.height; y += GRID_GAP) {
+      for (let y = (origin.y % GRID_GAP); y < this.stage.canvas.height; y += GRID_GAP) {
         this.graphics.beginStroke(GRID_COLOR)
           .moveTo((origin.x % GRID_GAP) - LINE_GAP, y)
           .lineTo(this.stage.canvas.width, y)
@@ -137,9 +137,9 @@ define(() => {
      * Draw the origin point
      */
     drawOrigin() {
-      var posX = this.moduleController.activeModule.startPos.x;
-      var posY = this.moduleController.activeModule.startPos.y;
-      var radius = 2;
+      const radius = 2;
+      let posX = this.moduleController.activeModule.startPos.x;
+      let posY = this.moduleController.activeModule.startPos.y;
       this.graphics.beginFill('red')
         .drawCircle(posX, posY, radius)
         .endFill();
@@ -149,14 +149,14 @@ define(() => {
      * Draw each component in the active module
      */
     drawComponents() {
-      var me = this;
+      let me = this;
       this.moduleController.activeModule.components.forEach((component) =>  {
-        var location = me.selectionController.getScreenCoords(component.bounds);
+        let location = me.selectionController.getScreenCoords(component.bounds);
         component.paint(me.graphics, location);
 
         // draw components connectors
         component.connectors.forEach((connector) =>  {
-          var connLocScreen = me.selectionController.getScreenCoords(connector.bounds);
+          let connLocScreen = me.selectionController.getScreenCoords(connector.bounds);
           connector.paint(me.graphics, connLocScreen);
         });
         
@@ -168,10 +168,10 @@ define(() => {
      */
     drawHoveredComponent() {
       if (this.selectionController.getActiveState() === 'HOVER-COMPONENT') {
-        var hoveredComp = this.selectionController.getHoveredComponent();
+        let hoveredComp = this.selectionController.getHoveredComponent();
         if (hoveredComp !== null) {
-          var location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
-          var padding = 2;
+          let location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
+          const padding = 2;
           this.graphics.beginFill('rgba(150,0,0,0.1)')
             .drawRect(
               location.x - (padding / 2),
@@ -195,10 +195,10 @@ define(() => {
      * Draw a "selected" box around each of the currently selected components
      */
     drawComponentSelections() {
-      var me = this;
+      let me = this;
       this.selectionController.selectedComponents.forEach((component) =>  {
-        var location = me.selectionController.getScreenCoords({ x: component.bounds.x, y: component.bounds.y });
-        var padding = 2;
+        let location = me.selectionController.getScreenCoords({ x: component.bounds.x, y: component.bounds.y });
+        const padding = 2;
         me.graphics.beginFill('rgba(150,0,0,0.3)')
           .drawRect(
             location.x - (padding / 2),
@@ -223,9 +223,9 @@ define(() => {
     drawHoveredConnector() {
       if (this.selectionController.getActiveState() === 'HOVER-CONNECTOR'
           || this.selectionController.getActiveState() === 'CONNECTING') {
-        var hoveredConn = this.selectionController.getHoveredConnector();
+        let hoveredConn = this.selectionController.getHoveredConnector();
         if (hoveredConn !== null) {
-          var location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });
+          let location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });
           this.graphics.beginFill('rgba(150,0,0,0.5)')
             .drawCircle(location.x, location.y, hoveredConn.bounds.width)
             .endFill()
@@ -241,9 +241,9 @@ define(() => {
      * Draw the previously selected connector
      */
     drawConnectorSelection() {
-      var selectedConnector = this.selectionController.getSelectedConnector();
+      let selectedConnector = this.selectionController.getSelectedConnector();
       if (selectedConnector !== null) {
-        var location = this.selectionController.getScreenCoords({ x: selectedConnector.bounds.x, y: selectedConnector.bounds.y });
+        let location = this.selectionController.getScreenCoords({ x: selectedConnector.bounds.x, y: selectedConnector.bounds.y });
         this.graphics.beginFill('rgba(150,0,0,0.5)')
           .drawCircle(location.x, location.y, selectedConnector.bounds.width)
           .endFill()
@@ -259,7 +259,7 @@ define(() => {
      */
     drawSelection() {
       if (this.selectionController.getActiveState() === 'SELECTING') {
-        var selectionRect = this.selectionController.getSelectionRect();
+        let selectionRect = this.selectionController.getSelectionRect();
         this.graphics.beginFill('rgba(0,50,127,0.3)')
           .drawRect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
           .endFill()
@@ -274,10 +274,10 @@ define(() => {
      * Draw the wire that is currently being created (selectedConnector to mousePos)
      */
     drawCurrentWire() {
-      var selectedConnector = this.selectionController.getSelectedConnector();
+      let selectedConnector = this.selectionController.getSelectedConnector();
       if (selectedConnector !== null) {
-        var connLocation = this.selectionController.getScreenCoords(selectedConnector.bounds);
-        var mouseLocation = this.selectionController.getMouseLoc();
+        let connLocation = this.selectionController.getScreenCoords(selectedConnector.bounds);
+        let mouseLocation = this.selectionController.getMouseLoc();
         this.graphics.beginStroke('rgb(0,0,0)')
           .setStrokeStyle(4)
           .moveTo(connLocation.x, connLocation.y)
@@ -291,17 +291,17 @@ define(() => {
      * Draw all of the wires in the activeModule based on the ModuleController's connector map
      */
     drawAllWires() {
-      var me = this;
+      let me = this;
       const FLOW_GAP = 10;
       const LINE_SIZE = 6;
       const FLOW_SIZE = LINE_SIZE - 3;
       Object.keys(me.moduleController.activeModule.getConnectorMap()).forEach((inConnID) =>  {
-        var inConn = me.moduleController.activeModule.getConnector(inConnID);
-        var inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
+        let inConn = me.moduleController.activeModule.getConnector(inConnID);
+        let inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
         me.moduleController.activeModule.getConnectorMap()[inConnID].forEach((outConn) =>  {
-          var outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
-          var color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(0,0,0)';
-          var curvePadding = 30;
+          let outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
+          let color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(50,0,0)';
+          let curvePadding = 30;
           me.graphics.beginStroke(color)
             .setStrokeStyle(LINE_SIZE)
             .moveTo(outConnLoc.x, outConnLoc.y)
