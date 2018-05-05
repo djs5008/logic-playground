@@ -221,7 +221,8 @@ define(() => {
      * Draw the currently hovered-over connector
      */
     drawHoveredConnector() {
-      if (this.selectionController.getActiveState() === 'HOVER-CONNECTOR') {
+      if (this.selectionController.getActiveState() === 'HOVER-CONNECTOR'
+          || this.selectionController.getActiveState() === 'CONNECTING') {
         var hoveredConn = this.selectionController.getHoveredConnector();
         if (hoveredConn !== null) {
           var location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });

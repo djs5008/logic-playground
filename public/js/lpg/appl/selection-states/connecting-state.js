@@ -72,10 +72,7 @@ define(() => {
     /**
      * Handle right-click down events
      */
-    handleRightClickDown() {
-      this.context.selectedConnector = null;
-      this.context.setActiveState('EMPTY');
-    }
+    handleRightClickDown() {}
 
     /**
      * Handle left-click up events
