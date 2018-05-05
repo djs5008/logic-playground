@@ -38,45 +38,46 @@ define((require) => {
      */
     propagate(activeModule) {
       let me = this;
-      let updated = false;
 
       /** 
        * Update all inputs based on connected outputs
        *  If any of the states are on, the input state will be in the on state.
        */
       let updateConnections = function(connector) {
-        let anyOn = false;
+        let newState = false;
         connector.getConnections().forEach(connFromID => {
-          if (anyOn) return;
-          let connFrom = me.getConnector(connFromID);
+          if (newState) return;
+          let connFrom = me.getOutputConnectorFromID(connFromID);
           if (connFrom.getState()) {
-            anyOn = true;
+            newState = true;
             return;
           }
         });
         
-        // Update to match state
-        // false => false, true => true
-        if (connector.getState() !== anyOn) {
-          connector.updateState(anyOn);
-          updated = true;
+        // Update connectors to match state
+        //  false => false, true => true
+        if (connector.getState() !== newState) {
+          connector.updateState(newState);
 
-          // propagate gate if it was a gate that was updated
+          // Retrieve which component was updated
           let compUpdated = me.getComponent(connector);
+
+          // Propagate updated gate immediately
           if (compUpdated.isGate()) {
             compUpdated.propagate();
           }
           
-          // propagate module recursively when updated
+          // Propagate module recursively when updated
           else if (compUpdated.type === 'MODULE') {
             // update input components to match state of input connectors              
             let inputComp = compUpdated.getInputComponent(connector);
-            if (inputComp.getState() !== connector.getState()) {
-              inputComp.setState(connector.getState());
+            inputComp.setState(connector.getState());
+            if (!activeModule) {
+              me.propagate(false);
             }
           }
 
-          // update module outputs when updated
+          // Update module outputs when updated
           else if (compUpdated.isOutputComp()) {
             let outputConn = me.getOutputConnector(compUpdated);
             outputConn.updateState(compUpdated.getState());
@@ -85,24 +86,19 @@ define((require) => {
         }
       };
 
+      // Run each input connector through an update iteration
       this.components.forEach(component => {
         component.getInputConnectors().forEach(connector => {
           updateConnections(connector);
         });
       });
 
+      // Propagate all of this module's modules'
       this.components.forEach(component => {
         if (component.type === 'MODULE') {
           component.propagate(false);
         }
       });
-
-      if (!activeModule) {
-        // Propagate embedded modules recursively
-        if (updated) {
-          this.propagate(false);
-        }
-      }
     }
 
     /**
@@ -275,11 +271,49 @@ define((require) => {
     getConnector(connID) {
       let result = null;
       this.components.forEach((component) =>  {
-        if (result !== null) return false;
+        if (result !== null) return;
         component.getConnectors().forEach((connector) => {
           if (connector.getID() === connID) {
             result = connector;
-            return false;
+            return;
+          }
+        });
+      });
+      return result;
+    }
+
+    /**
+     * Retrieve an output connector instance by it's associated UUID
+     * 
+     * @param {string} connID The associated connector ID
+     */
+    getOutputConnectorFromID(connID) {
+      let result = null;
+      this.components.forEach((component) =>  {
+        if (result !== null) return;
+        component.getOutputConnectors().forEach((outConn) => {
+          if (outConn.getID() === connID) {
+            result = outConn;
+            return;
+          }
+        });
+      });
+      return result;
+    }
+    
+    /**
+     * Retrieve an input connector instance by it's associated UUID
+     * 
+     * @param {string} connID The associated connector ID
+     */
+    getInputConnectorFromID(connID) {
+      let result = null;
+      this.components.forEach((component) =>  {
+        if (result !== null) return;
+        component.getInputConnectors().forEach((inConn) => {
+          if (inConn.getID() === connID) {
+            result = inConn;
+            return;
           }
         });
       });
