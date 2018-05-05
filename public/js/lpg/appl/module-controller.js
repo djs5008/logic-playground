@@ -219,16 +219,12 @@ define((require) => {
      */
     breakConnections(connector) {
       var me = this;
+      
       // Break all of output's connections
       if (connector.isInput()) {
         connector.connections.forEach((connectionID) =>  {
           var connFrom = me.activeModule.getConnector(connectionID);
           connector.removeConnection(connFrom);
-
-          var compTo = me.activeModule.getComponent(connFrom);
-          if (compTo.isGate()) {
-            compTo.propagate();
-          }
         });
       }
 
@@ -242,16 +238,9 @@ define((require) => {
                   conn.removeConnection(me.activeModule.getConnector(connector.getID()));
                 }
               });
-              conn.updateState(false);
             }
           });
         });
-      }
-
-      connector.updateState(false);
-      var comp = me.activeModule.getComponent(connector);
-      if (comp.isGate()) {
-        comp.propagate();
       }
 
       this.activeModule.updateConnectorMap();
