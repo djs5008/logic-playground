@@ -52,7 +52,16 @@ define(() => {
      * Handle right-click up events
      */
     handleRightClickUp() {
-      this.context.setActiveState('EMPTY');
+      // Move to a hovered state when hovered after selection
+      var hoveredComp = this.context.getHoveredComponent();
+      var hoveredConn = this.context.getHoveredConnector();
+      if (hoveredComp !== null) {
+        this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      } else if (hoveredConn !== null) {
+        this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      } else {
+        this.context.setActiveState('EMPTY');
+      }
     }
 
     /**
