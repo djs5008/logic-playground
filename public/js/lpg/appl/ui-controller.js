@@ -197,7 +197,7 @@ define(() => {
         var compItemHTML = 
         '<div class="pool item shadowed">\
           <img class="drag-item" id="' + id + '" src="' + url + '" draggable="true" width="70">\
-          <h4 class="noselect controls">' + label + '</h4>\
+          <h4 class="controls">' + label + '</h4>\
         </div>';
 
         return compItemHTML;
@@ -233,8 +233,8 @@ define(() => {
         var label = comp.label;
         var compItemHTML = 
         '<div class="pool item shadowed">\
-          <img class="drag-item" id="imported_' + id + '" src="' + url + '" draggable="true" width="70">\
-          <h4 class="noselect controls">' + label + '</h4>\
+          <img class="drag-item" id="imported_' + id + '" src="' + url + '" draggable="true">\
+          <h4 class="controls">' + label + '</h4>\
         </div>';
         return compItemHTML;
       };
