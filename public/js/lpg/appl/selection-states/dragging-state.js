@@ -48,7 +48,17 @@ define(() => {
       if (this.context.selectedComponents.length === 1) {
         this.context.showComponentSelection();
       }
-      this.context.setActiveState('HOVER-COMPONENT', this.context.getHoveredComponent());
+
+      // Move to a hovered state when hovered after selection
+      var hoveredComp = this.context.getHoveredComponent();
+      var hoveredConn = this.context.getHoveredConnector();
+      if (hoveredComp !== null) {
+        this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      } else if (hoveredConn !== null) {
+        this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      } else {
+        this.context.setActiveState('EMPTY');
+      }
     }
 
     /**
