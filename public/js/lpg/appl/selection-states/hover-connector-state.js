@@ -19,7 +19,7 @@ define(() => {
       // TODO : change this to be less-specific
       if (hoveredConn !== null) {
         if (hoveredConn !== this.hoveredConn) {
-          this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+          this.changeState('HOVER-CONNECTOR', hoveredConn);
           return;
         } 
         let hoveredConnComp = this.context.moduleController.activeModule.getComponent(hoveredConn);
@@ -28,13 +28,7 @@ define(() => {
           this.hoveredSSD = hoveredConnComp;
         }
       } else {
-        // Reset SEVEN-SEG-DISP hovered state
-        if (this.hoveredSSD !== null) {
-          this.hoveredSSD.setHoveredConnector(null);
-          this.hoveredSSD = null;
-        }
-
-        this.context.setActiveState('EMPTY');
+        this.changeState('EMPTY');
       }
     }
 
@@ -42,14 +36,14 @@ define(() => {
      * Handle left-click mouse dragging
      */
     handleMouseDragLeft() {
-      this.context.setActiveState('CONNECTING', this.hoveredConn);
+      this.changeState('CONNECTING', this.hoveredConn);
     }
 
     /**
      * Handle right-click mouse dragging
      */
     handleMouseDragRight() {
-      this.context.setActiveState('PANNING');
+      this.changeState('PANNING');
     }
 
     /**
@@ -66,7 +60,7 @@ define(() => {
      * Handle left-click up events
      */
     handleLeftClickUp() {
-      this.context.setActiveState('CONNECTING', this.hoveredConn);
+      this.changeState('CONNECTING', this.hoveredConn);
     }
 
     /**
@@ -81,6 +75,17 @@ define(() => {
      */
     handleDoubleClick() {}
 
+    changeState(newState, data) {
+      // Reset SSD hover hint
+      if (this.hoveredSSD !== null) {
+        this.hoveredSSD.setHoveredConnector(null);
+        this.hoveredSSD = null;
+      }
+
+      // Set new state (with data passed)
+      this.context.setActiveState(newState, data);
+    }
+ 
   }
 
   return HoverConnectorState;
