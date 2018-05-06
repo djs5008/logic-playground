@@ -21,7 +21,7 @@ describe('MongoProvider', () => {
       .returns(Promise.resolve({db: () => {}}));
         
     mongoProvider('mongodb://localhost:27017/').then(dbServices => {
-      let keys = ['query', 'modify', 'remove'];
+      let keys = ['query', 'add', 'remove'];
       dbServices.should.be.a('function');
       dbServices('testCollection').should.have.all.keys([...keys, 'db', 'coll']);
       keys.forEach(key => dbServices('testCollection')[key].should.be.a('function'));

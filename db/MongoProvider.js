@@ -9,7 +9,7 @@ const makeDbServices = db => coll => ({
   remove: function(queryParam) {
     return db.collection(this.coll).deleteOne(queryParam);
   },
-  modify: function(queryParam, newValue) {
+  add: function(id, newObject) {
 
   },
   db,

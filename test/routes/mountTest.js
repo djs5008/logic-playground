@@ -18,6 +18,7 @@ describe('mountRoutes', () => {
     const RouterStub = this.stub().returns({use: useSpy});
 
     mockery.registerMock('express', {Router: RouterStub});
+    mockery.registerMock('./circuit', function() {});
     const mountRoutes = require('../../routes');
         
     mountRoutes({});
