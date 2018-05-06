@@ -57,10 +57,10 @@ define(() => {
       let me = this;
       let slideAmounts = {};
 
-      const ANIM_TIMER_INTERVAL = 25;
+      const ANIM_TIMER_INTERVAL = 10;
       const MAX_FLOW_OFFSET = 20;
-      const FLOW_OFFSET_DELTA = 2;
-      const LERP_DELTA = 0.4;
+      const FLOW_OFFSET_DELTA = 1.0;
+      const LERP_DELTA = 0.1;
 
       setInterval(() =>  {
         // Animate wire flow
