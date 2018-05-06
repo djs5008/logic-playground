@@ -105,15 +105,15 @@ define((require) => {
       let onLocY = screenLoc.y;
       let offLocY = this.bounds.height - SWITCH_HEIGHT;
 
-      graphics.beginFill('rgb(0,0,0,0.8)');
+      graphics.beginFill('rgb(0,0,0,0.9)');
 
       // Draw "on" switch style 
       if (this.getState()) {
         graphics
           .drawRect(
-            screenLoc.x + (HALF_PADDING),
+            screenLoc.x,
             onLocY + (offLocY * slideAmount),
-            this.bounds.width - PADDING,
+            this.bounds.width,
             SWITCH_HEIGHT);
       } 
       
@@ -121,9 +121,9 @@ define((require) => {
       else {
         graphics
           .drawRect(
-            screenLoc.x + (HALF_PADDING), 
+            screenLoc.x, 
             onLocY + (offLocY * slideAmount), 
-            this.bounds.width - PADDING, 
+            this.bounds.width, 
             SWITCH_HEIGHT);
       }
 
