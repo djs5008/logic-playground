@@ -74,8 +74,6 @@ define(() => {
           this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
           return;
         } else if (this.selectedConn === hoveredConn) {
-          this.context.selectedConnector = null;
-          this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
           return;
         }
       }

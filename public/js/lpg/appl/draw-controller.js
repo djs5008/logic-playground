@@ -60,7 +60,7 @@ define(() => {
       const ANIM_TIMER_INTERVAL = 25;
       const MAX_FLOW_OFFSET = 20;
       const FLOW_OFFSET_DELTA = 2;
-      const LERP_DELTA = 0.3;
+      const LERP_DELTA = 0.4;
 
       setInterval(() =>  {
         // Animate wire flow
