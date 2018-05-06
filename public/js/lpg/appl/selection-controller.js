@@ -136,7 +136,7 @@ define((require) => {
     getHoveredComponent() {
       let me = this;
       let hoveredComp = null;
-      if (me.mousePos !== null && !me.isSelecting() && me.hoveredConn === null) {
+      if (me.mousePos !== null && me.hoveredConn === null) {
         me.moduleController.activeModule.components.forEach((component) => {
           let mousePosReal = me.getRealCoords(me.mousePos);
           if (component.bounds.contains(mousePosReal.x, mousePosReal.y)) {
@@ -154,7 +154,7 @@ define((require) => {
     getHoveredConnector() {
       let me = this;
       let hoveredConn = null;
-      if (me.mousePos !== null && !me.isSelecting()) {
+      if (me.mousePos !== null) {
         me.moduleController.activeModule.components.forEach((component) => {
           if (hoveredConn !== null) return false;
           let mousePosReal = me.getRealCoords(me.mousePos);
@@ -205,16 +205,6 @@ define((require) => {
      */
     getSelectedConnector() {
       return this.selectedConnector;
-    }
-
-    /**
-     * Check whether or not the user is currently creating a selection box
-     */
-    isSelecting() {
-      return this.activeClick === LEFT_CLICK_ID 
-          && this.selectionRect !== null
-          && this.selectionRect.width > 0 
-          && this.selectionRect.height > 0;
     }
 
     /**

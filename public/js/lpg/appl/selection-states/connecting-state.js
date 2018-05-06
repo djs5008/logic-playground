@@ -47,7 +47,17 @@ define(() => {
     /**
      * Handle left-click down events
      */
-    handleLeftClickDown() {
+    handleLeftClickDown() {}
+
+    /**
+     * Handle right-click down events
+     */
+    handleRightClickDown() {}
+
+    /**
+     * Handle left-click up events
+     */
+    handleLeftClickUp() {
       let hoveredConn = this.hoveredConn;
       if (hoveredConn !== null) {
         if (this.selectedConn !== null
@@ -61,23 +71,18 @@ define(() => {
           otherConn.addConnection(outConn);
           this.context.moduleController.activeModule.updateConnectorMap();
           this.context.selectedConnector = null;
-          this.context.setActiveState('EMPTY');
+          this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+          return;
+        } else if (this.selectedConn === hoveredConn) {
+          this.context.selectedConnector = null;
+          this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+          return;
         }
-      } else {
-        this.context.selectedConnector = null;
-        this.context.setActiveState('EMPTY');
       }
+
+      this.context.selectedConnector = null;
+      this.context.setActiveState('EMPTY');
     }
-
-    /**
-     * Handle right-click down events
-     */
-    handleRightClickDown() {}
-
-    /**
-     * Handle left-click up events
-     */
-    handleLeftClickUp() {}
 
     /**
      * Handle right-click up events

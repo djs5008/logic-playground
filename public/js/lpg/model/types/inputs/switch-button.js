@@ -46,6 +46,15 @@ define((require) => {
     }
 
     /**
+     * Set the amount of slide for this switches toggle bar
+     * 
+     * @param {number} amount 0 <= amount <= 1
+     */
+    setSlideAmount(amount) {
+      slideAmounts[this.id] = amount;
+    }
+
+    /**
      * Paint the component
      * 
      * @param {createjs.Graphics} graphics The graphics object being painted to
@@ -54,20 +63,11 @@ define((require) => {
     paint(graphics, screenLoc) {
       let color = (this.getState()) ? 'rgb(0,200,0)' : 'rgb(200,0,0)';
       let me = this;
+      let slideAmount = slideAmounts[this.id];
 
       const PADDING = 2;
       const HALF_PADDING = PADDING / 2;
       const SWITCH_HEIGHT = this.bounds.height / 2;
-      const LERP_DELTA = 0.1;
-
-      // Lerp slide bar
-      let slideAmount = slideAmounts[this.id];
-      if (this.getState()) {
-        slideAmount = (slideAmount < 1.0) ? slideAmount + LERP_DELTA : 1.0;
-      } else {
-        slideAmount = (slideAmount > 0.0) ? slideAmount - LERP_DELTA : 0.0;
-      }
-      slideAmounts[this.id] = slideAmount;
 
       // Draw output connectors
       this.getOutputConnectors().forEach((conn) => {

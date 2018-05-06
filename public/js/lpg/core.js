@@ -64,6 +64,12 @@
         // Load saved module (if any)
         fileController.loadSavedModule();
 
+        // Start painting
+        drawController.startPainting();
+
+        // Start animations
+        drawController.startAnimationTimer();
+
         // Fill default component pools
         uiController.loadDefaultComponents();
 
@@ -92,13 +98,6 @@
         stage.mouseMoveOutside = true;
         selectionController.initMouseEvents();
         selectionController.setActiveState('EMPTY');
-
-        // Start painting
-        drawController.startPainting();
-
-        // Start animations
-        drawController.startAnimationTimer();
-
       });
     }
   });

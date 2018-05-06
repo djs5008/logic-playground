@@ -55,13 +55,35 @@ define(() => {
      */
     startAnimationTimer() {
       let me = this;
-      const ANIM_TIMER_INTERVAL = 50;
+      let slideAmounts = {};
+
+      const ANIM_TIMER_INTERVAL = 25;
+      const MAX_FLOW_OFFSET = 20;
+      const FLOW_OFFSET_DELTA = 2;
+      const LERP_DELTA = 0.3;
+
       setInterval(() =>  {
-        const MAX_FLOW_OFFSET = 20;
-        const FLOW_OFFSET_DELTA = 2;
+        // Animate wire flow
         me.flowOffset = (me.flowOffset < MAX_FLOW_OFFSET)
           ? me.flowOffset + FLOW_OFFSET_DELTA
           : FLOW_OFFSET_DELTA;
+
+        // Lerp slide bar
+        me.moduleController.activeModule.components.forEach(component => {
+          if (component.type === 'SWITCH-BUTTON') {
+            if (!slideAmounts[component.id]) {
+              slideAmounts[component.id] = 0.0;
+            }
+
+            let slideAmount = slideAmounts[component.id];
+            if (component.getState()) {
+              slideAmounts[component.id] = (slideAmount < 1.0) ? slideAmount + LERP_DELTA : 1.0;
+            } else {
+              slideAmounts[component.id] = (slideAmount > 0.0) ? slideAmount - LERP_DELTA : 0.0;
+            }
+            component.setSlideAmount(slideAmounts[component.id]);
+          }
+        });
       }, ANIM_TIMER_INTERVAL);
     }
 
@@ -172,14 +194,14 @@ define(() => {
         if (hoveredComp !== null) {
           let location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
           const padding = 2;
-          this.graphics.beginFill('rgba(150,0,0,0.1)')
+          this.graphics.beginFill('rgba(127,0,0,0.3)')
             .drawRect(
               location.x - (padding / 2),
               location.y - (padding / 2),
               hoveredComp.bounds.width + padding,
               hoveredComp.bounds.height + padding)
             .endFill()
-            .beginStroke('rgba(150,0,0,0.2)')
+            .beginStroke('rgba(127,0,0,0.2)')
             .setStrokeStyle(2)
             .drawRect(
               location.x - (padding / 2),

@@ -18,7 +18,7 @@ define(() => {
       // Highlight hovered connector state on SEVEN-SEG-DISP
       // TODO : change this to be less-specific
       if (hoveredConn !== null) {
-        if (hoveredConn != this.hoveredConn) {
+        if (hoveredConn !== this.hoveredConn) {
           this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
           return;
         } 
@@ -41,7 +41,9 @@ define(() => {
     /**
      * Handle left-click mouse dragging
      */
-    handleMouseDragLeft() {}
+    handleMouseDragLeft() {
+      this.context.setActiveState('CONNECTING', this.hoveredConn);
+    }
 
     /**
      * Handle right-click mouse dragging
@@ -53,9 +55,7 @@ define(() => {
     /**
      * Handle left-click down events
      */
-    handleLeftClickDown() {
-      this.context.setActiveState('CONNECTING', this.hoveredConn);
-    }
+    handleLeftClickDown() {}
 
     /**
      * Handle right-click down events
@@ -65,7 +65,9 @@ define(() => {
     /**
      * Handle left-click up events
      */
-    handleLeftClickUp() {}
+    handleLeftClickUp() {
+      this.context.setActiveState('CONNECTING', this.hoveredConn);
+    }
 
     /**
      * Handle right-click up events
