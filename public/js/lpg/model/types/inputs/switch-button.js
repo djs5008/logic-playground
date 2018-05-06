@@ -61,7 +61,8 @@ define((require) => {
      * @param {createjs.Point} screenLoc The canvas location of the paint procedure
      */
     paint(graphics, screenLoc) {
-      let color = (this.getState()) ? 'rgb(0,200,0)' : 'rgb(200,0,0)';
+      const ON_COLOR = 'rgb(0,200,0)';
+      const OFF_COLOR = 'rgb(200,0,0)';
       let me = this;
       let slideAmount = slideAmounts[this.id];
 
@@ -88,9 +89,17 @@ define((require) => {
         .drawRect(screenLoc.x, screenLoc.y, this.bounds.width, this.bounds.height)
         .endStroke()
         .setStrokeStyle();
+      
+      // Draw on color half
       graphics
-        .beginFill(color)
-        .drawRect(screenLoc.x + (HALF_PADDING), screenLoc.y + (HALF_PADDING), this.bounds.width - PADDING, this.bounds.height - PADDING)
+        .beginFill(ON_COLOR)
+        .drawRect(screenLoc.x + (HALF_PADDING), screenLoc.y + (HALF_PADDING), this.bounds.width - PADDING, (this.bounds.height / 2))
+        .endFill();
+
+      // Draw off color half
+      graphics
+        .beginFill(OFF_COLOR)
+        .drawRect(screenLoc.x + (HALF_PADDING), screenLoc.y+ (this.bounds.height / 2), this.bounds.width - PADDING, (this.bounds.height / 2) - HALF_PADDING)
         .endFill();
 
       let onLocY = screenLoc.y;
