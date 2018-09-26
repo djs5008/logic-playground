@@ -1,7 +1,9 @@
-export class HoverComponentState {
+import { ControlState } from './control-state';
+
+export class HoverComponentState extends ControlState {
 
   constructor(context, hoveredComp) {
-    this.context = context;
+    super(context);
     this.hoveredComp = hoveredComp;
   }
 

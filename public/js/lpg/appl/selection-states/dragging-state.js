@@ -1,13 +1,10 @@
-export class DraggingState {
+import { ControlState } from './control-state';
+
+export class DraggingState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
-
-  /**
-   * Handle mouse movement events
-   */
-  handleMouseMove() {}
 
   /**
    * Handle left-click mouse dragging
@@ -21,21 +18,6 @@ export class DraggingState {
     this.context.selectionRect.y += yDiff;
     this.context.clickPos = new createjs.Point(event.stageX, event.stageY);
   }
-
-  /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
-
-  /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
 
   /**
    * Handle left-click up events
@@ -56,15 +38,5 @@ export class DraggingState {
       this.context.setActiveState('EMPTY');
     }
   }
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }

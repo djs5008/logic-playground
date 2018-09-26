@@ -1,13 +1,10 @@
-export class SelectingState {
+import { ControlState } from './control-state';
+
+export class SelectingState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
-
-  /**
-   * Handle mouse movement events
-   */
-  handleMouseMove() {}
 
   /**
    * Handle left-click mouse dragging
@@ -24,21 +21,6 @@ export class SelectingState {
       ((mousePos.y > clickPos.y) ? mousePos.y - clickPos.y : clickPos.y - mousePos.y)
     );
   }
-
-  /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
-
-  /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
 
   /**
    * Handle left-click up events
@@ -71,15 +53,5 @@ export class SelectingState {
       this.context.setActiveState('EMPTY');
     }
   }
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }

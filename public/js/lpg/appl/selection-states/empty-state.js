@@ -1,7 +1,9 @@
-export class EmptyState {
+import { ControlState } from './control-state';
+
+export class EmptyState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
   
   /**
@@ -19,16 +21,6 @@ export class EmptyState {
   }
 
   /**
-   * Handle left-click mouse dragging
-   */
-  handleMouseDragLeft() {}
-
-  /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
-
-  /**
    * Handle left-click down events
    */
   handleLeftClickDown() {
@@ -43,18 +35,4 @@ export class EmptyState {
     this.context.setActiveState('PANNING');
   }
 
-  /**
-   * Handle left-click up events
-   */
-  handleLeftClickUp() {}
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 }

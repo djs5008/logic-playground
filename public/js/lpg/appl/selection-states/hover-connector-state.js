@@ -1,7 +1,9 @@
-export class HoverConnectorState {
+import { ControlState } from './control-state';
+
+export class HoverConnectorState extends ControlState {
 
   constructor(context, hoveredConn) {
-    this.context = context;
+    super(context);
     this.hoveredConn = hoveredConn;
     this.hoveredSSD = null;
   }
@@ -44,16 +46,6 @@ export class HoverConnectorState {
   }
 
   /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
-
-  /**
    * Handle left-click up events
    */
   handleLeftClickUp() {
@@ -66,11 +58,6 @@ export class HoverConnectorState {
   handleRightClickUp() {
     this.context.moduleController.breakConnections(this.hoveredConn);
   }
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
   changeState(newState, data) {
     // Reset SSD hover hint

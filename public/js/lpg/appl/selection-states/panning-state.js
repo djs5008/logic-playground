@@ -1,18 +1,10 @@
-export class PanningState {
+import { ControlState } from './control-state';
+
+export class PanningState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
-
-  /**
-   * Handle mouse movement events
-   */
-  handleMouseMove() {}
-
-  /**
-   * Handle left-click mouse dragging
-   */
-  handleMouseDragLeft() {}
 
   /**
    * Handle right-click mouse dragging
@@ -30,21 +22,6 @@ export class PanningState {
   }
 
   /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
-
-  /**
-   * Handle left-click up events
-   */
-  handleLeftClickUp() {}
-
-  /**
    * Handle right-click up events
    */
   handleRightClickUp() {
@@ -59,10 +36,5 @@ export class PanningState {
       this.context.setActiveState('EMPTY');
     }
   }
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }
