@@ -4,6 +4,7 @@
   "description": "A logic-gate simulation playground",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.3",
     "webpack": "^4.20.1"
   },
   "devDependencies": {
@@ -11,8 +12,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./dist/bundle.js",
-    "build:prod": "webpack --mode production --entry ./public/js/lpg/core.js --output ./dist/bundle.js"
+    "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./public/dist/bundle.js",
+    "build:prod": "webpack --mode production --entry ./public/js/lpg/core.js --output ./public/dist/bundle.js"
   },
   "repository": {
     "type": "git",
