@@ -1,0 +1,27 @@
+{
+  "name": "logic-playground",
+  "version": "1.0.0",
+  "description": "A logic-gate simulation playground",
+  "main": "index.js",
+  "dependencies": {
+    "webpack": "^4.20.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./dist/bundle.js",
+    "build:prod": "webpack --mode production --entry ./public/js/lpg/core.js --output ./dist/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djs5008/logic-playground.git"
+  },
+  "author": "Dan Schmitt (djs5008)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djs5008/logic-playground/issues"
+  },
+  "homepage": "https://github.com/djs5008/logic-playground#readme"
+}

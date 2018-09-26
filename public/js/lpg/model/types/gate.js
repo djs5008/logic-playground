@@ -1,37 +1,31 @@
-define((require) => {
-  'use strict';
+// 
+// Includes
+// 
+import { Component } from '../component'; 
 
-  // 
-  // Includes
-  // 
-  var Component = require('model/component');
+// 
+// Constants
+// 
 
-  // 
-  // Constants
-  // 
+// 
+// Attributes
+// 
 
-  // 
-  // Attributes
-  // 
+export class Gate extends Component {
 
-  class Gate extends Component {
-
-    /**
-     * Construct a Gate-type component
-     * 
-     * @param {string} type 
-     * @param {string} superType 
-     * @param {createjs.Rectangle} bounds 
-     */
-    constructor(type, superType, bounds) {
-      super(type, superType, bounds);
-    }
-
-    /**
-     * Default Gate propagate prototype function
-     */
-    propagate() { }
+  /**
+   * Construct a Gate-type component
+   * 
+   * @param {string} type 
+   * @param {string} superType 
+   * @param {createjs.Rectangle} bounds 
+   */
+  constructor(type, superType, bounds) {
+    super(type, superType, bounds);
   }
 
-  return Gate;
-});
+  /**
+   * Default Gate propagate prototype function
+   */
+  propagate() { }
+}
