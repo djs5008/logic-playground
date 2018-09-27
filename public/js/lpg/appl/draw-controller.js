@@ -1,3 +1,5 @@
+import { States } from './selection-states/control-state';
+
 export class DrawController {
 
   /**
@@ -19,10 +21,18 @@ export class DrawController {
     this.graphics = this.buffer.graphics;
     this.stage.addChild(this.buffer);
 
+    // Setup pre-draw caches
+    this.background = undefined;
+
     // resize canvas to window dims
     this.fitStage = this.fitStage.bind(this);
     window.addEventListener('resize', this.fitStage, false);
     this.fitStage();
+
+    // DEBUG
+    // setInterval(() => {
+    //   console.log('FPS: ' + createjs.Ticker.getMeasuredFPS());
+    // }, 1000);
   }
 
   /**
@@ -35,15 +45,16 @@ export class DrawController {
     this.stage.updateViewport(window.innerWidth * SIZE_RATIO, window.innerHeight * SIZE_RATIO);
     this.buffer.uncache();
     this.buffer.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
+    this.background = undefined;
   }
 
   /**
    * Begin painting the scene
    */
   startPainting() {
-    this.paint = this.paint.bind(this);
-    createjs.Ticker.on('tick', this.paint);
-    createjs.Ticker.framerate = 65;
+    createjs.Ticker.on('tick', this.paint.bind(this));
+    // createjs.Ticker.framerate = 144;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF;
   }
 
   /**
@@ -92,7 +103,7 @@ export class DrawController {
       this.graphics.clear();
 
       // draw layers
-      this.drawBackground();
+      this.background === undefined && this.drawBackground();
       this.drawGrid();
       this.drawOrigin();
       this.drawAllWires();
@@ -115,40 +126,47 @@ export class DrawController {
    *  (to allow for mouse events to be handled nicely)
    */
   drawBackground() {
+    console.log('drawing background...');
+    this.background = new createjs.Shape();
     const BG_COLORS = ['#FFF', '#DDD'];
     const RATIOS = [0.5, 1.0];
-    this.graphics
+    this.background.graphics
       .beginLinearGradientFill(BG_COLORS, RATIOS, 0, 0, 0, this.stage.canvas.height)
       .rect(0, 0, this.stage.canvas.width, this.stage.canvas.height)
       .endFill();
+    this.background.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
+    this.stage.addChildAt(this.background, 0);
   }
 
   /**
    * Draw the background grid
    */
   drawGrid() {
+    this.grid = new createjs.Shape();
     const GRID_GAP = 50;
     const GRID_COLOR = '#CCC';
     const LINE_GAP = GRID_GAP / 4;
     let origin = this.moduleController.activeModule.startPos;
 
-    this.graphics.setStrokeDash([GRID_GAP / 2], 1);
+    this.grid.graphics.setStrokeDash([GRID_GAP / 2], 1);
     // draw from top to bottom
     for (let x = (origin.x % GRID_GAP); x < this.stage.canvas.width; x += GRID_GAP) {
-      this.graphics.beginStroke(GRID_COLOR)
+      this.grid.graphics.beginStroke(GRID_COLOR)
         .moveTo(x, (origin.y % GRID_GAP) - LINE_GAP)
         .lineTo(x, this.stage.canvas.height)
         .endStroke();
     }
     // draw from left to right
     for (let y = (origin.y % GRID_GAP); y < this.stage.canvas.height; y += GRID_GAP) {
-      this.graphics.beginStroke(GRID_COLOR)
+      this.grid.graphics.beginStroke(GRID_COLOR)
         .moveTo((origin.x % GRID_GAP) - LINE_GAP, y)
         .lineTo(this.stage.canvas.width, y)
         .endStroke();
     }
     // reset stroke dash
-    this.graphics.setStrokeDash();
+    this.grid.graphics.setStrokeDash();
+    this.grid.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
+    this.stage.addChildAt(this.grid, 1);
   }
 
   /**
@@ -185,7 +203,7 @@ export class DrawController {
    * Draw a selection box around the currently hovered component in the active module
    */
   drawHoveredComponent() {
-    if (this.selectionController.getActiveState() === 'HOVER-COMPONENT') {
+    if (this.selectionController.getActiveState() === States.HOVER_COMPONENT) {
       let hoveredComp = this.selectionController.getHoveredComponent();
       if (hoveredComp !== null) {
         let location = this.selectionController.getScreenCoords({ x: hoveredComp.bounds.x, y: hoveredComp.bounds.y });
@@ -239,8 +257,8 @@ export class DrawController {
    * Draw the currently hovered-over connector
    */
   drawHoveredConnector() {
-    if (this.selectionController.getActiveState() === 'HOVER-CONNECTOR'
-        || this.selectionController.getActiveState() === 'CONNECTING') {
+    if (this.selectionController.getActiveState() === States.HOVER_CONNECTOR
+        || this.selectionController.getActiveState() === States.CONNECTING) {
       let hoveredConn = this.selectionController.getHoveredConnector();
       if (hoveredConn !== null) {
         let location = this.selectionController.getScreenCoords({ x: hoveredConn.bounds.x, y: hoveredConn.bounds.y });
@@ -276,7 +294,7 @@ export class DrawController {
    * Draw your current left mouse-drag selection
    */
   drawSelection() {
-    if (this.selectionController.getActiveState() === 'SELECTING') {
+    if (this.selectionController.getActiveState() === States.SELECTING) {
       let selectionRect = this.selectionController.getSelectionRect();
       this.graphics.beginFill('rgba(0,50,127,0.3)')
         .drawRect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)

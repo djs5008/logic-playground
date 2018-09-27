@@ -48,3 +48,16 @@ export class ControlState {
   handleDoubleClick() {}
 
 };
+
+/**
+ * Map of States used by SelectionController
+ */
+export const States = {
+  EMPTY: 'EMPTY',
+  PANNING: 'PANNING',
+  DRAGGING: 'DRAGGING',
+  HOVER_COMPONENT: 'HOVER_COMPONENT',
+  HOVER_CONNECTOR: 'HOVER_CONNECTOR',
+  SELECTING: 'SELECTING',
+  CONNECTING: 'CONNECTING',
+};

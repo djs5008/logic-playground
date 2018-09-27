@@ -1,4 +1,4 @@
-import { ControlState } from './control-state';
+import { ControlState, States } from './control-state';
 
 export class ConnectingState extends ControlState {
 
@@ -50,7 +50,7 @@ export class ConnectingState extends ControlState {
         otherConn.addConnection(outConn);
         this.context.moduleController.activeModule.updateConnectorMap();
         this.context.selectedConnector = null;
-        this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+        this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
         return;
       } else if (this.selectedConn === hoveredConn) {
         return;
@@ -58,7 +58,7 @@ export class ConnectingState extends ControlState {
     }
 
     this.context.selectedConnector = null;
-    this.context.setActiveState('EMPTY');
+    this.context.setActiveState(States.EMPTY);
   }
 
 }

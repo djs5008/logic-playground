@@ -1,4 +1,4 @@
-import { ControlState } from './control-state';
+import { ControlState, States } from './control-state';
 
 export class HoverConnectorState extends ControlState {
 
@@ -18,7 +18,7 @@ export class HoverConnectorState extends ControlState {
     // TODO : change this to be less-specific
     if (hoveredConn !== null) {
       if (hoveredConn !== this.hoveredConn) {
-        this.changeState('HOVER-CONNECTOR', hoveredConn);
+        this.changeState(States.HOVER_CONNECTOR, hoveredConn);
         return;
       } 
       let hoveredConnComp = this.context.moduleController.activeModule.getComponent(hoveredConn);
@@ -27,7 +27,7 @@ export class HoverConnectorState extends ControlState {
         this.hoveredSSD = hoveredConnComp;
       }
     } else {
-      this.changeState('EMPTY');
+      this.changeState(States.EMPTY);
     }
   }
 
@@ -35,21 +35,21 @@ export class HoverConnectorState extends ControlState {
    * Handle left-click mouse dragging
    */
   handleMouseDragLeft() {
-    this.changeState('CONNECTING', this.hoveredConn);
+    this.changeState(States.CONNECTING, this.hoveredConn);
   }
 
   /**
    * Handle right-click mouse dragging
    */
   handleMouseDragRight() {
-    this.changeState('PANNING');
+    this.changeState(States.PANNING);
   }
 
   /**
    * Handle left-click up events
    */
   handleLeftClickUp() {
-    this.changeState('CONNECTING', this.hoveredConn);
+    this.changeState(States.CONNECTING, this.hoveredConn);
   }
 
   /**

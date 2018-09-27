@@ -1,4 +1,4 @@
-import { ControlState } from './control-state';
+import { ControlState, States } from './control-state';
 
 export class DraggingState extends ControlState {
 
@@ -31,11 +31,11 @@ export class DraggingState extends ControlState {
     var hoveredComp = this.context.getHoveredComponent();
     var hoveredConn = this.context.getHoveredConnector();
     if (hoveredComp !== null) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     } else if (hoveredConn !== null) {
-      this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
     } else {
-      this.context.setActiveState('EMPTY');
+      this.context.setActiveState(States.EMPTY);
     }
   }
 

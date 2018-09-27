@@ -1,4 +1,4 @@
-import { ControlState } from './control-state';
+import { ControlState, States } from './control-state';
 
 export class PanningState extends ControlState {
 
@@ -25,13 +25,21 @@ export class PanningState extends ControlState {
    * Handle right-click up events
    */
   handleRightClickUp() {
+    this.unpan();
+  }
+
+  handleLeftClickUp() {
+    this.unpan();
+  }
+
+  unpan() {
     // Move to a hovered state when hovered after selection
     var hoveredComp = this.context.getHoveredComponent();
     var hoveredConn = this.context.getHoveredConnector();
     if (hoveredComp !== null) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     } else if (hoveredConn !== null) {
-      this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
     } else {
       this.context.setActiveState('EMPTY');
     }
