@@ -16,11 +16,13 @@ import { SwitchButton } from '../model/types/inputs/switch-button';
 import { HoldButton } from '../model/types/inputs/hold-button';
 import { Clock } from '../model/types/inputs/clock';
 
-
 // OUTPUTS
 import { LED } from '../model/types/outputs/led';
 import { SevenSegDisp } from '../model/types/outputs/seven-seg-disp';
 import { Console } from '../model/types/outputs/console';
+
+//import 'uuid-random';
+import uuidv4 from 'uuid/v4';
 
 // 
 // Constants
@@ -184,7 +186,7 @@ export class ModuleController {
    */
   refreshConnectors(component) {
     component.connectors.forEach((conn) => {
-      conn.id = uuid();
+      conn.id = uuidv4();
     });
     this.activeModule.updateConnectorMap();
   }
