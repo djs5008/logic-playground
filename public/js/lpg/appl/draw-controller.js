@@ -45,6 +45,7 @@ export class DrawController {
     this.stage.updateViewport(window.innerWidth * SIZE_RATIO, window.innerHeight * SIZE_RATIO);
     this.buffer.uncache();
     this.buffer.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
+    this.stage.removeChild(this.background);
     this.background = undefined;
   }
 
@@ -142,31 +143,28 @@ export class DrawController {
    * Draw the background grid
    */
   drawGrid() {
-    this.grid = new createjs.Shape();
     const GRID_GAP = 50;
     const GRID_COLOR = '#CCC';
     const LINE_GAP = GRID_GAP / 4;
     let origin = this.moduleController.activeModule.startPos;
 
-    this.grid.graphics.setStrokeDash([GRID_GAP / 2], 1);
+    this.graphics.setStrokeDash([GRID_GAP / 2], 1);
     // draw from top to bottom
     for (let x = (origin.x % GRID_GAP); x < this.stage.canvas.width; x += GRID_GAP) {
-      this.grid.graphics.beginStroke(GRID_COLOR)
+      this.graphics.beginStroke(GRID_COLOR)
         .moveTo(x, (origin.y % GRID_GAP) - LINE_GAP)
         .lineTo(x, this.stage.canvas.height)
         .endStroke();
     }
     // draw from left to right
     for (let y = (origin.y % GRID_GAP); y < this.stage.canvas.height; y += GRID_GAP) {
-      this.grid.graphics.beginStroke(GRID_COLOR)
+      this.graphics.beginStroke(GRID_COLOR)
         .moveTo((origin.x % GRID_GAP) - LINE_GAP, y)
         .lineTo(this.stage.canvas.width, y)
         .endStroke();
     }
     // reset stroke dash
-    this.grid.graphics.setStrokeDash();
-    this.grid.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
-    this.stage.addChildAt(this.grid, 1);
+    this.graphics.setStrokeDash();
   }
 
   /**
