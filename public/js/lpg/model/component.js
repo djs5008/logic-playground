@@ -1,4 +1,3 @@
-//import 'uuid-random';
 import uuidv4 from 'uuid/v4';
 
 export class Component {

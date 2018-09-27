@@ -21,7 +21,6 @@ import { LED } from '../model/types/outputs/led';
 import { SevenSegDisp } from '../model/types/outputs/seven-seg-disp';
 import { Console } from '../model/types/outputs/console';
 
-//import 'uuid-random';
 import uuidv4 from 'uuid/v4';
 
 // 
