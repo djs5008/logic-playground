@@ -44,10 +44,7 @@ export class Module extends Gate {
       connector.getConnections().forEach(connFromID => {
         if (newState) return;
         let connFrom = me.getOutputConnectorFromID(connFromID);
-        if (connFrom.getState()) {
-          newState = true;
-          return;
-        }
+        newState = connFrom.getState() || false;
       });
       
       // Update connectors to match state
