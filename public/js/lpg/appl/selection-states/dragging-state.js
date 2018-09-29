@@ -1,13 +1,10 @@
-export class DraggingState {
+import { ControlState, States } from './control-state';
+
+export class DraggingState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
-
-  /**
-   * Handle mouse movement events
-   */
-  handleMouseMove() {}
 
   /**
    * Handle left-click mouse dragging
@@ -23,21 +20,6 @@ export class DraggingState {
   }
 
   /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
-
-  /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
-
-  /**
    * Handle left-click up events
    */
   handleLeftClickUp() {
@@ -49,22 +31,12 @@ export class DraggingState {
     var hoveredComp = this.context.getHoveredComponent();
     var hoveredConn = this.context.getHoveredConnector();
     if (hoveredComp !== null) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     } else if (hoveredConn !== null) {
-      this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
     } else {
-      this.context.setActiveState('EMPTY');
+      this.context.setActiveState(States.EMPTY);
     }
   }
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }

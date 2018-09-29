@@ -1,7 +1,9 @@
-export class ConnectingState {
+import { ControlState, States } from './control-state';
+
+export class ConnectingState extends ControlState {
 
   constructor(context, selectedConn) {
-    this.context = context;
+    super(context);
     this.selectedConn = selectedConn;
     this.context.selectedConnector = selectedConn;
     this.hoveredConn = null;
@@ -32,26 +34,6 @@ export class ConnectingState {
   }
 
   /**
-   * Handle left-click mouse dragging
-   */
-  handleMouseDragLeft() {}
-
-  /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
-
-  /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
-
-  /**
    * Handle left-click up events
    */
   handleLeftClickUp() {
@@ -68,7 +50,7 @@ export class ConnectingState {
         otherConn.addConnection(outConn);
         this.context.moduleController.activeModule.updateConnectorMap();
         this.context.selectedConnector = null;
-        this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+        this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
         return;
       } else if (this.selectedConn === hoveredConn) {
         return;
@@ -76,17 +58,7 @@ export class ConnectingState {
     }
 
     this.context.selectedConnector = null;
-    this.context.setActiveState('EMPTY');
+    this.context.setActiveState(States.EMPTY);
   }
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }

@@ -1,7 +1,9 @@
-export class HoverComponentState {
+import { ControlState, States } from './control-state';
+
+export class HoverComponentState extends ControlState {
 
   constructor(context, hoveredComp) {
-    this.context = context;
+    super(context);
     this.hoveredComp = hoveredComp;
   }
 
@@ -11,9 +13,9 @@ export class HoverComponentState {
   handleMouseMove() {
     let hoveredComp = this.context.getHoveredComponent();
     if (hoveredComp === null) {
-      this.context.setActiveState('EMPTY');
+      this.context.setActiveState(States.EMPTY);
     } else if (hoveredComp != this.hoveredComp) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     }
   }
 
@@ -26,7 +28,7 @@ export class HoverComponentState {
    * Handle right-click mouse dragging
    */
   handleMouseDragRight() {
-    this.context.setActiveState('PANNING');
+    this.context.setActiveState(States.PANNING);
   }
 
   /**
@@ -37,7 +39,7 @@ export class HoverComponentState {
     if (!this.context.selectedComponents.includes(this.hoveredComp)) {
       this.context.selectedComponents = [this.hoveredComp];
     }
-    this.context.setActiveState('DRAGGING');
+    this.context.setActiveState(States.DRAGGING);
   }
 
   /**

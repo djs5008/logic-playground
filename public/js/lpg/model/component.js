@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid/v4';
+
 export class Component {
 
   /**
@@ -11,7 +13,7 @@ export class Component {
     this.superType = superType;
     this.bounds = bounds;
     this.connectors = [];
-    this.id = (this.id) ? this.id : uuid();
+    this.id = (this.id) ? this.id : uuidv4();
   }
 
   /**

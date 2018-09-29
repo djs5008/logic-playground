@@ -1,7 +1,9 @@
-export class EmptyState {
+import { ControlState, States } from './control-state';
+
+export class EmptyState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
   
   /**
@@ -12,49 +14,25 @@ export class EmptyState {
     let hoveredComp = this.context.getHoveredComponent();
 
     if (hoveredConn !== null) {
-      this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
     } else if (hoveredComp !== null) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     }
   }
-
-  /**
-   * Handle left-click mouse dragging
-   */
-  handleMouseDragLeft() {}
-
-  /**
-   * Handle right-click mouse dragging
-   */
-  handleMouseDragRight() {}
 
   /**
    * Handle left-click down events
    */
   handleLeftClickDown() {
     this.context.selectionRect = new createjs.Rectangle(this.context.clickPos.x, this.context.clickPos.y, 0, 0);
-    this.context.setActiveState('SELECTING');
+    this.context.setActiveState(States.SELECTING);
   }
 
   /**
    * Handle right-click down events
    */
   handleRightClickDown() {
-    this.context.setActiveState('PANNING');
+    this.context.setActiveState(States.PANNING);
   }
-
-  /**
-   * Handle left-click up events
-   */
-  handleLeftClickUp() {}
-
-  /**
-   * Handle right-click up events
-   */
-  handleRightClickUp() {}
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
+  
 }

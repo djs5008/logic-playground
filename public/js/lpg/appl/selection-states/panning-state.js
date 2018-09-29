@@ -1,18 +1,10 @@
-export class PanningState {
+import { ControlState, States } from './control-state';
+
+export class PanningState extends ControlState {
 
   constructor(context) {
-    this.context = context;
+    super(context);
   }
-
-  /**
-   * Handle mouse movement events
-   */
-  handleMouseMove() {}
-
-  /**
-   * Handle left-click mouse dragging
-   */
-  handleMouseDragLeft() {}
 
   /**
    * Handle right-click mouse dragging
@@ -30,39 +22,27 @@ export class PanningState {
   }
 
   /**
-   * Handle left-click down events
-   */
-  handleLeftClickDown() {}
-
-  /**
-   * Handle right-click down events
-   */
-  handleRightClickDown() {}
-
-  /**
-   * Handle left-click up events
-   */
-  handleLeftClickUp() {}
-
-  /**
    * Handle right-click up events
    */
   handleRightClickUp() {
+    this.unpan();
+  }
+
+  handleLeftClickUp() {
+    this.unpan();
+  }
+
+  unpan() {
     // Move to a hovered state when hovered after selection
     var hoveredComp = this.context.getHoveredComponent();
     var hoveredConn = this.context.getHoveredConnector();
     if (hoveredComp !== null) {
-      this.context.setActiveState('HOVER-COMPONENT', hoveredComp);
+      this.context.setActiveState(States.HOVER_COMPONENT, hoveredComp);
     } else if (hoveredConn !== null) {
-      this.context.setActiveState('HOVER-CONNECTOR', hoveredConn);
+      this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
     } else {
       this.context.setActiveState('EMPTY');
     }
   }
-
-  /**
-   * Handle double-click events
-   */
-  handleDoubleClick() {}
 
 }

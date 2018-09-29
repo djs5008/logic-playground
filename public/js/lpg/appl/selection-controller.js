@@ -8,6 +8,7 @@ import { PanningState } from './selection-states/panning-state';
 import { SelectingState } from './selection-states/selecting-state';
 import { DraggingState } from './selection-states/dragging-state';
 import { ConnectingState } from './selection-states/connecting-state';
+import { States } from './selection-states/control-state';
 
 // 
 // Constants
@@ -50,13 +51,13 @@ export class SelectionController {
    */
   setActiveState(state, args) {
     switch (state) {
-      case 'EMPTY': this.activeState = new EmptyState(this); break;
-      case 'PANNING': this.activeState = new PanningState(this); break;
-      case 'SELECTING': this.activeState = new SelectingState(this); break;
-      case 'HOVER-COMPONENT': this.activeState = new HoverComponentState(this, args); break;
-      case 'HOVER-CONNECTOR': this.activeState = new HoverConnectorState(this, args); break;
-      case 'DRAGGING': this.activeState = new DraggingState(this); break;
-      case 'CONNECTING': this.activeState = new ConnectingState(this, args); break;
+      case States.EMPTY: this.activeState = new EmptyState(this); break;
+      case States.PANNING: this.activeState = new PanningState(this); break;
+      case States.SELECTING: this.activeState = new SelectingState(this); break;
+      case States.HOVER_COMPONENT: this.activeState = new HoverComponentState(this, args); break;
+      case States.HOVER_CONNECTOR: this.activeState = new HoverConnectorState(this, args); break;
+      case States.DRAGGING: this.activeState = new DraggingState(this); break;
+      case States.CONNECTING: this.activeState = new ConnectingState(this, args); break;
     }
     this.activeState.name = state;
   }
