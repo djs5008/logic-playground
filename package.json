@@ -4,6 +4,7 @@
   "description": "A logic-gate simulation playground",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.3",
     "uuid": "^3.3.2",
     "webpack": "^4.20.2"
   },
@@ -12,8 +13,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./public/dist/bundle.js",
+    "dev": "webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
