@@ -8,7 +8,7 @@ const readFile = util.promisify(fs.readFile);
 module.exports = function(savePath) {
 
   // create module directory if does not exists
-  mkdirp(path.resolve(path.join('data', 'modules')),
+  mkdirp(savePath,
     () => console.log('module directory created'));
   
   return {
