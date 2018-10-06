@@ -1,0 +1,16 @@
+{
+  "id": "test-module",
+  "type": "module",
+  "components": [
+    {
+      "id": "test-gate",
+      "type": "gate",
+      "components": []
+    },
+    {
+      "id": "test-sub-module",
+      "type": "module",
+      "components": []
+    }
+  ]
+}

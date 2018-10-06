@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const assert = require('chai').assert;
 const sinon = require('sinon');
+const testUtils = require('../utils');
 
 const moduleFactory = require('../../../src/db/modules');
 describe('Modules', () => {
@@ -10,22 +10,9 @@ describe('Modules', () => {
         save: sinon.spy()
       };
 
-      const testGate = {
-        id: 'test-gate',
-        type: 'gate'
-      };
-
-      const subModule = {
-        id: 'sub-module',
-        type: 'module',
-        components: [testGate]
-      };
-
-      const mainModule = {
-        id: 'main-module',
-        type: 'module',
-        components: [subModule]
-      };
+      const testGate = testUtils.makeModule('test-gate', 'gate');
+      const subModule = testUtils.makeModule('sub-module', 'module', [testGate]);
+      const mainModule = testUtils.makeModule('main-module', 'module', [subModule]);
 
       const Modules = moduleFactory(fsObject);
       Modules.insert(mainModule);

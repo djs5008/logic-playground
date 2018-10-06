@@ -74,3 +74,6 @@ typings/
 
 # webpack bundle
 public/dist
+
+# data directory
+data

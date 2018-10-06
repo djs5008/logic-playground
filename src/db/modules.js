@@ -3,14 +3,13 @@
 
 const assembleModuleWithRefs = function(fsObj, module) {
   const components = module.components;
-
   return Promise.all(components
-    .filter(isSubModule)
+    .filter(isRefModule)
     .map(m => fsObj.load(m.id)
-      .then(m => assembleModuleWithRefs(fsObj, m)))
+      .then(m => assembleModuleWithRefs(fsObj, m))))
     .then(subModules => {
       const moduleMap = subModules
-        .reduce((obj, m) => ({...obj, [m.id]: m}));
+        .reduce((obj, m) => ({...obj, [m.id]: m}), {});
 
       const newComponents = components
         .map(component => isRefModule(component)
@@ -18,7 +17,7 @@ const assembleModuleWithRefs = function(fsObj, module) {
           : component);
 
       return {...module, components: newComponents};
-    }));
+    });
 };
 
 const separateSubModules = function(module) {
