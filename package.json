@@ -4,17 +4,24 @@
   "description": "A logic-gate simulation playground",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "mariadb": "^2.0.0-alpha",
+    "mkdirp": "^0.5.1",
     "uuid": "^3.3.2",
     "webpack": "^4.20.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.3.4",
     "webpack-cli": "^3.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha $(find test -name '*.js')",
     "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./public/dist/bundle.js",
-    "dev": "webpack --mode development --watch"
+    "dev": "webpack --mode development --watch",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
