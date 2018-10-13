@@ -1,7 +1,6 @@
 {
-  "name": "logic-playground-2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "logic-playground",
+  "version": "1.0.0",
   "dependencies": {
     "express": "^4.16.3",
     "jquery": "^3.3.1",
