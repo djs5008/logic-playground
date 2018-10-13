@@ -1,12 +1,39 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: Computerfont;
+  src: url('../fonts/Computerfont.ttf');
+}
+
+.Root {
   text-align: center;
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: 100vh;
   font-size: calc(10px + 2vmin);
   color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Title {
+  height: 5vh;
+  font-family: Computerfont;
+  user-select: none;
+  font-size: 40pt;
+  color: #00FF00;
+}
+
+.Copyright {
+  position: absolute;
+  font-size: 8pt;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  user-select: none;
 }
