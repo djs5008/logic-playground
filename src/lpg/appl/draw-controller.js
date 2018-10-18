@@ -30,19 +30,18 @@ export class DrawController {
     this.fitStage();
 
     // DEBUG
-    // setInterval(() => {
-    //   console.log('FPS: ' + createjs.Ticker.getMeasuredFPS());
-    // }, 1000);
+    setInterval(() => {
+      console.log('FPS: ' + window.createjs.Ticker.getMeasuredFPS());
+    }, 1000);
   }
 
   /**
    * Resize the stage to fit within the window bounds (buffer cache gets updated on resize too)
    */
   fitStage() {
-    let SIZE_RATIO = (3 / 4);
-    this.stage.canvas.width = window.innerWidth * SIZE_RATIO;
-    this.stage.canvas.height = window.innerHeight * SIZE_RATIO;
-    this.stage.updateViewport(window.innerWidth * SIZE_RATIO, window.innerHeight * SIZE_RATIO);
+    this.stage.canvas.width = document.getElementById('logic-canvas').clientWidth;
+    this.stage.canvas.height = document.getElementById('logic-canvas').clientHeight;
+    this.stage.updateViewport(this.stage.canvas.width, this.stage.canvas.height);
     this.buffer.uncache();
     this.buffer.cache(0, 0, this.stage.canvas.width, this.stage.canvas.height);
     this.stage.removeChild(this.background);
