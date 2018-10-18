@@ -10,7 +10,13 @@ const mapDispatchToProps = {
   setAddState,
 };
 
-export default connect(null, mapDispatchToProps)(
+const mapStateToProps = (state) => {
+  return {
+    gateTypes: state.gateTypes,
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   class GateState extends React.Component {
 
     goBack() {
@@ -18,10 +24,11 @@ export default connect(null, mapDispatchToProps)(
     }
 
     render() {
+      console.log(this.props.gateTypes);
       return (
         <React.Fragment>
           <div className='Content'>
-          
+            { this.props.gateTypes }
           </div>
           <hr />
           <div className='Footer'>

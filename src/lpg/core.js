@@ -70,9 +70,6 @@ var resourceController;
       // Handle drag-n-drops
       uiController.setupDragNDropHandler();
 
-      // Handle component pool controls
-      uiController.setupPoolControlHandlers();
-
       // Handle module controls
       uiController.setupModuleControlHandlers();
 

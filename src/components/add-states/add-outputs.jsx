@@ -10,7 +10,13 @@ const mapDispatchToProps = {
   setAddState,
 };
 
-export default connect(null, mapDispatchToProps)(
+const mapStateToProps = (state) => {
+  return {
+    outputTypes: state.outputTypes,
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   class OutputState extends React.Component {
 
     goBack() {
@@ -21,7 +27,7 @@ export default connect(null, mapDispatchToProps)(
       return (
         <React.Fragment>
           <div className='Content'>
-
+            { this.props.outputTypes }
           </div>
           <hr />
           <div className='Footer'>

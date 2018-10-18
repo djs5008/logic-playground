@@ -1,3 +1,7 @@
+import React from 'react';
+import { addGateType, addInputType, addOutputType, addImport } from '../../actions/actions.js';
+import { store } from '../../store/store.js';
+
 export class UIController {
 
   /**
@@ -19,14 +23,14 @@ export class UIController {
    */
   setupDragNDropHandler() {
     var me = this;
+    let canvas = document.getElementById('logic-canvas');
 
-    window.$('#logic-canvas')
-      .on('dragover', (event) => event.preventDefault())
-      .on('drop', (event) => {
-        event.preventDefault();
-        var data = event.originalEvent.dataTransfer.getData('text/x-component');
-        var dragX = event.clientX - window.$('#logic-canvas').offset().left;
-        var dragY = event.clientY - window.$('#logic-canvas').offset().top;
+    canvas.addEventListener('dragover', (evt) => evt.preventDefault());
+    canvas.addEventListener('drop', (evt) => {
+        evt.preventDefault();
+        var data = evt.dataTransfer.getData('text/x-component');
+        var dragX = evt.clientX - canvas.offsetLeft;
+        var dragY = evt.clientY - canvas.offsetTop;
         var loc = me.selectionController.getRealCoords({ x: dragX, y: dragY });
         var bounds = new window.createjs.Rectangle(loc.x, loc.y, 0, 0);
         var component;
@@ -50,15 +54,6 @@ export class UIController {
           );
         }
       });
-  }
-
-  /**
-   * Initialize DragNDrop listeners
-   */
-  addDragListeners() {
-    window.$('.drag-item').on('dragstart', (event) => {
-      event.originalEvent.dataTransfer.setData('text/x-component', event.target.id);
-    });
   }
 
   /**
@@ -110,59 +105,9 @@ export class UIController {
   }
 
   /**
-   * Initialize Component-pool controls functionality
-   */
-  setupPoolControlHandlers() {
-
-    // Handle component-type buttons
-    window.$('#pool-gates').click(() => {
-      window.$('#component-menu').css('visibility', 'hidden');
-      window.$('#gate-pool').css('visibility', 'visible');
-    });
-
-    window.$('#pool-inputs').click(() => {
-      window.$('#component-menu').css('visibility', 'hidden');
-      window.$('#input-pool').css('visibility', 'visible');
-    });
-
-    window.$('#pool-outputs').click(() => {
-      window.$('#component-menu').css('visibility', 'hidden');
-      window.$('#output-pool').css('visibility', 'visible');
-    });
-
-    window.$('#pool-imports').click(() => {
-      window.$('#component-menu').css('visibility', 'hidden');
-      window.$('#import-pool').css('visibility', 'visible');
-    });
-
-    // Handle back buttons
-    window.$('#gate-pool-back').click(() => {
-      window.$('#gate-pool').css('visibility', 'hidden');
-      window.$('#component-menu').css('visibility', 'visible');
-    });
-
-    window.$('#input-pool-back').click(() => {
-      window.$('#input-pool').css('visibility', 'hidden');
-      window.$('#component-menu').css('visibility', 'visible');
-    });
-
-    window.$('#output-pool-back').click(() => {
-      window.$('#output-pool').css('visibility', 'hidden');
-      window.$('#component-menu').css('visibility', 'visible');
-    });
-
-    window.$('#import-pool-back').click(() => {
-      window.$('#import-pool').css('visibility', 'hidden');
-      window.$('#component-menu').css('visibility', 'visible');
-    });
-  }
-
-  /**
    * Initialize all default component types in their respective component pools
    */
   loadDefaultComponents() {
-    var me = this;
-
     // Load gates
     var tmpGates = [];
     tmpGates.push(this.moduleController.createComponent('and-gate', { x: 0, y: 0 }));
@@ -186,35 +131,27 @@ export class UIController {
     tmpOutputs.push(this.moduleController.createComponent('console', { x: 0, y: 0 }));
 
     var loadItemHTML = (comp) => {
+      const addDragData = (event) => {
+        event.dataTransfer.setData('text/x-component', event.target.id);
+      };
       var id = comp.type;  
       var url = comp.exportImage();
-
       var label = comp.type.replace('-GATE', '').replace('-BUTTON', '');
-      var compItemHTML = 
-      '<div class="pool item shadowed">\
-        <img class="drag-item" id="' + id + '" src="' + url + '" draggable="true" width="70">\
-        <h4 class="controls">' + label + '</h4>\
-      </div>';
-
+      var compItemHTML = (
+        <div key={id} style={{ padding: 5, userSelect: 'none', }}
+            className='drag-item' onDragStart={(event) => addDragData(event)}>
+          <img id={id} src={url} draggable="true" width="70" alt=""/>
+          <h6 style={{ 'margin': '0px', userSelect: 'none' }}>{label}</h6>
+        </div>
+      );
+    
       return compItemHTML;
     };
-
-    // load into correct containers
-    tmpGates.forEach((gate) => {
-      var html = loadItemHTML(gate);
-      window.$('#gate-items').append(html);
-      me.addDragListeners();
-    });
-    tmpInputs.forEach((input) => {
-      let html = loadItemHTML(input);
-      window.$('#input-items').append(html);
-      me.addDragListeners();
-    });
-    tmpOutputs.forEach((output) => {
-      let html = loadItemHTML(output);
-      window.$('#output-items').append(html);
-      me.addDragListeners();
-    });
+    
+        // load into correct containers
+    tmpGates.forEach((gate) => store.dispatch(addGateType(loadItemHTML(gate))));
+    tmpInputs.forEach((input) => store.dispatch(addInputType(loadItemHTML(input))));
+    tmpOutputs.forEach((output) => store.dispatch(addOutputType(loadItemHTML(output))));
   }
 
   /**
@@ -224,21 +161,23 @@ export class UIController {
    */
   loadImportedModule(importedModule) {
     var loadItemHTML = (comp) => {
+      const addDragData = (event) => {
+        event.dataTransfer.setData('text/x-component', event.target.id);
+      };
       var id = comp.label;
       var url = comp.exportImage();
       var label = comp.label;
-      var compItemHTML = 
-      '<div class="pool item shadowed">\
-        <img class="drag-item" id="imported_' + id + '" src="' + url + '" draggable="true">\
-        <h4 class="controls">' + label + '</h4>\
-      </div>';
+      var compItemHTML = (
+        <div key={id} style={{ 'padding': '5px' }} className='drag-item' onDragStart={ (event) => addDragData(event) }>
+          <img id={id} src={url} draggable width="70" alt=""/>
+          <h6>{label}</h6>
+        </div>
+      );
       return compItemHTML;
     };
     
     var html = loadItemHTML(importedModule);
-    window.$('#import-items').append(html);
-
-    this.addDragListeners();
+    store.dispatch(addImport(html));
   }
 
   /**
@@ -247,7 +186,7 @@ export class UIController {
   setupKeyListeners() {
     var me = this;
 
-    window.$(document).keydown((evt) => {
+    document.addEventListener('keydown', (evt) => {
       const DELETE_KEY = 46;
 
       switch (evt.keyCode) {
