@@ -24,7 +24,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     }
 
     render() {
-      console.log(this.props.gateTypes);
       return (
         <React.Fragment>
           <div className='Content'>

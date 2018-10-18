@@ -22,8 +22,7 @@ var resourceController;
 (() => {
 
   // Wait for DOM
-  window.$(document).ready(() => {
-
+  window.onload = () => {
     // Setup controllers
     console.info('loading stage...');
     stage = new window.createjs.StageGL('logic-canvas');
@@ -36,7 +35,7 @@ var resourceController;
 
     // Initialize application
     initialize();
-  });
+  };
 
   /**
    * Default application initialization
@@ -44,8 +43,8 @@ var resourceController;
   function initialize() {
 
     // disable right-click on canvas
-    window.$('#logic-canvas').bind('contextmenu', () => {
-      return false;
+    document.getElementById('logic-canvas').addEventListener('contextmenu', (event) => {
+      event.preventDefault();
     });
 
     // Pre-fit the stage to make it look not-ugly
