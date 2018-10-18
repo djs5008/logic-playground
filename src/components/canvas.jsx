@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/Canvas.css';
+import './css/canvas.css';
 
 export default class Canvas extends React.Component {
   

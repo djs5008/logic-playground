@@ -27,6 +27,11 @@
   user-select: none;
   font-size: 40pt;
   color: #00FF00;
+  transition: color 250ms ease-in-out
+}
+
+.Title:hover {
+  color: #FF0000;
 }
 
 .Copyright {
@@ -36,4 +41,13 @@
   left: 0;
   right: 0;
   user-select: none;
+}
+
+@keyframes fadeGreenRed {
+  to {
+    color:#FF0000;
+  }
+  from {
+    color:#00FF00;
+  }
 }
