@@ -11,7 +11,6 @@
 
 .ControlBar-Content {
   display: flex;
-  text-align: center;
   flex-direction: column;
   justify-content: center;
   height: 100%;
@@ -20,6 +19,14 @@
 .ControlBar-Title {
   margin-top: 0px;
   margin-bottom: 0px;
+  user-select: none;
+}
+
+.ControlBar-Footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 15%;
 }
 
 hr {

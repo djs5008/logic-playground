@@ -1,0 +1,22 @@
+.Content-Container {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Footer {
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+hr {
+  width: 100%;
+  opacity: 0.3;
+}

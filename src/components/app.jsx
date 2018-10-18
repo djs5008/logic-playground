@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './css/app.css';
 import '../lpg/core';
 import ControlBar from './control-bar';
-import ControlButton from './control-button';
+import AddComponentState from './add-component-state';
 import Canvas from './canvas';
 
 class App extends Component {
@@ -16,12 +16,7 @@ class App extends Component {
         </a>
         <div className='App'>
           <ControlBar title='Add Components'>
-            <ControlButton>
-              Test Button
-            </ControlButton>
-            <ControlButton>
-              Test Button 2
-            </ControlButton>
+            <AddComponentState/>
           </ControlBar>
           <Canvas />
           <ControlBar title='Module Controls' />

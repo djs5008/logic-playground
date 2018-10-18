@@ -1,6 +1,7 @@
 .ControlButton {
   width: 100%;
-  height: 10%;
+  height: 100%;
+  min-height: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bolder;
   opacity: 0.7;
@@ -8,6 +9,7 @@
   border-style: solid;
   margin-top: 5px;
   margin-bottom: 5px;
+  user-select: none;
 }
 
 .ControlButton:hover {
