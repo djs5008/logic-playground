@@ -2,8 +2,9 @@ import React from 'react';
 import './css/app.css';
 import '../lpg/core';
 import ControlBar from './control-bar';
-import AddComponentState from './add-component-state';
 import Canvas from './canvas';
+import AddState from './add-state';
+import SettingsState from './settings-state';
 
 import { connect } from 'react-redux';
 
@@ -19,10 +20,12 @@ export default connect(mapStateToProps, null)(
       return (
         <React.Fragment>
           <ControlBar title={`Add ${this.props.addState}`}>
-            <AddComponentState />
+            <AddState />
           </ControlBar>
           <Canvas />
-          <ControlBar title='Module Controls' />
+          <ControlBar title='Module Controls'>
+            <SettingsState />
+          </ControlBar>
         </React.Fragment>
       );
     }

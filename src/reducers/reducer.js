@@ -1,17 +1,25 @@
-import { States } from '../components/add-component-state';
+import { AddStates } from '../components/add-state';
+import { SettingStates } from '../components/settings-state';
 
 const DEFAULT_STATE = {
   activeModule:   undefined,
-  addState:       States.INITIAL,
+  addState:       AddStates.INITIAL,
+  settingsState:  SettingStates.MODULE,
   gateTypes:      [],
   inputTypes:     [],
   outputTypes:    [],
   imports:        [],
+  compSettings:   [],
 };
 
 const reducers = (state = DEFAULT_STATE, action) => {
 
   switch (action.type) {
+    case 'SET_ACTIVE_MODULE':
+      return {
+        ...state,
+        activeModule: action.payload,
+      };
     case 'SET_ADDSTATE':
       return {
         ...state,
@@ -37,6 +45,16 @@ const reducers = (state = DEFAULT_STATE, action) => {
         ...state,
         imports: [...state.imports, action.payload],
       };
+    case 'ADD_COMPONENT_SETTING':
+      return {
+        ...state,
+        compSettings: [...state.compSettings, action.payload],
+      }
+    case 'CLEAR_COMPONENT_SETTING':
+      return {
+        ...state,
+        compSettings: [],
+      }
     default: return state;
   }
 

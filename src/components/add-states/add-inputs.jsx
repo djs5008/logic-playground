@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlButton from '../control-button';
-import { States } from '../add-component-state';
+import { AddStates } from '../add-state';
 import '../css/add-component.css';
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
   class InputState extends React.Component {
 
     goBack() {
-      this.props.setAddState(States.INITIAL);
+      this.props.setAddState(AddStates.INITIAL);
     }
 
     render() {

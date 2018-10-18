@@ -1,3 +1,10 @@
+export const setActiveModule = (module) => (
+  {
+    type: 'SET_ACTIVE_MODULE',
+    payload: module,
+  }
+);
+
 export const setAddState = (state) => (
   {
     type: 'SET_ADDSTATE',
@@ -30,5 +37,18 @@ export const addImport = (comp) => (
   {
     type: 'ADD_IMPORT',
     payload: comp,
+  }
+);
+
+export const addComponentSetting = (setting) => (
+  {
+    type: 'ADD_COMPONENT_SETTING',
+    payload: setting,
+  }
+);
+
+export const clearComponentSettings = () => (
+  {
+    type: 'CLEAR_COMPONENT_SETTING',
   }
 );

@@ -7,7 +7,7 @@ import ImportState from './add-states/add-import';
 
 import { connect } from 'react-redux';
 
-export const States = {
+export const AddStates = {
   INITIAL:  'Components',
   GATE:     'Gates',
   INPUT:    'Inputs',
@@ -22,14 +22,14 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, null)(
-  class AddComponentState extends React.Component {
+  class AddState extends React.Component {
 
     getCurrentState() {
       switch (this.props.addState) {
-        case States.GATE: return <GateState />;
-        case States.INPUT: return <InputState />;
-        case States.OUTPUT: return <OutputState />;
-        case States.IMPORT: return <ImportState />;
+        case AddStates.GATE: return <GateState />;
+        case AddStates.INPUT: return <InputState />;
+        case AddStates.OUTPUT: return <OutputState />;
+        case AddStates.IMPORT: return <ImportState />;
         default: return <InitialState />
       }
     }

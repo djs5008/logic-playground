@@ -23,6 +23,9 @@ import { Console } from '../model/types/outputs/console';
 
 import uuidv4 from 'uuid/v4';
 
+import { store } from '../../store/store.js';
+import { setActiveModule } from '../../actions/actions.js';
+
 // 
 // Constants
 // 
@@ -67,6 +70,7 @@ export class ModuleController {
   setActiveModule(activeModule) {
     this.activeModule = activeModule;
     this.activeModule.updateConnectorMap();
+    store.dispatch(setActiveModule(activeModule));
   }
 
   /**

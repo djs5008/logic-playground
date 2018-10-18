@@ -13,7 +13,6 @@ export class FileController {
    * Save the currently active module into your localStorage
    */
   saveActiveModule() {
-    this.moduleController.activeModule.label = window.$('#module-name').val();
     console.log(JSON.stringify(this.moduleController.activeModule));
     localStorage.setItem('autosaveModule', JSON.stringify(this.moduleController.activeModule));
   }
@@ -31,9 +30,6 @@ export class FileController {
     } else {
       this.moduleController.newModule();
     }
-
-    // Update Module Settings properties
-    window.$('#module-name').val(this.moduleController.activeModule.label);
   }
 
   /**
@@ -110,9 +106,6 @@ export class FileController {
     console.info('loading module...');
     // Update active module based on result of file
     me.moduleController.setActiveModule(me.moduleController.loadModule(JSON.parse(moduleData)));
-
-    // Update Module Settings properties
-    window.$('#module-name').val(me.moduleController.activeModule.label);
   }
 
   /**

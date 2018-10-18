@@ -1,5 +1,5 @@
 .Content-Container {
-  height: 50%;
+  height: 65%;
   display: flex;
   flex-direction: column;
 }
@@ -19,6 +19,15 @@
   height: 10%;
   display: flex;
   flex-direction: column;
+}
+
+.ActiveModuleLabel {
+  font-size: 12pt;
+  padding-bottom: 5px;
+}
+
+.ActiveModuleName {
+  text-align: center;
 }
 
 hr {

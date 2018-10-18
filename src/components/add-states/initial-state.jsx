@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlButton from '../control-button';
-import { States } from '../add-component-state';
+import { AddStates } from '../add-state';
 import '../css/add-component.css';
 
 import { connect } from 'react-redux';
@@ -16,16 +16,16 @@ export default connect(null, mapDispatchToProps)(
     render() {
       return (
         <div className='Content-Container'>
-          <ControlButton onClick={() => this.props.setAddState(States.GATE)}>
+          <ControlButton onClick={() => this.props.setAddState(AddStates.GATE)}>
             Gates
           </ControlButton>
-          <ControlButton onClick={() => this.props.setAddState(States.INPUT)}>
+          <ControlButton onClick={() => this.props.setAddState(AddStates.INPUT)}>
             Inputs
           </ControlButton>
-          <ControlButton onClick={() => this.props.setAddState(States.OUTPUT)}>
+          <ControlButton onClick={() => this.props.setAddState(AddStates.OUTPUT)}>
             Outputs
           </ControlButton>
-          <ControlButton onClick={() => this.props.setAddState(States.IMPORT)}>
+          <ControlButton onClick={() => this.props.setAddState(AddStates.IMPORT)}>
             Modules
           </ControlButton>
         </div>
