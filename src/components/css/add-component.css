@@ -12,6 +12,7 @@
   align-content: center;
   justify-content: center;
   padding: 1%;
+  overflow-y: auto;
 }
 
 .Footer {
