@@ -6,7 +6,9 @@
     "jquery": "^3.3.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
     "react-scripts": "2.0.4",
+    "redux": "^4.0.1",
     "uuid": "^3.3.2"
   },
   "scripts": {

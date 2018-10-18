@@ -5,41 +5,38 @@ import InputState from './add-states/add-inputs';
 import OutputState from './add-states/add-outputs';
 import ImportState from './add-states/add-import';
 
+import { connect } from 'react-redux';
+
 export const States = {
-  INITIAL:  'initial',
-  GATE:     'gate',
-  INPUT:    'input',
-  OUTPUT:   'output',
-  IMPORT:   'import',
+  INITIAL:  'Components',
+  GATE:     'Gates',
+  INPUT:    'Inputs',
+  OUTPUT:   'Outputs',
+  IMPORT:   'Modules',
 }
 
-export default class AddComponentState extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    addState: state.addState,
+  };
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      addState: States.INITIAL,
-    };
-  }
+export default connect(mapStateToProps, null)(
+  class AddComponentState extends React.Component {
 
-  setAddState(state) {
-    this.setState({
-      addState: state,
-    });
-  }
-
-  getCurrentState() {
-    switch (this.state.addState) {
-      case States.GATE: return <GateState setAddState={this.setAddState.bind(this)} />;
-      case States.INPUT: return <InputState setAddState={this.setAddState.bind(this)} />;
-      case States.OUTPUT: return <OutputState setAddState={this.setAddState.bind(this)} />;
-      case States.IMPORT: return <ImportState setAddState={this.setAddState.bind(this)} />;
-      default: return <InitialState setAddState={this.setAddState.bind(this)} />
+    getCurrentState() {
+      switch (this.props.addState) {
+        case States.GATE: return <GateState />;
+        case States.INPUT: return <InputState />;
+        case States.OUTPUT: return <OutputState />;
+        case States.IMPORT: return <ImportState />;
+        default: return <InitialState />
+      }
     }
-  }
 
-  render() {
-    return (this.getCurrentState());
-  }
+    render() {
+      return (this.getCurrentState());
+    }
 
-}
+  }
+);
