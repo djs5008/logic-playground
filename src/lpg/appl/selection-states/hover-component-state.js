@@ -69,7 +69,7 @@ export class HoverComponentState extends ControlState {
       let selectedComponent = this.context.selectedComponents[0];
       if (selectedComponent.type === 'MODULE') {
         // Add active module to stack of current modules
-        this.context.moduleController.activeModules.push(this.context.moduleController.activeModule);
+        this.context.moduleController.getActiveModules().push(this.context.moduleController.getActiveModule());
 
         // Set active module
         this.context.moduleController.setActiveModule(selectedComponent);
@@ -79,7 +79,7 @@ export class HoverComponentState extends ControlState {
 
         // Set module back button visibility
         window.$('#module-back-button').css('visibility', 'visible');
-        window.$('#module-nathis.context').val(this.context.moduleController.activeModule.label);
+        window.$('#module-nathis.context').val(this.context.moduleController.getActiveModule().label);
       }
     }
   }

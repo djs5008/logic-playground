@@ -37,9 +37,21 @@ export class ModuleController {
    * ModuleController constructor
    */
   constructor(resourceController) {
-    this.activeModule = undefined;
-    this.activeModules = [];
     this.resourceController = resourceController;
+  }
+
+  /**
+   * Retrieve the current instance of the activeModule from our redux store
+   */
+  getActiveModule() {
+    return store.getState().activeModule;
+  }
+
+  /**
+   * Retrieve the current stack of activeModules from our redux store
+   */
+  getActiveModules() {
+    return store.getState().activeModules;
   }
 
   /**
@@ -47,12 +59,12 @@ export class ModuleController {
    *  This is the base of all bit-flow transactions
    */
   startLogicTimer() {
-    var me = this;
+    let me = this;
 
     // Start simulating the logic flow
     setInterval(() =>  {
-      if (me.activeModule !== undefined) {
-        me.activeModule.propagate(true);
+      if (me.getActiveModule() !== undefined) {
+        me.getActiveModule().propagate(true);
       }
     }, LOGIC_INTERVAL_MS);
   }
@@ -68,9 +80,8 @@ export class ModuleController {
    * Set the active module
    */
   setActiveModule(activeModule) {
-    this.activeModule = activeModule;
-    this.activeModule.updateConnectorMap();
     store.dispatch(setActiveModule(activeModule));
+    this.getActiveModule().updateConnectorMap();
   }
 
   /**
@@ -174,11 +185,11 @@ export class ModuleController {
    */
   importModule(mod, bounds) {
     this.refreshConnectors(mod);
-    this.activeModule.addComponent(mod);
+    this.getActiveModule().addComponent(mod);
     mod.bounds = bounds;
     mod.updateBounds();
     mod.propagate();
-    this.activeModule.updateConnectorMap();
+    this.getActiveModule().updateConnectorMap();
     return mod;
   }
 
@@ -191,7 +202,7 @@ export class ModuleController {
     component.connectors.forEach((conn) => {
       conn.id = uuidv4();
     });
-    this.activeModule.updateConnectorMap();
+    this.getActiveModule().updateConnectorMap();
   }
 
   /**
@@ -204,10 +215,10 @@ export class ModuleController {
     var comp = this.createComponent(type, bounds);
 
     if (comp !== null) {
-      return this.activeModule.addComponent(comp);
+      return this.getActiveModule().addComponent(comp);
     }
 
-    this.activeModule.updateConnectorMap();
+    this.getActiveModule().updateConnectorMap();
 
     return null;
   }
@@ -225,19 +236,19 @@ export class ModuleController {
     // Break all of output's connections
     if (connector.isInput()) {
       connector.connections.forEach((connectionID) =>  {
-        var connFrom = me.activeModule.getConnector(connectionID);
+        var connFrom = me.getActiveModule().getConnector(connectionID);
         connector.removeConnection(connFrom);
       });
     }
 
     // Find all of input's output connectors and remove input from it
     else {
-      me.activeModule.components.forEach((component) =>  {
+      me.getActiveModule().components.forEach((component) =>  {
         component.connectors.forEach((conn) =>  {
           if (conn.isInput()) {
             conn.connections.forEach((connID) =>  {
               if (connID === connector.getID()) {
-                conn.removeConnection(me.activeModule.getConnector(connector.getID()));
+                conn.removeConnection(me.getActiveModule().getConnector(connector.getID()));
               }
             });
           }
@@ -245,7 +256,7 @@ export class ModuleController {
       });
     }
 
-    this.activeModule.updateConnectorMap();
+    this.getActiveModule().updateConnectorMap();
   }
 
   /**

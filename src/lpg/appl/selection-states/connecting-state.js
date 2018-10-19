@@ -19,7 +19,7 @@ export class ConnectingState extends ControlState {
     // Highlight hovered connector state on SEVEN-SEG-DISP
     // TODO : change this to be less-specific
     if (this.hoveredConn !== null) {
-      let hoveredConnComp = this.context.moduleController.activeModule.getComponent(this.hoveredConn);
+      let hoveredConnComp = this.context.moduleController.getActiveModule().getComponent(this.hoveredConn);
       if (hoveredConnComp !== null && hoveredConnComp.type === 'SEVEN-SEG-DISP') {
         hoveredConnComp.setHoveredConnector(this.hoveredConn);
         this.hoveredSSD = hoveredConnComp;
@@ -48,7 +48,7 @@ export class ConnectingState extends ControlState {
         let outConn = (this.selectedConn.isOutput()) ? this.selectedConn : hoveredConn;
         let otherConn = (outConn === this.selectedConn) ? hoveredConn : this.selectedConn;
         otherConn.addConnection(outConn);
-        this.context.moduleController.activeModule.updateConnectorMap();
+        this.context.moduleController.getActiveModule().updateConnectorMap();
         this.context.selectedConnector = null;
         this.context.setActiveState(States.HOVER_CONNECTOR, hoveredConn);
         return;

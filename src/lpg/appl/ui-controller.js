@@ -63,42 +63,21 @@ export class UIController {
   setupModuleControlHandlers() {
     let me = this;
 
-    window.$('#controls-new').click(() => {
-      if (window.confirm('Are you sure? You will lose anything not saved!')) {
-        me.moduleController.newModule();
-        window.$('#module-name').val(me.moduleController.activeModule.label);
-      }
-    });
-
-    window.$('#controls-save').click(() => me.fileController.saveActiveModule());
-
-    window.$('#controls-export').click(() => me.fileController.exportActiveModule());
-
-    window.$('#controls-load').click(() => me.fileController.loadModuleFile(me.fileController.loadModule));
-
-    window.$('#controls-import').click(() => me.fileController.loadModuleFile(me.fileController.importModule));
-
-    window.$('#module-name').on('input propertychange paste', () => {
-      me.moduleController.activeModule.label = window.$('#module-name').val();
-    });
-
     window.$('#module-back-button').click((event) => {
       event.preventDefault();
 
       // Check if activeModules list is empty
-      if (me.moduleController.activeModules.length > 0) {
-        let topModule = me.moduleController.activeModules.pop();
+      if (me.moduleController.getActiveModules().length > 0) {
+        let topModule = me.moduleController.getActiveModules().pop();
 
         // Set active module
         me.moduleController.setActiveModule(topModule);
 
         // Check stack size again after popping
-        if (me.moduleController.activeModules.length === 0) {
+        if (me.moduleController.getActiveModules().length === 0) {
           // Set module back button visibility
           window.$('#module-back-button').css('visibility', 'hidden');
         }
-
-        window.$('#module-name').val(me.moduleController.activeModule.label);
 
         me.selectionController.clearSelection();
       }
@@ -138,11 +117,34 @@ export class UIController {
       let id = comp.type;  
       let url = comp.exportImage();
       let label = comp.type.replace('-GATE', '').replace('-BUTTON', '');
+      let noSelect = {
+        '-webkit-touch-callout':  'none', /* iOS Safari */
+        '-webkit-user-select':    'none', /* Safari */
+        '-khtml-user-select':     'none', /* Konqueror HTML */
+        '-moz-user-select':       'none', /* Firefox */
+        '-ms-user-select':        'none', /* Internet Explorer/Edge */
+        'user-select':            'none', /* Non-prefixed version, currently
+                                              supported by Chrome and Opera */
+      }
+      let divStyle = {
+        margin: 5,
+        padding: 2,
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+        ...noSelect,
+      };
+      let labelStyle = {
+        margin: 0,
+        ...noSelect,
+      };
       let compItemHTML = (
-        <div key={id} style={{ padding: 5, userSelect: 'none', }}
+        <div key={id} style={divStyle}
             className='drag-item' onDragStart={(event) => addDragData(event)}>
-          <img id={id} src={url} draggable="true" width="70" alt=""/>
-          <h6 style={{ 'margin': '0px', userSelect: 'none' }}>{label}</h6>
+          <img id={id} src={url} draggable="true" width='100%' alt=""/>
+          <h6 style={labelStyle}>{label.replace(/-/g, ' ')}</h6>
         </div>
       );
     
@@ -192,7 +194,7 @@ export class UIController {
       switch (evt.keyCode) {
         case DELETE_KEY:
           me.selectionController.selectedComponents.forEach((comp) => {
-            me.moduleController.deleteComponent(me.moduleController.activeModule, comp);
+            me.moduleController.deleteComponent(me.moduleController.getActiveModule(), comp);
           });
           me.selectionController.clearSelection();
           break;

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../store/store.js';
-import './css/app.css';
-import '../lpg/core';
 import Content from './content';
 
+import './css/app.css';
+
 export default class App extends Component {
+
   render() {
     return (
       <Provider store={store}>

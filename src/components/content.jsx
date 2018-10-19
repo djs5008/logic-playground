@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) => {
   return {
     addState: state.addState,
+    settingsState: state.settingsState,
   };
 };
 
@@ -23,7 +24,7 @@ export default connect(mapStateToProps, null)(
             <AddState />
           </ControlBar>
           <Canvas />
-          <ControlBar title='Module Controls'>
+          <ControlBar title={`${this.props.settingsState} Controls`}>
             <SettingsState />
           </ControlBar>
         </React.Fragment>

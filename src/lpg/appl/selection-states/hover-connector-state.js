@@ -21,7 +21,7 @@ export class HoverConnectorState extends ControlState {
         this.changeState(States.HOVER_CONNECTOR, hoveredConn);
         return;
       } 
-      let hoveredConnComp = this.context.moduleController.activeModule.getComponent(hoveredConn);
+      let hoveredConnComp = this.context.moduleController.getActiveModule().getComponent(hoveredConn);
       if (hoveredConnComp !== null && hoveredConnComp.type === 'SEVEN-SEG-DISP') {
         hoveredConnComp.setHoveredConnector(hoveredConn);
         this.hoveredSSD = hoveredConnComp;

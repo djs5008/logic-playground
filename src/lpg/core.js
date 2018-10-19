@@ -19,75 +19,73 @@ var uiController;
 var drawController;
 var resourceController;
 
-(() => {
+/**
+ * Default application initialization
+ */
+window.onload = () => {
+  // Setup controllers
+  console.info('loading stage...');
+  stage = new window.createjs.StageGL('logic-canvas');
+  resourceController = new ResourceController();
+  moduleController = new ModuleController(resourceController);
+  fileController = new FileController(moduleController);
+  selectionController = new SelectionController(stage, moduleController);
+  uiController = new UIController(moduleController, selectionController, fileController);
+  drawController = new DrawController(stage, selectionController, moduleController, resourceController);
 
-  // Wait for DOM
-  window.onload = () => {
-    // Setup controllers
-    console.info('loading stage...');
-    stage = new window.createjs.StageGL('logic-canvas');
-    resourceController = new ResourceController();
-    moduleController = new ModuleController(resourceController);
-    fileController = new FileController(moduleController);
-    selectionController = new SelectionController(stage, moduleController);
-    uiController = new UIController(moduleController, selectionController, fileController);
-    drawController = new DrawController(stage, selectionController, moduleController, resourceController);
+  // disable right-click on canvas
+  document.getElementById('logic-canvas').addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
 
-    // Initialize application
-    initialize();
-  };
+  // Pre-fit the stage to make it look not-ugly
+  drawController.fitStage();
 
-  /**
-   * Default application initialization
-   */
-  function initialize() {
+  // Load required resources
+  //  Wait for these to complete before doing any other processing
+  resourceController.loadResources(() => {
 
-    // disable right-click on canvas
-    document.getElementById('logic-canvas').addEventListener('contextmenu', (event) => {
-      event.preventDefault();
-    });
+    // Load saved module (if any)
+    fileController.loadSavedModule();
 
-    // Pre-fit the stage to make it look not-ugly
-    drawController.fitStage();
+    // Start painting
+    drawController.startPainting();
 
-    // Load required resources
-    //  Wait for these to complete before doing any other processing
-    resourceController.loadResources(() => {
+    // Start animations
+    drawController.startAnimationTimer();
 
-      // Load saved module (if any)
-      fileController.loadSavedModule();
+    // Fill default component pools
+    uiController.loadDefaultComponents();
 
-      // Start painting
-      drawController.startPainting();
+    // Handle drag-n-drops
+    uiController.setupDragNDropHandler();
 
-      // Start animations
-      drawController.startAnimationTimer();
+    // Handle module controls
+    uiController.setupModuleControlHandlers();
 
-      // Fill default component pools
-      uiController.loadDefaultComponents();
+    // Handle keyboard events
+    uiController.setupKeyListeners();
 
-      // Handle drag-n-drops
-      uiController.setupDragNDropHandler();
+    // Begin checking for imported modules
+    uiController.checkImports();
 
-      // Handle module controls
-      uiController.setupModuleControlHandlers();
+    // Update connection mappings
+    moduleController.getActiveModule().updateConnectorMap();
 
-      // Handle keyboard events
-      uiController.setupKeyListeners();
+    // Start logic flow
+    moduleController.startLogicTimer();
 
-      // Begin checking for imported modules
-      uiController.checkImports();
+    // setup mouse-event handling
+    stage.mouseMoveOutside = true;
+    selectionController.initMouseEvents();
+    selectionController.setActiveState('EMPTY');
+  });
+}
 
-      // Update connection mappings
-      moduleController.activeModule.updateConnectorMap();
+export const getFileController = () => {
+  return fileController;
+};
 
-      // Start logic flow
-      moduleController.startLogicTimer();
-
-      // setup mouse-event handling
-      stage.mouseMoveOutside = true;
-      selectionController.initMouseEvents();
-      selectionController.setActiveState('EMPTY');
-    });
-  }
-})();
+export const getModuleController = () => {
+  return moduleController;
+}

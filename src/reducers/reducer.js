@@ -3,6 +3,7 @@ import { SettingStates } from '../components/settings-state';
 
 const DEFAULT_STATE = {
   activeModule:   undefined,
+  activeModules:  [],
   addState:       AddStates.INITIAL,
   settingsState:  SettingStates.MODULE,
   gateTypes:      [],
@@ -20,11 +21,24 @@ const reducers = (state = DEFAULT_STATE, action) => {
         ...state,
         activeModule: action.payload,
       };
+    case 'SET_MODULE_NAME':
+      return {
+        ...state,
+        activeModule: {
+          ...state.activeModule,
+          label: action.payload,
+        }
+      }
     case 'SET_ADDSTATE':
       return {
         ...state,
         addState: action.payload,
       };
+    case 'SET_SETTINGS_STATE':
+      return {
+        ...state,
+        settingsState: action.payload,
+      }
     case 'ADD_GATE_TYPE':
       return {
         ...state,

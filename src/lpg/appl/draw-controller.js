@@ -76,7 +76,7 @@ export class DrawController {
         : FLOW_OFFSET_DELTA;
 
       // Lerp slide bar
-      me.moduleController.activeModule.components.forEach(component => {
+      me.moduleController.getActiveModule().components.forEach(component => {
         if (component.type === 'SWITCH-BUTTON') {
           if (!slideAmounts[component.id]) {
             slideAmounts[component.id] = 0.0;
@@ -145,7 +145,7 @@ export class DrawController {
     const GRID_GAP = 50;
     const GRID_COLOR = '#CCC';
     const LINE_GAP = GRID_GAP / 4;
-    let origin = this.moduleController.activeModule.startPos;
+    let origin = this.moduleController.getActiveModule().startPos;
 
     this.graphics.setStrokeDash([GRID_GAP / 2], 1);
     // draw from top to bottom
@@ -171,8 +171,8 @@ export class DrawController {
    */
   drawOrigin() {
     const radius = 2;
-    let posX = this.moduleController.activeModule.startPos.x;
-    let posY = this.moduleController.activeModule.startPos.y;
+    let posX = this.moduleController.getActiveModule().startPos.x;
+    let posY = this.moduleController.getActiveModule().startPos.y;
     this.graphics.beginFill('red')
       .drawCircle(posX, posY, radius)
       .endFill();
@@ -183,7 +183,7 @@ export class DrawController {
    */
   drawComponents() {
     let me = this;
-    this.moduleController.activeModule.components.forEach((component) =>  {
+    this.moduleController.getActiveModule().components.forEach((component) =>  {
       let location = me.selectionController.getScreenCoords(component.bounds);
       component.paint(me.graphics, location);
 
@@ -328,10 +328,10 @@ export class DrawController {
     const FLOW_GAP = 10;
     const LINE_SIZE = 6;
     const FLOW_SIZE = LINE_SIZE - 3;
-    Object.keys(me.moduleController.activeModule.getConnectorMap()).forEach((inConnID) =>  {
-      let inConn = me.moduleController.activeModule.getConnector(inConnID);
+    Object.keys(me.moduleController.getActiveModule().getConnectorMap()).forEach((inConnID) =>  {
+      let inConn = me.moduleController.getActiveModule().getConnector(inConnID);
       let inConnLoc = me.selectionController.getScreenCoords(inConn.bounds);
-      me.moduleController.activeModule.getConnectorMap()[inConnID].forEach((outConn) =>  {
+      me.moduleController.getActiveModule().getConnectorMap()[inConnID].forEach((outConn) =>  {
         let outConnLoc = me.selectionController.getScreenCoords(outConn.bounds);
         let color = outConn.getState() ? 'rgb(0,100,0)' : 'rgb(50,0,0)';
         let curvePadding = 30;

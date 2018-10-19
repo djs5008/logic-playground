@@ -7,7 +7,7 @@ export class PanningState extends ControlState {
    */
   handleMouseDragRight(event) {
     // panning
-    let origin = this.context.moduleController.activeModule.startPos;
+    let origin = this.context.moduleController.getActiveModule().startPos;
     let xDiff = (this.context.mousePos.x - this.context.clickPos.x);
     let yDiff = (this.context.mousePos.y - this.context.clickPos.y);
     origin.x += xDiff;

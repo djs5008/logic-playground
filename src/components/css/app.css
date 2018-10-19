@@ -38,10 +38,11 @@
 .Copyright {
   position: absolute;
   font-size: 8pt;
-  bottom: 40px;
+  bottom: 3%;
   left: 0;
   right: 0;
   user-select: none;
+  z-index: 0;
 }
 
 @keyframes fadeGreenRed {

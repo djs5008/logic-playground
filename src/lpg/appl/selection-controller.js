@@ -10,6 +10,10 @@ import { DraggingState } from './selection-states/dragging-state';
 import { ConnectingState } from './selection-states/connecting-state';
 import { States } from './selection-states/control-state';
 
+import { store } from '../../store/store';
+import { setSettingsState } from '../../actions/actions';
+import { SettingStates } from '../../components/settings-state';
+
 // 
 // Constants
 // 
@@ -135,7 +139,7 @@ export class SelectionController {
     let me = this;
     let hoveredComp = null;
     if (me.mousePos !== null && me.hoveredConn === null) {
-      me.moduleController.activeModule.components.forEach((component) => {
+      me.moduleController.getActiveModule().components.forEach((component) => {
         let mousePosReal = me.getRealCoords(me.mousePos);
         if (component.bounds.contains(mousePosReal.x, mousePosReal.y)) {
           hoveredComp = component;
@@ -153,7 +157,7 @@ export class SelectionController {
     let me = this;
     let hoveredConn = null;
     if (me.mousePos !== null) {
-      me.moduleController.activeModule.components.forEach((component) => {
+      me.moduleController.getActiveModule().components.forEach((component) => {
         if (hoveredConn !== null) return false;
         let mousePosReal = me.getRealCoords(me.mousePos);
         component.getConnectors().forEach((connector) => {
@@ -182,7 +186,7 @@ export class SelectionController {
     let me = this;
     let selectedComps = [];
     if (me.selectionRect !== null) {
-      me.moduleController.activeModule.components.forEach((component) => {
+      me.moduleController.getActiveModule().components.forEach((component) => {
         let selectionPosReal = me.getRealCoords({ x: me.selectionRect.x, y: me.selectionRect.y });
         let selectionRect = 
           new window.createjs.Rectangle(
@@ -230,16 +234,15 @@ export class SelectionController {
   clearSelection() {
     this.selectionRect = new window.createjs.Rectangle();
     this.selectedComponents = [];
-    this.toggleComponentSettings(false);
+    this.toggleComponentSettings(SettingStates.MODULE);
   }
 
   /**
    * Toggle between component and module settings box
    * @param {boolean} visible 
    */
-  toggleComponentSettings(visible) {
-    window.$('#component-controls').css('visibility', visible ? 'visible' : 'hidden');
-    window.$('#module-controls').css('visibility', visible ? 'hidden' : 'visible');
+  toggleComponentSettings(state) {
+    store.dispatch(setSettingsState(state));
   }
 
   /**
@@ -247,12 +250,12 @@ export class SelectionController {
    */
   showComponentSelection() {
     // show single piece settings
-    let label = (this.selectedComponents[0].label === '') 
-      ? 'no label' 
-      : this.selectedComponents[0].label;
-    this.toggleComponentSettings(true);
-    window.$('#component-name').val(label);
-    this.selectedComponents[0].loadSettings(window.$('#component-control-loader'));
+    // let label = (this.selectedComponents[0].label === '') 
+    //   ? 'no label' 
+    //   : this.selectedComponents[0].label;
+    this.toggleComponentSettings(SettingStates.COMPONENT);
+    // TODO:  window.$('#component-name').val(label);
+    // TODO: this.selectedComponents[0].loadSettings(window.$('#component-control-loader'));
   }
 
   /**
@@ -289,7 +292,7 @@ export class SelectionController {
    * @returns { x: real x-coord, y: real y-coord }
    */
   getRealCoords(canvasPos) {
-    let origin = this.moduleController.activeModule.startPos;
+    let origin = this.moduleController.getActiveModule().startPos;
     return { x: canvasPos.x - origin.x, y: canvasPos.y - origin.y };
   }
 
@@ -299,7 +302,7 @@ export class SelectionController {
    * @returns { x: canvas x-coord, y: canvas y-coord }
    */
   getScreenCoords(realPos) {
-    let origin = this.moduleController.activeModule.startPos;
+    let origin = this.moduleController.getActiveModule().startPos;
     return { x: realPos.x + origin.x, y: realPos.y + origin.y };
   }
 }

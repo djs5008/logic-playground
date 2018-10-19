@@ -13,8 +13,8 @@ export class FileController {
    * Save the currently active module into your localStorage
    */
   saveActiveModule() {
-    console.log(JSON.stringify(this.moduleController.activeModule));
-    localStorage.setItem('autosaveModule', JSON.stringify(this.moduleController.activeModule));
+    console.log(JSON.stringify(this.moduleController.getActiveModule()));
+    localStorage.setItem('autosaveModule', JSON.stringify(this.moduleController.getActiveModule()));
   }
 
   /**
@@ -36,13 +36,15 @@ export class FileController {
    * Export (download) the active module into a *.lpm file
    */
   exportActiveModule() {
-    const content = JSON.stringify(this.moduleController.activeModule);
-    const filename = this.moduleController.activeModule.label + '.lpm';
+    const content = JSON.stringify(this.moduleController.getActiveModule());
+    const filename = this.moduleController.getActiveModule().label + '.lpm';
 
-    var file = new Blob([content], { type: 'application/octet-stream' });
-    window.$('#export-module-dialog').attr('href', URL.createObjectURL(file));
-    window.$('#export-module-dialog').attr('download', filename);
-    window.$('#export-module-dialog').get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    let file = new Blob([content], { type: 'application/octet-stream' });
+    let exportModuleDialog = document.getElementById('export-module-dialog');
+
+    exportModuleDialog.setAttribute('href', URL.createObjectURL(file));
+    exportModuleDialog.setAttribute('download', filename);
+    exportModuleDialog.get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
   }
 
   /**
@@ -51,21 +53,22 @@ export class FileController {
    * @param {boolean} isImport 
    */
   loadModuleFile(callback) {
-    var me = this;
+    let me = this;
+    let loadModuleDialog = document.getElementById('load-module-dialog');
 
     console.log('loading file');
 
     // Spoof a click on the file input
-    window.$('#load-module-dialog').get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    loadModuleDialog.get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
     // Reset file input on click (chrome)
-    window.$('#load-module-dialog').click(() =>  {
-      window.$('#load-module-dialog').get(0).value = null;
+    loadModuleDialog.addEventListener('click', (evt) => {
+      loadModuleDialog.get(0).value = null;
     });
 
     // On input change
-    window.$('#load-module-dialog').on('change', () =>  {
-      var files = document.getElementById('load-module-dialog').files;
+    loadModuleDialog.addEventListener('change', (evt) => {
+      let files = document.getElementById('load-module-dialog').files;
 
       if (!files.length && files.length === 1) {
         alert('Please select an LPM file!');
@@ -73,7 +76,7 @@ export class FileController {
       }
 
       // ensure file is compatible
-      var file = files[0];
+      let file = files[0];
 
       // Check for valid file name
       if (!file.name.includes('.lpm')) {
@@ -82,7 +85,7 @@ export class FileController {
       }
 
       // Setup filereader callback
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onloadend = (evt) =>  {
         if (evt.target.readyState === FileReader.DONE) {
           callback(me, evt.target.result);
@@ -90,7 +93,7 @@ export class FileController {
       };
 
       // begin reading file blob
-      var blob = file.slice(0, file.size);
+      let blob = file.slice(0, file.size);
       reader.readAsText(blob);
 
       return false;
