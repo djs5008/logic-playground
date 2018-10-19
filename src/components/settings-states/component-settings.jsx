@@ -37,7 +37,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(
         this.setState({
           componentName: name,
         });
-        // this.props.activeModule.getComponentByID(this.props.selectedPiece.id).label = name;
         this.props.selectedPiece.label = name;
       }
     }

@@ -8,7 +8,7 @@ import { getFileController, getModuleController } from '../../lpg/core.js';
 const mapStateToProps = (state) => {
   return {
     settingsState: state.settingsState,
-    activeModule: state.activeModule,
+    activeModules: state.activeModules,
   }
 };
 
@@ -20,13 +20,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        moduleName: ((this.props.activeModule && this.props.activeModule.label) || 'unnamed'),
+        moduleName: ((this.props.activeModules[0] && this.props.activeModules[0].label) || 'unnamed'),
       }
     }
 
     componentWillReceiveProps(props) {
       this.setState({
-        moduleName: ((props.activeModule && props.activeModule.label) || 'unnamed'),
+        moduleName: ((props.activeModules[0] && props.activeModules[0].label) || 'unnamed'),
       });
     }
 
@@ -53,11 +53,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     }
 
     updateModuleName(name) {
-      if (this.props.activeModule) {
+      if (this.props.activeModules[0]) {
         this.setState({
           moduleName: name,
         });
-        this.props.activeModule.label = name;
+        this.props.activeModules[0].label = name;
       }
     }
 
