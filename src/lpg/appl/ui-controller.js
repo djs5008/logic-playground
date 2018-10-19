@@ -19,6 +19,51 @@ export class UIController {
   }
 
   /**
+   * Load a component into HTML for rendering
+   * @param {Component} comp 
+   */
+  loadItemHTML(comp) {
+    const addDragData = (event) => {
+      event.dataTransfer.setData('text/x-component', event.target.id);
+    };
+    let id = comp.type;  
+    let url = comp.exportImage();
+    let label = comp.type.replace('-GATE', '').replace('-BUTTON', '');
+    let noSelect = {
+      WebkitTouchCallout:  'none', /* iOS Safari */
+      WebkitUserSelect:    'none', /* Safari */
+      KhtmlUserSelect:     'none', /* Konqueror HTML */
+      MozUserSelect:       'none', /* Firefox */
+      msUserSelect:        'none', /* Internet Explorer/Edge */
+      userSelect:          'none', /* Non-prefixed version, currently
+                                      supported by Chrome and Opera */
+    }
+    let divStyle = {
+      margin: 5,
+      padding: 2,
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent: 'center',
+      ...noSelect,
+    };
+    let labelStyle = {
+      margin: 0,
+      ...noSelect,
+    };
+    let compItemHTML = (
+      <div key={id} style={divStyle}
+          className='drag-item' onDragStart={(event) => addDragData(event)}>
+        <img id={id} src={url} draggable="true" width='100%' alt=""/>
+        <h6 style={labelStyle}>{label.replace(/-/g, ' ')}</h6>
+      </div>
+    );
+  
+    return compItemHTML;
+  }
+
+  /**
    * Initalize drag-n-drop functionality from component pool to stage
    */
   setupDragNDropHandler() {
@@ -58,33 +103,6 @@ export class UIController {
   }
 
   /**
-   * Initialize Module-Controls functionality
-   */
-  setupModuleControlHandlers() {
-    let me = this;
-
-    window.$('#module-back-button').click((event) => {
-      event.preventDefault();
-
-      // Check if activeModules list is empty
-      if (me.moduleController.getActiveModules().length > 0) {
-        let topModule = me.moduleController.getActiveModules().pop();
-
-        // Set active module
-        me.moduleController.setActiveModule(topModule);
-
-        // Check stack size again after popping
-        if (me.moduleController.getActiveModules().length === 0) {
-          // Set module back button visibility
-          window.$('#module-back-button').css('visibility', 'hidden');
-        }
-
-        me.selectionController.clearSelection();
-      }
-    });
-  }
-
-  /**
    * Initialize all default component types in their respective component pools
    */
   loadDefaultComponents() {
@@ -109,52 +127,11 @@ export class UIController {
     tmpOutputs.push(this.moduleController.createComponent('led', { x: 0, y: 0 }));
     tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', { x: 0, y: 0 }));
     tmpOutputs.push(this.moduleController.createComponent('console', { x: 0, y: 0 }));
-
-    const loadItemHTML = (comp) => {
-      const addDragData = (event) => {
-        event.dataTransfer.setData('text/x-component', event.target.id);
-      };
-      let id = comp.type;  
-      let url = comp.exportImage();
-      let label = comp.type.replace('-GATE', '').replace('-BUTTON', '');
-      let noSelect = {
-        '-webkit-touch-callout':  'none', /* iOS Safari */
-        '-webkit-user-select':    'none', /* Safari */
-        '-khtml-user-select':     'none', /* Konqueror HTML */
-        '-moz-user-select':       'none', /* Firefox */
-        '-ms-user-select':        'none', /* Internet Explorer/Edge */
-        'user-select':            'none', /* Non-prefixed version, currently
-                                              supported by Chrome and Opera */
-      }
-      let divStyle = {
-        margin: 5,
-        padding: 2,
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignContent: 'center',
-        ...noSelect,
-      };
-      let labelStyle = {
-        margin: 0,
-        ...noSelect,
-      };
-      let compItemHTML = (
-        <div key={id} style={divStyle}
-            className='drag-item' onDragStart={(event) => addDragData(event)}>
-          <img id={id} src={url} draggable="true" width='100%' alt=""/>
-          <h6 style={labelStyle}>{label.replace(/-/g, ' ')}</h6>
-        </div>
-      );
     
-      return compItemHTML;
-    };
-    
-        // load into correct containers
-    tmpGates.forEach((gate) => store.dispatch(addGateType(loadItemHTML(gate))));
-    tmpInputs.forEach((input) => store.dispatch(addInputType(loadItemHTML(input))));
-    tmpOutputs.forEach((output) => store.dispatch(addOutputType(loadItemHTML(output))));
+    // load into correct containers
+    tmpGates.forEach((gate) => store.dispatch(addGateType(this.loadItemHTML(gate))));
+    tmpInputs.forEach((input) => store.dispatch(addInputType(this.loadItemHTML(input))));
+    tmpOutputs.forEach((output) => store.dispatch(addOutputType(this.loadItemHTML(output))));
   }
 
   /**
@@ -163,23 +140,7 @@ export class UIController {
    * @param {*} importedModule The Module instance beign loaded
    */
   loadImportedModule(importedModule) {
-    const loadItemHTML = (comp) => {
-      const addDragData = (event) => {
-        event.dataTransfer.setData('text/x-component', event.target.id);
-      };
-      let id = comp.label;
-      let url = comp.exportImage();
-      let label = comp.label;
-      let compItemHTML = (
-        <div key={id} style={{ 'padding': '5px' }} className='drag-item' onDragStart={ (event) => addDragData(event) }>
-          <img id={id} src={url} draggable width="70" alt=""/>
-          <h6>{label}</h6>
-        </div>
-      );
-      return compItemHTML;
-    };
-    
-    store.dispatch(addImport(loadItemHTML(importedModule)));
+    store.dispatch(addImport(this.loadItemHTML(importedModule)));
   }
 
   /**

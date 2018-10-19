@@ -2,7 +2,6 @@ import { AddStates } from '../components/add-state';
 import { SettingStates } from '../components/settings-state';
 
 const DEFAULT_STATE = {
-  activeModule:   undefined,
   activeModules:  [],
   selectedPiece:  undefined,
   addState:       AddStates.INITIAL,
@@ -20,7 +19,18 @@ const reducers = (state = DEFAULT_STATE, action) => {
     case 'SET_ACTIVE_MODULE':
       return {
         ...state,
-        activeModule: action.payload,
+        activeModules: [action.payload],
+      };
+    case 'ADD_ACTIVE_MODULE':
+      return {
+        ...state,
+        activeModules: [action.payload, ...state.activeModules],
+      };
+    case 'POP_ACTIVE_MODULE':
+      state.activeModules.shift();
+      return {
+        ...state,
+        activeModules: [...state.activeModules],
       };
     case 'SET_SELECTED_PIECE':
       return {

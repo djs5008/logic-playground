@@ -60,9 +60,6 @@ window.onload = () => {
     // Handle drag-n-drops
     uiController.setupDragNDropHandler();
 
-    // Handle module controls
-    uiController.setupModuleControlHandlers();
-
     // Handle keyboard events
     uiController.setupKeyListeners();
 
@@ -88,4 +85,8 @@ export const getFileController = () => {
 
 export const getModuleController = () => {
   return moduleController;
-}
+};
+
+export const getSelectionController = () => {
+  return selectionController;
+};

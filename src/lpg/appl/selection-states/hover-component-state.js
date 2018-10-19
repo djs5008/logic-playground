@@ -1,4 +1,6 @@
 import { ControlState, States } from './control-state';
+import { store } from '../../../store/store';
+import { addActiveModule } from '../../../actions/actions';
 
 export class HoverComponentState extends ControlState {
 
@@ -67,19 +69,12 @@ export class HoverComponentState extends ControlState {
   handleDoubleClick() {
     if (this.context.selectedComponents.length === 1) {
       let selectedComponent = this.context.selectedComponents[0];
-      if (selectedComponent.type === 'MODULE') {
-        // Add active module to stack of current modules
-        this.context.moduleController.getActiveModules().push(this.context.moduleController.getActiveModule());
-
-        // Set active module
-        this.context.moduleController.setActiveModule(selectedComponent);
+      if (selectedComponent.type === 'MODULE') {        
+        // Push an active module and set it as active
+        store.dispatch(addActiveModule(selectedComponent));
 
         // Reset component selections
         this.context.clearSelection();
-
-        // Set module back button visibility
-        window.$('#module-back-button').css('visibility', 'visible');
-        window.$('#module-nathis.context').val(this.context.moduleController.getActiveModule().label);
       }
     }
   }

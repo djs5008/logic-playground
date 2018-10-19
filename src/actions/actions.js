@@ -5,6 +5,19 @@ export const setActiveModule = (module) => (
   }
 );
 
+export const addActiveModule = (module) => (
+  {
+    type: 'ADD_ACTIVE_MODULE',
+    payload: module,
+  }
+);
+
+export const popActiveModule = () => (
+  {
+    type: 'POP_ACTIVE_MODULE',
+  }
+);
+
 export const setSelectedPiece = (piece) => (
   {
     type: 'SET_SELECTED_PIECE',

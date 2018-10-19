@@ -44,7 +44,7 @@ export class ModuleController {
    * Retrieve the current instance of the activeModule from our redux store
    */
   getActiveModule() {
-    return store.getState().activeModule;
+    return store.getState().activeModules[0];
   }
 
   /**
