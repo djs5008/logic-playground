@@ -44,7 +44,7 @@ export class FileController {
 
     exportModuleDialog.setAttribute('href', URL.createObjectURL(file));
     exportModuleDialog.setAttribute('download', filename);
-    exportModuleDialog.get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    exportModuleDialog.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
   }
 
   /**
@@ -59,12 +59,11 @@ export class FileController {
     console.log('loading file');
 
     // Spoof a click on the file input
-    loadModuleDialog.get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    loadModuleDialog.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
-    // Reset file input on click (chrome)
-    loadModuleDialog.addEventListener('click', (evt) => {
-      loadModuleDialog.get(0).value = null;
-    });
+    const resetInput = () => {
+      loadModuleDialog.value = '';
+    };
 
     // On input change
     loadModuleDialog.addEventListener('change', (evt) => {
@@ -72,30 +71,35 @@ export class FileController {
 
       if (!files.length && files.length === 1) {
         alert('Please select an LPM file!');
+        resetInput();
         return;
       }
 
       // ensure file is compatible
       let file = files[0];
 
-      // Check for valid file name
-      if (!file.name.includes('.lpm')) {
-        alert('Please select a valid .lpm file!');
-        return;
+      if (file) {
+        // Check for valid file name
+        if (!file.name.includes('.lpm')) {
+          alert('Please select a valid .lpm file!');
+          resetInput();
+          return;
+        }
+
+        // Setup filereader callback
+        let reader = new FileReader();
+        reader.onloadend = (evt) => {
+          if (evt.target.readyState === FileReader.DONE) {
+            callback(me, evt.target.result);
+          }
+        };
+
+        // begin reading file blob
+        let blob = file.slice(0, file.size);
+        reader.readAsText(blob);
       }
 
-      // Setup filereader callback
-      let reader = new FileReader();
-      reader.onloadend = (evt) =>  {
-        if (evt.target.readyState === FileReader.DONE) {
-          callback(me, evt.target.result);
-        }
-      };
-
-      // begin reading file blob
-      let blob = file.slice(0, file.size);
-      reader.readAsText(blob);
-
+      resetInput();
       return false;
     });
   }

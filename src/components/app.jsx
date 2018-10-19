@@ -19,6 +19,11 @@ export default class App extends Component {
           <div className='App'>
             <Content />
           </div>
+          { /* Hidden fields for loading/saving modules */ }
+          <form>
+            <a id='export-module-dialog' style={{ visibility: 'hidden' }} href='.'>placeholder</a>
+            <input type='file' id='load-module-dialog' name='load-module-dialog' style={{ visibility: 'hidden' }} />
+          </form>
           <p className='Copyright'>
             Copyright &copy; { new Date().getFullYear() } LPG
           </p>
