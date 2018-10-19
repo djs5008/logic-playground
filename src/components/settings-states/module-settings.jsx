@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setModuleName } from '../../actions/actions.js';
+import { } from '../../actions/actions.js';
 import ControlButton from '../control-button.jsx';
 import '../css/add-component.css';
 import { getFileController, getModuleController } from '../../lpg/core.js';
@@ -12,9 +12,7 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = {
-  setModuleName,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   class ModuleSettings extends React.Component {
@@ -22,8 +20,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        moduleName: ('' || (this.props.activeModule && this.props.activeModule.label)),
+        moduleName: ((this.props.activeModule && this.props.activeModule.label) || 'unnamed'),
       }
+    }
+
+    componentWillReceiveProps(props) {
+      this.setState({
+        moduleName: ((props.activeModule && props.activeModule.label) || 'unnamed'),
+      });
     }
 
     saveModule() {
@@ -50,7 +54,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 
     updateModuleName(name) {
       if (this.props.activeModule) {
-        this.props.setModuleName(name);
+        this.setState({
+          moduleName: name,
+        });
+        this.props.activeModule.label = name;
       }
     }
 

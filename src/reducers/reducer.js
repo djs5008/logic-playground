@@ -4,6 +4,7 @@ import { SettingStates } from '../components/settings-state';
 const DEFAULT_STATE = {
   activeModule:   undefined,
   activeModules:  [],
+  selectedPiece:  undefined,
   addState:       AddStates.INITIAL,
   settingsState:  SettingStates.MODULE,
   gateTypes:      [],
@@ -21,14 +22,11 @@ const reducers = (state = DEFAULT_STATE, action) => {
         ...state,
         activeModule: action.payload,
       };
-    case 'SET_MODULE_NAME':
+    case 'SET_SELECTED_PIECE':
       return {
         ...state,
-        activeModule: {
-          ...state.activeModule,
-          label: action.payload,
-        }
-      }
+        selectedPiece: action.payload,
+      };
     case 'SET_ADDSTATE':
       return {
         ...state,
@@ -38,7 +36,7 @@ const reducers = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         settingsState: action.payload,
-      }
+      };
     case 'ADD_GATE_TYPE':
       return {
         ...state,
@@ -63,12 +61,12 @@ const reducers = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         compSettings: [...state.compSettings, action.payload],
-      }
+      };
     case 'CLEAR_COMPONENT_SETTING':
       return {
         ...state,
         compSettings: [],
-      }
+      };
     default: return state;
   }
 

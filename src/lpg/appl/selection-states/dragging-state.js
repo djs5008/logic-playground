@@ -1,4 +1,6 @@
 import { ControlState, States } from './control-state';
+import { store } from '../../../store/store.js';
+import { setSelectedPiece } from '../../../actions/actions.js';
 
 export class DraggingState extends ControlState {
 
@@ -20,6 +22,7 @@ export class DraggingState extends ControlState {
    */
   handleLeftClickUp() {
     if (this.context.selectedComponents.length === 1) {
+      store.dispatch(setSelectedPiece(this.context.selectedComponents[0]));
       this.context.showComponentSelection();
     }
 

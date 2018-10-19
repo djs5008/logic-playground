@@ -5,6 +5,13 @@ export const setActiveModule = (module) => (
   }
 );
 
+export const setSelectedPiece = (piece) => (
+  {
+    type: 'SET_SELECTED_PIECE',
+    payload: piece,
+  }
+);
+
 export const setAddState = (state) => (
   {
     type: 'SET_ADDSTATE',
@@ -57,12 +64,5 @@ export const addComponentSetting = (setting) => (
 export const clearComponentSettings = () => (
   {
     type: 'CLEAR_COMPONENT_SETTING',
-  }
-);
-
-export const setModuleName = (name) => (
-  {
-    type: 'SET_MODULE_NAME',
-    payload: name,
   }
 );
