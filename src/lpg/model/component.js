@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
 
-export class Component {
+export default class Component {
 
   /**
    * General Component constructor
@@ -23,12 +23,8 @@ export class Component {
 
   /**
    * Default Component settings loader
-   * 
-   * @param elem The DOM element the settings are being loaded into
    */
-  loadSettings(elem) {
-    elem.html('');
-  }
+  loadSettings() {}
 
   /**
    * Move this component to the specified coordinates

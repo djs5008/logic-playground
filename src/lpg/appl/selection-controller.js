@@ -11,7 +11,7 @@ import { ConnectingState } from './selection-states/connecting-state';
 import { States } from './selection-states/control-state';
 
 import { store } from '../../store/store';
-import { setSettingsState } from '../../actions/actions';
+import { setSettingsState, clearComponentSettings } from '../../actions/actions';
 import { SettingStates } from '../../components/settings-state';
 
 // 
@@ -249,13 +249,9 @@ export class SelectionController {
    * Show the component selection menu
    */
   showComponentSelection() {
-    // show single piece settings
-    // let label = (this.selectedComponents[0].label === '') 
-    //   ? 'no label' 
-    //   : this.selectedComponents[0].label;
     this.toggleComponentSettings(SettingStates.COMPONENT);
-    // TODO:  window.$('#component-name').val(label);
-    // TODO: this.selectedComponents[0].loadSettings(window.$('#component-control-loader'));
+    store.dispatch(clearComponentSettings());
+    this.selectedComponents[0].loadSettings();
   }
 
   /**

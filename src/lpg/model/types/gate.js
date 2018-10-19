@@ -1,7 +1,7 @@
 // 
 // Includes
 // 
-import { Component } from '../component'; 
+import Component from '../component'; 
 
 // 
 // Constants
@@ -11,7 +11,7 @@ import { Component } from '../component';
 // Attributes
 // 
 
-export class Gate extends Component {
+export default class Gate extends Component {
 
   /**
    * Default Gate propagate prototype function

@@ -1,8 +1,8 @@
 // 
 // Includes
 // 
-import { Connector } from './connector';
-import { Gate } from '../../types/gate';
+import Connector from './connector';
+import Gate from '../../types/gate';
 
 // 
 // Constants
@@ -11,7 +11,7 @@ const DEFAULT_LABEL = 'unnamed';
 const EXTERNAL_WIDTH_DEFAULT = 40;
 const EXTERNAL_HEIGHT_DEFAULT = 20;
 
-export class Module extends Gate {
+export default class Module extends Gate {
 
   /**
    * Module Constructor

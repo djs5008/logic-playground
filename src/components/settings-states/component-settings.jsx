@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
     settingsState: state.settingsState,
     selectedPiece: state.selectedPiece,
     activeModule: state.activeModule,
+    compSettings: state.compSettings,
   }
 };
 
@@ -45,7 +46,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
       return (
         <React.Fragment>
           <div className='Content-Container'>
-            
+            {this.props.compSettings}
           </div>
           <hr />
           <label htmlFor='active-module-name' className='ActiveModuleLabel'>Selected Component:</label>

@@ -1,25 +1,25 @@
 // MISC
-import { Connector } from '../model/types/misc/connector';
-import { Module } from '../model/types/misc/module';
+import Connector from '../model/types/misc/connector';
+import Module from '../model/types/misc/module';
 
 // GATES
-import { ANDGate } from '../model/types/gates/and-gate';
-import { NANDGate } from '../model/types/gates/nand-gate';
-import { ORGate } from '../model/types/gates/or-gate';
-import { NORGate } from '../model/types/gates/nor-gate';
-import { XORGate } from '../model/types/gates/xor-gate';
-import { XNORGate } from '../model/types/gates/xnor-gate';
-import { NOTGate } from '../model/types/gates/not-gate';
+import ANDGate from '../model/types/gates/and-gate';
+import NANDGate from '../model/types/gates/nand-gate';
+import ORGate from '../model/types/gates/or-gate';
+import NORGate from '../model/types/gates/nor-gate';
+import XORGate from '../model/types/gates/xor-gate';
+import XNORGate from '../model/types/gates/xnor-gate';
+import NOTGate from '../model/types/gates/not-gate';
 
 // INPUTS
-import { SwitchButton } from '../model/types/inputs/switch-button';
-import { HoldButton } from '../model/types/inputs/hold-button';
-import { Clock } from '../model/types/inputs/clock';
+import SwitchButton from '../model/types/inputs/switch-button';
+import HoldButton from '../model/types/inputs/hold-button';
+import Clock from '../model/types/inputs/clock';
 
 // OUTPUTS
-import { LED } from '../model/types/outputs/led';
-import { SevenSegDisp } from '../model/types/outputs/seven-seg-disp';
-import { Console } from '../model/types/outputs/console';
+import LED from '../model/types/outputs/led';
+import SevenSegDisp from '../model/types/outputs/seven-seg-disp';
+import Console from '../model/types/outputs/console';
 
 import uuidv4 from 'uuid/v4';
 

@@ -1,8 +1,12 @@
 // 
 // Includes
 // 
-import { Connector } from '../misc/connector';
-import { Output } from '../../types/output';
+import Connector from '../misc/connector';
+import Output from '../../types/output';
+import React from 'react';
+import { store } from '../../../../store/store.js';
+import { addComponentSetting } from '../../../../actions/actions';
+import ControlButton from '../../../../components/control-button';
 
 // 
 // Constants
@@ -10,7 +14,7 @@ import { Output } from '../../types/output';
 const LED_RADIUS = 25;
 const DEFAULT_COLOR = '#00FF00';
 
-export class LED extends Output {
+export default class LED extends Output {
 
   /**
    * LED Constructor
@@ -100,28 +104,38 @@ export class LED extends Output {
 
   /**
    * LED Component settings loader
-   * 
-   * @param elem The DOM element the settings are being loaded into
    */
-  loadSettings(elem) {
-    super.loadSettings(elem);
+  loadSettings() {
+    super.loadSettings();
     let me = this;
     let colorPickerID = 'led-color-picker';
     let colorControlID = 'led-color-control';
-    let colorPickerHTML = '<input id="' + colorPickerID + '" type="color" style="display:none;">';
-    let colorControlHTML = '<input id="' + colorControlID + '" type="button" value="Set Color" style="color:' + this.color + ';">';
-    
-    elem.append(colorPickerHTML);
-    elem.append(colorControlHTML);
-    window.$('#' + colorControlID).addClass('controls');
 
-    window.$('#' + colorControlID).on('click', () => {
-      window.$('#' + colorPickerID).get(0).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-    });
+    let colorPickerHTML = (
+      <input
+        id={colorPickerID}
+        type='color'
+        style={{ display: 'none' }}
+        onChange={(evt) => {
+          me.color = evt.target.value;
+        }}
+      />
+    );
 
-    window.$('#' + colorPickerID).on('change', (event) => {
-      me.color = event.target.value;
-      window.$('#' + colorControlID).css('color', me.color);
-    });
+    let colorControlHTML = (
+      <ControlButton
+        id={colorControlID}
+        type='button'
+        value='Set Color'
+        style={{ color: me.color }}
+        onClick={() => {
+          // Simulate mouse click on color picker
+          document.getElementById(colorPickerID).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+        }}
+      />
+    );
+
+    store.dispatch(addComponentSetting(colorPickerHTML));
+    store.dispatch(addComponentSetting(colorControlHTML));
   }
 }

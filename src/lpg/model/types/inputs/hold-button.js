@@ -1,15 +1,15 @@
 // 
 // Includes
 // 
-import { Connector } from '../misc/connector';
-import { Input } from '../../types/input';
+import Connector from '../misc/connector';
+import Input from '../../types/input';
 
 // 
 // Constants
 // 
 const BUTTON_RADIUS = 30;
 
-export class HoldButton extends Input {
+export default class HoldButton extends Input {
 
   /**
    * HoldButton Constructor

@@ -1,8 +1,8 @@
 // 
 // Includes
 // 
-import { Connector } from '../misc/connector';
-import { Input } from '../../types/input';
+import Connector from '../misc/connector';
+import Input from '../../types/input';
 
 // 
 // Constants
@@ -11,7 +11,7 @@ const BUTTON_WIDTH = 20;
 const BUTTON_HEIGHT = 30;
 var slideAmounts = {};
 
-export class SwitchButton extends Input {
+export default class SwitchButton extends Input {
 
   /**
    * SwitchButton Constructor

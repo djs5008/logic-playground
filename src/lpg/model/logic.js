@@ -1,7 +1,7 @@
 /**
  * Logic module that allows for static calls boolean logic operations
  */
-export class Logic {
+export default class Logic {
 
   /**
    * @param {boolean} a input a

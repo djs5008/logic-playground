@@ -1,16 +1,16 @@
 // 
 // Includes
 // 
-import { Gate } from '../../types/gate';
-import { Connector } from '../misc/connector';
-import { Logic } from '../../logic';
+import Gate from '../../types/gate';
+import Connector from '../misc/connector';
+import Logic from '../../logic';
 
 //
 // Attributes
 // 
 let image = null;
 
-export class ORGate extends Gate {
+export default class ORGate extends Gate {
 
   /**
    * ORGate Constructor

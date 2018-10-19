@@ -1,15 +1,15 @@
 // 
 // Includes
 // 
-import { Connector } from '../misc/connector';
-import { Output } from '../../types/output';
+import Connector from '../misc/connector';
+import Output from '../../types/output';
 
 // 
 // Constants
 // 
 const CONSOLE_DIM = 25;
 
-export class Console extends Output {
+export default class Console extends Output {
 
   /**
    * Console Constructor

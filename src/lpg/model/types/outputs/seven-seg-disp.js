@@ -1,8 +1,8 @@
 // 
 // Includes
 //
-import { Connector } from '../misc/connector';
-import { Output } from '../../types/output';
+import Connector from '../misc/connector';
+import Output from '../../types/output';
 
 // 
 // Constants
@@ -12,7 +12,7 @@ const HEIGHT = 100;
 
 var hoveredConnector = null;
 
-export class SevenSegDisp extends Output {
+export default class SevenSegDisp extends Output {
 
   /**
    * SevenSegDisp Constructor

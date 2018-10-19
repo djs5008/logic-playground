@@ -1,8 +1,12 @@
 // 
 // Includes
 // 
-import { Connector } from '../misc/connector';
-import { Input } from '../../types/input';
+import Connector from '../misc/connector';
+import Input from '../../types/input';
+import React from 'react';
+import { store } from '../../../../store/store.js';
+import { addComponentSetting } from '../../../../actions/actions';
+import ControlButton from '../../../../components/control-button';
 
 // 
 // Constants
@@ -10,7 +14,7 @@ import { Input } from '../../types/input';
 const BUTTON_RADIUS = 30;
 const DEFAULT_INTERVAL = 1000;
 
-export class Clock extends Input {
+export default class Clock extends Input {
 
   /**
    * Clock Constructor
@@ -96,29 +100,32 @@ export class Clock extends Input {
 
   /**
    * LED Component settings loader
-   * 
-   * @param elem The DOM element the settings are being loaded into
    */
-  loadSettings(elem) {
-    super.loadSettings(elem);
+  loadSettings() {
+    super.loadSettings();
     let me = this;
     let clockControlID = 'clock-timer-control';
-    let clockControlHTML = '<input id="' + clockControlID + '" type="button" value="Set Interval">';
-    
-    elem.append(clockControlHTML);
-    window.$('#' + clockControlID).addClass('controls');
 
-    window.$('#' + clockControlID).on('click', () => {
-      let promptVal = prompt('Set new interval (ms): ', me.interval);
-      let val = parseInt(promptVal);
-      if (promptVal !== null) {
-        if (!isNaN(val) && isFinite(val)) {
-          me.interval = parseInt(val, 10);
-          me.nextTick = Date.now() + me.interval;
-        } else {
-          alert(promptVal + ' is not a number!');
-        }
-      }
-    }); 
+    let clockControlHTML = (
+      <ControlButton
+        id={clockControlID}
+        type='button'
+        value='Set Interval'
+        onClick={() => {
+          let promptVal = prompt('Set new interval (ms): ', me.interval);
+          let val = parseInt(promptVal);
+          if (promptVal !== null) {
+            if (!isNaN(val) && isFinite(val)) {
+              me.interval = parseInt(val, 10);
+              me.nextTick = Date.now() + me.interval;
+            } else {
+              alert(promptVal + ' is not a number!');
+            }
+          }
+        }}
+      />
+    );
+
+    store.dispatch(addComponentSetting(clockControlHTML));
   }
 }

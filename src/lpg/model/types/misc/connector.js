@@ -1,14 +1,14 @@
 // 
 // Includes
 // 
-import { Component } from '../../component';
+import Component from '../../component';
 
 // 
 // Constants
 // 
 const RADIUS = 5;
 
-export class Connector extends Component {
+export default class Connector extends Component {
 
   /**
    * Connector Constructor
