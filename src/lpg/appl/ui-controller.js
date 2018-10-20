@@ -1,6 +1,7 @@
 import React from 'react';
 import { addGateType, addInputType, addOutputType, addImport } from '../../actions/actions.js';
 import { store } from '../../store/store.js';
+import DragComponent from '../../components/drag-component.jsx';
 
 export class UIController {
 
@@ -22,45 +23,11 @@ export class UIController {
    * Load a component into HTML for rendering
    * @param {Component} comp 
    */
-  loadItemHTML(comp) {
-    const addDragData = (event) => {
-      event.dataTransfer.setData('text/x-component', event.target.id);
-    };
+  loadItemHTML(comp, label) {
     let id = comp.type;  
     let url = comp.exportImage();
-    let label = comp.type.replace('-GATE', '').replace('-BUTTON', '');
-    let noSelect = {
-      WebkitTouchCallout:  'none', /* iOS Safari */
-      WebkitUserSelect:    'none', /* Safari */
-      KhtmlUserSelect:     'none', /* Konqueror HTML */
-      MozUserSelect:       'none', /* Firefox */
-      msUserSelect:        'none', /* Internet Explorer/Edge */
-      userSelect:          'none', /* Non-prefixed version, currently
-                                      supported by Chrome and Opera */
-    }
-    let divStyle = {
-      margin: 5,
-      padding: 2,
-      backgroundColor: 'rgba(255,255,255,0.1)',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignContent: 'center',
-      ...noSelect,
-    };
-    let labelStyle = {
-      margin: 0,
-      ...noSelect,
-    };
-    let compItemHTML = (
-      <div key={id} style={divStyle}
-          className='drag-item' onDragStart={(event) => addDragData(event)}>
-        <img id={id} src={url} draggable="true" width='100%' alt=""/>
-        <h6 style={labelStyle}>{label.replace(/-/g, ' ')}</h6>
-      </div>
-    );
-  
-    return compItemHTML;
+    let lbl = label || comp.type.replace('-GATE', '').replace('-BUTTON', '');
+    return (<DragComponent id={id} src={url} label={lbl} />);
   }
 
   /**
@@ -140,7 +107,7 @@ export class UIController {
    * @param {*} importedModule The Module instance beign loaded
    */
   loadImportedModule(importedModule) {
-    store.dispatch(addImport(this.loadItemHTML(importedModule)));
+    store.dispatch(addImport(this.loadItemHTML(importedModule, importedModule.label)));
   }
 
   /**
