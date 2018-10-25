@@ -10,14 +10,6 @@ export class FileController {
   }
 
   /**
-   * Save the currently active module into your localStorage
-   */
-  saveActiveModule() {
-    console.log(JSON.stringify(this.moduleController.getActiveModule()));
-    localStorage.setItem('autosaveModule', JSON.stringify(this.moduleController.getActiveModule()));
-  }
-
-  /**
    * Load a previously-saved modules from localStorage
    *  If a save is not found, load a new module
    */
@@ -30,21 +22,6 @@ export class FileController {
     } else {
       this.moduleController.newModule();
     }
-  }
-
-  /**
-   * Export (download) the active module into a *.lpm file
-   */
-  exportActiveModule() {
-    const content = JSON.stringify(this.moduleController.getActiveModule());
-    const filename = this.moduleController.getActiveModule().label + '.lpm';
-
-    let file = new Blob([content], { type: 'application/octet-stream' });
-    let exportModuleDialog = document.getElementById('export-module-dialog');
-
-    exportModuleDialog.setAttribute('href', URL.createObjectURL(file));
-    exportModuleDialog.setAttribute('download', filename);
-    exportModuleDialog.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
   }
 
   /**

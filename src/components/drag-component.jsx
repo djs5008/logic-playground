@@ -7,15 +7,22 @@ export default class DragComponent extends React.Component {
     event.dataTransfer.setData('text/x-component', this.props.id);
   }
 
+  onImageLoad(evt) {
+    if (this.props.onLoad) {
+      this.props.onLoad(evt.target);
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
         <div
+          id={this.props.id}
           key={this.props.id}
           className={`DragComponent drag-item noSelect`}
           onDragStart={this.addDragData.bind(this)}
         >
-          <img src={this.props.src} draggable width='100%' alt=''/>
+          <img src={this.props.src} draggable onLoad={this.onImageLoad.bind(this)} alt=''/>
           <h6 className={`DragComponent-Label noSelect`}>{this.props.label.replace(/-/g, ' ')}</h6>
         </div>
       </React.Fragment>

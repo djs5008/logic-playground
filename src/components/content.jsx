@@ -20,13 +20,17 @@ export default connect(mapStateToProps, null)(
     render() {
       return (
         <React.Fragment>
-          <ControlBar title={`Add ${this.props.addState}`}>
-            <AddState />
-          </ControlBar>
+          <div className='AddPanel'>
+            <ControlBar title={`Add ${this.props.addState}`}>
+              <AddState />
+            </ControlBar>
+          </div>
           <Canvas />
-          <ControlBar title={`${this.props.settingsState} Controls`}>
-            <SettingsState />
-          </ControlBar>
+          <div className='SettingsPanel'>
+            <ControlBar title={`${this.props.settingsState} Controls`}>
+              <SettingsState />
+            </ControlBar>
+          </div>
         </React.Fragment>
       );
     }

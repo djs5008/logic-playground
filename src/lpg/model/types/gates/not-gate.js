@@ -19,15 +19,17 @@ export default class NOTGate extends Gate {
    */
   constructor(bounds, img) {
     super('NOT-GATE', 'GATE', bounds);
-    image = (image === null) ? img : image;
-    this.setupGate();
+  }
+
+  setImage(img) {
+    image = (image == null) ? img : image;
   }
 
   setupGate() {
-    if (this.connectors.length === 0) {
-      this.bounds.width = image.width;
-      this.bounds.height = image.height;
+    this.bounds.width = image.width;
+    this.bounds.height = image.height;
 
+    if (this.connectors.length === 0) {
       // setup connectors
       var input = new Connector({ x: this.bounds.x, y: this.bounds.y + (this.bounds.height / 2) }, 'INPUT');
       var output = new Connector({ x: this.bounds.x + this.bounds.width, y: this.bounds.y + (this.bounds.height / 2) }, 'OUTPUT');
@@ -54,13 +56,15 @@ export default class NOTGate extends Gate {
    * @param {createjs.Point} canvasLoc The canvas location of the paint procedure
    */
   paint(graphics, canvasLoc) {
-    // create and translate matrix to offset comp's x and y
-    var matrix = new window.createjs.Matrix2D();
-    matrix.translate(canvasLoc.x, canvasLoc.y);
-
-    // set fill to image bitmap, fill image
-    graphics.beginBitmapFill(image, 'no-repeat', matrix)
-      .drawRect(canvasLoc.x, canvasLoc.y, image.width, image.height)
-      .endFill();
+    if (image) {
+      // create and translate matrix to offset comp's x and y
+      var matrix = new window.createjs.Matrix2D();
+      matrix.translate(canvasLoc.x, canvasLoc.y);
+  
+      // set fill to image bitmap, fill image
+      graphics.beginBitmapFill(image, 'no-repeat', matrix)
+        .drawRect(canvasLoc.x, canvasLoc.y, image.width, image.height)
+        .endFill();
+    }
   }
 }

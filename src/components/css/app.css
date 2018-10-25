@@ -45,6 +45,26 @@
   z-index: 0;
 }
 
+.AddPanel {
+  animation: slideInRight 250ms forwards;
+  animation-delay: 250ms;
+  margin-left: -100%;
+}
+
+.SettingsPanel {
+  animation: slideInLeft 250ms forwards;
+  animation-delay: 250ms;
+  margin-right: -100%;
+}
+
+@keyframes slideInRight {
+  100% { margin-left: 0px }
+}
+
+@keyframes slideInLeft {
+  100% { margin-right: 0px }
+}
+
 @keyframes fadeGreenRed {
   to {
     color:#FF0000;

@@ -112,7 +112,7 @@ export class ModuleController {
         // Recursively load this component as a module
         loadedComponent = me.loadModule(comp);
       } else {
-        loadedComponent = me.createComponent(comp.type, comp.bounds);
+        loadedComponent = me.createComponent(comp.type, { bounds: comp.bounds });
 
         // Copy components attributes to new component
         for (var attr in comp) loadedComponent[attr] = comp[attr];
@@ -156,21 +156,21 @@ export class ModuleController {
    */
   createComponent(type, args) {
     switch (type.toUpperCase()) {
-      case 'CONNECTOR': return new Connector(args);
-      case 'MODULE': return new Module(args);
-      case 'AND-GATE': return new ANDGate(args, this.resourceController.getResource('and-gate'));
-      case 'NAND-GATE': return new NANDGate(args, this.resourceController.getResource('nand-gate'));
-      case 'OR-GATE': return new ORGate(args, this.resourceController.getResource('or-gate'));
-      case 'NOR-GATE': return new NORGate(args, this.resourceController.getResource('nor-gate'));
-      case 'XOR-GATE': return new XORGate(args, this.resourceController.getResource('xor-gate'));
-      case 'XNOR-GATE': return new XNORGate(args, this.resourceController.getResource('xnor-gate'));
-      case 'NOT-GATE': return new NOTGate(args, this.resourceController.getResource('not-gate'));
-      case 'HOLD-BUTTON': return new HoldButton(args);
-      case 'SWITCH-BUTTON': return new SwitchButton(args);
-      case 'CLOCK': return new Clock(args);
-      case 'LED': return new LED(args);
-      case 'SEVEN-SEG-DISP': return new SevenSegDisp(args);
-      case 'CONSOLE': return new Console(args);
+      case 'CONNECTOR':       return new Connector(args.bounds);
+      case 'MODULE':          return new Module(args.bounds);
+      case 'AND-GATE':        return new ANDGate(args.bounds);
+      case 'NAND-GATE':       return new NANDGate(args.bounds);
+      case 'OR-GATE':         return new ORGate(args.bounds);
+      case 'NOR-GATE':        return new NORGate(args.bounds);
+      case 'XOR-GATE':        return new XORGate(args.bounds);
+      case 'XNOR-GATE':       return new XNORGate(args.bounds);
+      case 'NOT-GATE':        return new NOTGate(args.bounds);
+      case 'HOLD-BUTTON':     return new HoldButton(args.bounds);
+      case 'SWITCH-BUTTON':   return new SwitchButton(args.bounds);
+      case 'CLOCK':           return new Clock(args.bounds);
+      case 'LED':             return new LED(args.bounds);
+      case 'SEVEN-SEG-DISP':  return new SevenSegDisp(args.bounds);
+      case 'CONSOLE':         return new Console(args.bounds);
       default:
         alert('Invalid component type: "' + type + '"');
         return null;
@@ -212,7 +212,7 @@ export class ModuleController {
    * @param {createjs.Point} bounds The real-bounds of the component to be added to the activeModule
    */
   addComponent(type, bounds) {
-    var comp = this.createComponent(type, bounds);
+    var comp = this.createComponent(type, { bounds });
 
     if (comp !== null) {
       return this.getActiveModule().addComponent(comp);

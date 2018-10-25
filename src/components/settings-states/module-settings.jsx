@@ -31,7 +31,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     }
 
     saveModule() {
-      getFileController().saveActiveModule();
+      console.info(JSON.stringify(this.props.activeModules[0]));
+      localStorage.setItem('autosaveModule', JSON.stringify(this.props.activeModules[0]));
     }
 
     newModule() {
@@ -45,7 +46,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(
     }
 
     exportModule() {
-      getFileController().exportActiveModule();
+      const content = JSON.stringify(this.props.activeModules[0]);
+      const filename = this.props.activeModules[0].label + '.lpm';
+  
+      let file = new Blob([content], { type: 'application/octet-stream' });
+      let exportModuleDialog = document.getElementById('export-module-dialog');
+  
+      exportModuleDialog.setAttribute('href', URL.createObjectURL(file));
+      exportModuleDialog.setAttribute('download', filename);
+      exportModuleDialog.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
     }
 
     importModule() {

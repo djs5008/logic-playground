@@ -19,15 +19,17 @@ export default class NANDGate extends Gate {
    */
   constructor(bounds, img) {
     super('NAND-GATE', 'GATE', bounds);
-    image = (image === null) ? img : image;
-    this.setupGate();
+  }
+
+  setImage(img) {
+    image = (image == null) ? img : image;
   }
 
   setupGate() {
-    if (this.connectors.length === 0) {
-      this.bounds.width = image.width;
-      this.bounds.height = image.height;
+    this.bounds.width = image.width;
+    this.bounds.height = image.height;
 
+    if (this.connectors.length === 0) {
       // setup connectors
       const inputOffset = 11; // Comes from image size
       var input1 = new Connector({ x: this.bounds.x, y: this.bounds.y + inputOffset }, 'INPUT');
@@ -57,13 +59,15 @@ export default class NANDGate extends Gate {
    * @param {createjs.Point} canvasLoc The canvas location of the paint procedure
    */
   paint(graphics, canvasLoc) {
-    // create and translate matrix to offset comp's x and y
-    var matrix = new window.createjs.Matrix2D();
-    matrix.translate(canvasLoc.x, canvasLoc.y);
-
-    // set fill to image bitmap, fill image
-    graphics.beginBitmapFill(image, 'no-repeat', matrix)
-      .drawRect(canvasLoc.x, canvasLoc.y, image.width, image.height)
-      .endFill();
+    if (image) {
+      // create and translate matrix to offset comp's x and y
+      var matrix = new window.createjs.Matrix2D();
+      matrix.translate(canvasLoc.x, canvasLoc.y);
+  
+      // set fill to image bitmap, fill image
+      graphics.beginBitmapFill(image, 'no-repeat', matrix)
+        .drawRect(canvasLoc.x, canvasLoc.y, image.width, image.height)
+        .endFill();
+    }
   }
 }

@@ -31,7 +31,7 @@ export class DrawController {
 
     // DEBUG
     setInterval(() => {
-      console.log('FPS: ' + window.createjs.Ticker.getMeasuredFPS());
+      console.log('FPS: ' + Math.floor(window.createjs.Ticker.getMeasuredFPS()));
     }, 1000);
   }
 
@@ -98,27 +98,25 @@ export class DrawController {
    * Paint the canvas
    */
   paint() {
-    setTimeout(() => {
-      // clear before each frame
-      this.graphics.clear();
+    // clear before each frame
+    this.graphics.clear();
 
-      // draw layers
-      this.background === undefined && this.drawBackground();
-      this.drawGrid();
-      this.drawOrigin();
-      this.drawAllWires();
-      this.drawCurrentWire();
-      this.drawComponents();
-      this.drawConnectorSelection();
-      this.drawComponentSelections();
-      this.drawHoveredConnector();
-      this.drawHoveredComponent();
-      this.drawSelection();
+    // draw layers
+    this.background === undefined && this.drawBackground();
+    this.drawGrid();
+    this.drawOrigin();
+    this.drawAllWires();
+    this.drawCurrentWire();
+    this.drawComponents();
+    this.drawConnectorSelection();
+    this.drawComponentSelections();
+    this.drawHoveredConnector();
+    this.drawHoveredComponent();
+    this.drawSelection();
 
-      // update buffer cache and stage after changes
-      this.buffer.updateCache();
-      this.stage.update();
-    }, 0);
+    // update buffer cache and stage after changes
+    this.buffer.updateCache();
+    this.stage.update();
   }
 
   /**

@@ -21,82 +21,57 @@ export class UIController {
 
   /**
    * Load a component into HTML for rendering
-   * @param {Component} comp 
+   * @param {Component} comp The component being loaded
+   * @param {string} label OPTIONAL label being applied to loaded item
+   * @param {string} src OPTIONAL source for image being loaded
+   * @param {function} onload OPTIONAL function for handling image being loaded
    */
-  loadItemHTML(comp, label) {
+  loadItemHTML(comp, label, src, onload) {
     let id = comp.type;  
-    let url = comp.exportImage();
+    let url = src || comp.exportImage();
     let lbl = label || comp.type.replace('-GATE', '').replace('-BUTTON', '');
-    return (<DragComponent id={id} src={url} label={lbl} />);
-  }
-
-  /**
-   * Initalize drag-n-drop functionality from component pool to stage
-   */
-  setupDragNDropHandler() {
-    let me = this;
-    let canvas = document.getElementById('logic-canvas');
-
-    canvas.addEventListener('dragover', (evt) => evt.preventDefault());
-    canvas.addEventListener('drop', (evt) => {
-      evt.preventDefault();
-      let data = evt.dataTransfer.getData('text/x-component');
-      let rect = canvas.getBoundingClientRect();
-      let dragX = evt.clientX - (rect.left + window.scrollX);
-      let dragY = evt.clientY - (rect.top + window.scrollY);
-      let loc = me.selectionController.getRealCoords({ x: dragX, y: dragY });
-      let bounds = new window.createjs.Rectangle(loc.x, loc.y, 0, 0);
-      let component;
-
-      // imported modules
-      if (data.includes('imported_')) {
-        let name = data.replace('imported_', '');
-        component = me.moduleController.importModule(me.getImportedModule(name), bounds);
-      } 
-      
-      // default components
-      else {
-        component = me.moduleController.addComponent(data, bounds);
-      }
-
-      if (component !== null) {
-        // shift component to place at center of cursor
-        component.move(
-          -(component.bounds.width / 2),
-          -(component.bounds.height / 2)
-        );
-      }
-    });
+    return (<DragComponent key={id} id={id} src={url} label={lbl} onLoad={onload} />);
   }
 
   /**
    * Initialize all default component types in their respective component pools
    */
   loadDefaultComponents() {
+    let bounds = new window.createjs.Rectangle(0, 0);
+
     // Load gates
-    let tmpGates = [];
-    tmpGates.push(this.moduleController.createComponent('and-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('nand-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('or-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('nor-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('xor-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('xnor-gate', { x: 0, y: 0 }));
-    tmpGates.push(this.moduleController.createComponent('not-gate', { x: 0, y: 0 }));
+    const gateImages = {
+      'and-gate': '/img/lpg/and-gate.png',
+      'nand-gate': '/img/lpg/nand-gate.png',
+      'nor-gate': '/img/lpg/nor-gate.png',
+      'not-gate': '/img/lpg/not-gate.png',
+      'or-gate': '/img/lpg/or-gate.png',
+      'xnor-gate': '/img/lpg/xnor-gate.png',
+      'xor-gate': '/img/lpg/xor-gate.png',
+    };
+    
+    Object.keys(gateImages).forEach(gateType => {
+      let gate = this.moduleController.createComponent(gateType, { bounds });
+      const imageLoaded = (img) => {
+        gate.setImage(img);
+        gate.setupGate();
+      };
+      store.dispatch(addGateType(this.loadItemHTML(gate, null, gateImages[gateType], imageLoaded)));
+    });
 
     // Load inputs
     let tmpInputs = [];
-    tmpInputs.push(this.moduleController.createComponent('switch-button', { x: 0, y: 0 }));
-    tmpInputs.push(this.moduleController.createComponent('hold-button', { x: 0, y: 0 }));
-    tmpInputs.push(this.moduleController.createComponent('clock', { x: 0, y: 0 }));
+    tmpInputs.push(this.moduleController.createComponent('switch-button', { bounds }));
+    tmpInputs.push(this.moduleController.createComponent('hold-button', { bounds }));
+    tmpInputs.push(this.moduleController.createComponent('clock', { bounds }));
 
     // Load outputs
     let tmpOutputs = [];
-    tmpOutputs.push(this.moduleController.createComponent('led', { x: 0, y: 0 }));
-    tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', { x: 0, y: 0 }));
-    tmpOutputs.push(this.moduleController.createComponent('console', { x: 0, y: 0 }));
+    tmpOutputs.push(this.moduleController.createComponent('led', { bounds }));
+    tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', { bounds }));
+    tmpOutputs.push(this.moduleController.createComponent('console', { bounds }));
     
     // load into correct containers
-    tmpGates.forEach((gate) => store.dispatch(addGateType(this.loadItemHTML(gate))));
     tmpInputs.forEach((input) => store.dispatch(addInputType(this.loadItemHTML(input))));
     tmpOutputs.forEach((output) => store.dispatch(addOutputType(this.loadItemHTML(output))));
   }
@@ -131,24 +106,7 @@ export class UIController {
     });
   }
 
-  /**
-   * Retrieve an imported module from sessionStorage that has the current name
-   * 
-   * @param {*} name The module's label being used to retrieve the module instance
-   */
-  getImportedModule(name) {
-    let me = this;
-    let result = null;
-    JSON.parse(sessionStorage.importedModules).forEach((importedModule) => {
-      if (result !== null) return false;
-      let mod = JSON.parse(importedModule);
-      if (mod.label === name) {
-        result = me.moduleController.loadModule(mod);
-        return false;
-      }
-    });
-    return result;
-  }
+
 
   /**
    * Initialize check for un-shown imported modules
