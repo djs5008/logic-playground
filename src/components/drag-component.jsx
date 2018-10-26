@@ -22,7 +22,7 @@ export default class DragComponent extends React.Component {
           className={`DragComponent drag-item noSelect`}
           onDragStart={this.addDragData.bind(this)}
         >
-          <div className='imageContainer'>
+          <div>
             <img src={this.props.src} draggable onLoad={this.onImageLoad.bind(this)} alt=''/>
           </div>
           <h6 className={`DragComponent-Label noSelect`}>{this.props.label.replace(/-/g, ' ')}</h6>
