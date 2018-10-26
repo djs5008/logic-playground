@@ -31,7 +31,7 @@ export class DrawController {
 
     // DEBUG
     setInterval(() => {
-      console.log('FPS: ' + Math.floor(window.createjs.Ticker.getMeasuredFPS()));
+      // console.log('FPS: ' + Math.floor(window.createjs.Ticker.getMeasuredFPS()));
     }, 1000);
   }
 

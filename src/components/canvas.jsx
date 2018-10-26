@@ -57,6 +57,8 @@ export default class Canvas extends React.Component {
     }
 
     if (component !== null) {
+      // call event on component to handle creation
+      component.createEvent();
       // shift component to place at center of cursor
       component.move(
         -(component.bounds.width / 2),

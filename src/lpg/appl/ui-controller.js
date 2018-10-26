@@ -38,7 +38,7 @@ export class UIController {
    */
   loadDefaultComponents() {
     let bounds = () => {
-      return { bounds: { x: 0, y: 0 } };
+      return { bounds: new window.createjs.Rectangle(0,0,0,0) };
     }
 
     // Load gates
@@ -51,7 +51,7 @@ export class UIController {
       'xnor-gate': '/img/lpg/xnor-gate.png',
       'xor-gate': '/img/lpg/xor-gate.png',
     };
-    
+
     Object.keys(gateImages).forEach(gateType => {
       let gate = this.moduleController.createComponent(gateType, bounds());
       const imageLoaded = (img) => {

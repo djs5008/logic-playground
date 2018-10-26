@@ -209,7 +209,7 @@ export class ModuleController {
    * Add a component to the activeModule
    * 
    * @param {string} type Type component type being added to the activeModule
-   * @param {createjs.Point} bounds The real-bounds of the component to be added to the activeModule
+   * @param {createjs.Rectangle} bounds The real-bounds of the component to be added to the activeModule
    */
   addComponent(type, bounds) {
     var comp = this.createComponent(type, { bounds });

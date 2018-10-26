@@ -121,6 +121,11 @@ export default class Component {
   }
 
   /**
+   * Default event to be handled when component is created
+   */
+  createEvent() { }
+
+  /**
    * Default right-click down behavior
    */
   rightClickDownEvent() { }

@@ -35,9 +35,6 @@ export default class NOTGate extends Gate {
       var output = new Connector({ x: this.bounds.x + this.bounds.width, y: this.bounds.y + (this.bounds.height / 2) }, 'OUTPUT');
       this.connectors.push(input, output);
     }
-
-    // initialize gate
-    this.propagate();
   }
 
   /**
