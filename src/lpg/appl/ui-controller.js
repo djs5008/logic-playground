@@ -37,7 +37,9 @@ export class UIController {
    * Initialize all default component types in their respective component pools
    */
   loadDefaultComponents() {
-    let bounds = new window.createjs.Rectangle(0, 0);
+    let bounds = () => {
+      return { bounds: { x: 0, y: 0 } };
+    }
 
     // Load gates
     const gateImages = {
@@ -51,7 +53,7 @@ export class UIController {
     };
     
     Object.keys(gateImages).forEach(gateType => {
-      let gate = this.moduleController.createComponent(gateType, { bounds });
+      let gate = this.moduleController.createComponent(gateType, bounds());
       const imageLoaded = (img) => {
         gate.setImage(img);
         gate.setupGate();
@@ -61,15 +63,15 @@ export class UIController {
 
     // Load inputs
     let tmpInputs = [];
-    tmpInputs.push(this.moduleController.createComponent('switch-button', { bounds }));
-    tmpInputs.push(this.moduleController.createComponent('hold-button', { bounds }));
-    tmpInputs.push(this.moduleController.createComponent('clock', { bounds }));
+    tmpInputs.push(this.moduleController.createComponent('switch-button', bounds()));
+    tmpInputs.push(this.moduleController.createComponent('hold-button', bounds()));
+    tmpInputs.push(this.moduleController.createComponent('clock', bounds()));
 
     // Load outputs
     let tmpOutputs = [];
-    tmpOutputs.push(this.moduleController.createComponent('led', { bounds }));
-    tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', { bounds }));
-    tmpOutputs.push(this.moduleController.createComponent('console', { bounds }));
+    tmpOutputs.push(this.moduleController.createComponent('led', bounds()));
+    tmpOutputs.push(this.moduleController.createComponent('seven-seg-disp', bounds()));
+    tmpOutputs.push(this.moduleController.createComponent('console', bounds()));
     
     // load into correct containers
     tmpInputs.forEach((input) => store.dispatch(addInputType(this.loadItemHTML(input))));

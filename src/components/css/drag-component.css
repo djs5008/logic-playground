@@ -8,6 +8,10 @@
   align-content: center;
 }
 
+.imageContainer {
+  /* object-fit: none; */
+}
+
 img {
   -webkit-filter: drop-shadow(0px 0px 10px #293142);
   filter: drop-shadow(0px 0px 10px #293142);
