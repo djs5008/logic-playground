@@ -30,7 +30,7 @@ export class UIController {
     let id = comp.type;  
     let url = src || comp.exportImage();
     let lbl = label || comp.type.replace('-GATE', '').replace('-BUTTON', '');
-    return (<DragComponent key={id} id={id} src={url} label={lbl} onLoad={onload} />);
+    return (<DragComponent key={id} id={lbl} src={url} label={lbl} onLoad={onload} />);
   }
 
   /**
@@ -84,7 +84,7 @@ export class UIController {
    * @param {*} importedModule The Module instance beign loaded
    */
   loadImportedModule(importedModule) {
-    store.dispatch(addImport(this.loadItemHTML(importedModule, importedModule.label)));
+    store.dispatch(addImport(this.loadItemHTML(importedModule, `imported_${importedModule.label}`)));
   }
 
   /**

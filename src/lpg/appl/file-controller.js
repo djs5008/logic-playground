@@ -99,14 +99,9 @@ export class FileController {
    */
   importModule(me, moduleData) {
     console.info('importing module...');
-    // setup array
-    if (!sessionStorage.importedModules) {
-      sessionStorage.setItem('importedModules', JSON.stringify([]));
-    }
 
-    // add imported module to session storage
-    var arr = JSON.parse(sessionStorage.importedModules);
-    arr.push(moduleData);
-    sessionStorage.setItem('importedModules', JSON.stringify(arr));
+    let importedModules = (sessionStorage.importedModules) ? JSON.parse(sessionStorage.importedModules) : [];
+    importedModules.push(moduleData);
+    sessionStorage.setItem('importedModules', JSON.stringify(importedModules));
   }
 }

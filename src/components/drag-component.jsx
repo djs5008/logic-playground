@@ -25,7 +25,7 @@ export default class DragComponent extends React.Component {
           <div>
             <img src={this.props.src} draggable onLoad={this.onImageLoad.bind(this)} alt=''/>
           </div>
-          <h6 className={`DragComponent-Label noSelect`}>{this.props.label.replace(/-/g, ' ')}</h6>
+          <h6 className={`DragComponent-Label noSelect`}>{this.props.label.replace(/-/g, ' ').replace('imported_', '')}</h6>
         </div>
       </React.Fragment>
     )
