@@ -144,6 +144,7 @@ export class ModuleController {
     mod.components.forEach((comp) => loadedModule.components.push(loadComponent(comp)));
 
     loadedModule.updateBounds();
+    loadedModule.updateConnectorMap();
 
     return loadedModule;
   }
