@@ -1,0 +1,35 @@
+.ControlBar {
+  width: 15vw;
+  height: 65vh;
+  background-color: #141820;
+  box-shadow: 0px 0px 5px -1px #000;
+  opacity: 0.8;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ControlBar-Content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.ControlBar-Title {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  user-select: none;
+}
+
+.ControlBar-Footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 15%;
+}
+
+hr {
+  width: 100%;
+  opacity: 0.3;
+}

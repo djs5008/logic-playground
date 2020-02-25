@@ -1,0 +1,75 @@
+@font-face {
+  font-family: Computerfont;
+  src: url('../fonts/Computerfont.ttf');
+}
+
+.Root {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Title {
+  height: 5vh;
+  font-family: Computerfont;
+  user-select: none;
+  font-size: 40pt;
+  color: #00FF00;
+  transition: color 250ms ease-in-out
+}
+
+.Title:hover {
+  color: #FF0000;
+}
+
+.Copyright {
+  position: absolute;
+  font-size: 8pt;
+  bottom: 3%;
+  left: 0;
+  right: 0;
+  user-select: none;
+  z-index: 0;
+}
+
+.AddPanel {
+  animation: slideInRight 250ms forwards;
+  animation-delay: 250ms;
+  margin-left: -100%;
+}
+
+.SettingsPanel {
+  animation: slideInLeft 250ms forwards;
+  animation-delay: 250ms;
+  margin-right: -100%;
+}
+
+@keyframes slideInRight {
+  100% { margin-left: 0px }
+}
+
+@keyframes slideInLeft {
+  100% { margin-right: 0px }
+}
+
+@keyframes fadeGreenRed {
+  to {
+    color:#FF0000;
+  }
+  from {
+    color:#00FF00;
+  }
+}

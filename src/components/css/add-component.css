@@ -1,0 +1,36 @@
+.Content-Container {
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Content {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  padding: 1%;
+  overflow-y: auto;
+}
+
+.Footer {
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ActiveModuleLabel {
+  font-size: 12pt;
+  padding-bottom: 5px;
+}
+
+.ActiveModuleName {
+  text-align: center;
+}
+
+hr {
+  width: 100%;
+  opacity: 0.3;
+}

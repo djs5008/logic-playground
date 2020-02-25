@@ -1,0 +1,18 @@
+.BackButton {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+  margin: 20px;
+  cursor: pointer;
+  opacity: 1;
+  transition: 100ms opacity linear;
+}
+
+.BackButton:hover {
+  opacity: 0.75;
+}
+
+.BackButton:active {
+  opacity: 0.9;
+}

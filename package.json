@@ -1,36 +1,34 @@
 {
   "name": "logic-playground",
   "version": "1.0.0",
-  "description": "A logic-gate simulation playground",
-  "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "mariadb": "^2.0.0-alpha",
-    "mkdirp": "^0.5.1",
-    "uuid": "^3.3.2",
-    "webpack": "^4.20.2"
-  },
-  "devDependencies": {
     "chai": "^4.2.0",
+    "express": "^4.16.3",
+    "mariadb": "^2.0.3",
+    "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
-    "sinon": "^6.3.4",
-    "webpack-cli": "^3.1.1"
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-redux": "^5.1.1",
+    "react-scripts": "^2.1.5",
+    "redux": "^4.0.1",
+    "sinon": "^7.2.6",
+    "uuid": "^3.3.2"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha $(find test -name '*.js')",
-    "build": "webpack --mode development --entry ./public/js/lpg/core.js --output ./public/dist/bundle.js",
-    "dev": "webpack --mode development --watch",
-    "start": "node index.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/djs5008/logic-playground.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "author": "Dan Schmitt (djs5008)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/djs5008/logic-playground/issues"
-  },
-  "homepage": "https://github.com/djs5008/logic-playground#readme"
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
