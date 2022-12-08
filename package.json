@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "mariadb": "^2.0.0-alpha",
     "mkdirp": "^0.5.1",
     "uuid": "^3.3.2",
