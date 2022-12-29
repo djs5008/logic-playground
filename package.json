@@ -9,13 +9,13 @@
     "mariadb": "^2.0.0-alpha",
     "mkdirp": "^0.5.1",
     "uuid": "^3.3.2",
-    "webpack": "^4.20.2"
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "sinon": "^6.3.4",
-    "webpack-cli": "^3.1.1"
+    "webpack-cli": "^5.0.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha $(find test -name '*.js')",
